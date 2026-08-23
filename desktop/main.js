@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const https = require('https');
@@ -41,44 +41,56 @@ ipcMain.handle('get-agent-art', async () => {
   }
 });
 
-function sendUpdateStatus(status, extra = {}) {
+function emitUpdate(status, extra = {}) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send('update-status', { status, ...extra });
   }
 }
 
+ipcMain.handle('check-for-updates', async () => {
+  if (!app.isPackaged) {
+    emitUpdate('dev');
+    return { ok: false, reason: 'dev' };
+  }
+  try {
+    emitUpdate('checking');
+    await autoUpdater.checkForUpdates();
+    return { ok: true };
+  } catch (e) {
+    emitUpdate('error', { message: e.message });
+    return { ok: false, reason: e.message };
+  }
+});
+
+ipcMain.handle('install-update', () => {
+  autoUpdater.quitAndInstall(false, true);
+  return true;
+});
+
 function configureUpdater() {
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
 
-  autoUpdater.on('checking-for-update', () => sendUpdateStatus('checking'));
+  autoUpdater.on('checking-for-update', () => emitUpdate('checking'));
   autoUpdater.on('update-available', info => {
-    sendUpdateStatus('available', { version: info.version });
+    emitUpdate('available', { version: info.version });
   });
-  autoUpdater.on('update-not-available', () => sendUpdateStatus('current'));
-  autoUpdater.on('download-progress', progress => {
-    sendUpdateStatus('downloading', { percent: Math.round(progress.percent || 0) });
+  autoUpdater.on('update-not-available', info => {
+    emitUpdate('current', { version: info?.version || app.getVersion() });
   });
-  autoUpdater.on('update-downloaded', async info => {
-    sendUpdateStatus('ready', { version: info.version });
-
-    const result = await dialog.showMessageBox(mainWindow, {
-      type: 'info',
-      buttons: ['Restart & Update', 'Later'],
-      defaultId: 0,
-      cancelId: 1,
-      title: 'Rebirth Arena Update',
-      message: `Rebirth Arena ${info.version} is ready.`,
-      detail: 'Restart now to install the update.'
+  autoUpdater.on('download-progress', p => {
+    emitUpdate('downloading', {
+      percent: Math.max(0, Math.min(100, Math.round(p.percent || 0))),
+      transferred: p.transferred || 0,
+      total: p.total || 0
     });
-
-    if (result.response === 0) {
-      autoUpdater.quitAndInstall(false, true);
-    }
+  });
+  autoUpdater.on('update-downloaded', info => {
+    emitUpdate('ready', { version: info.version });
   });
   autoUpdater.on('error', err => {
     console.error('Updater error:', err);
-    sendUpdateStatus('error');
+    emitUpdate('error', { message: err.message });
   });
 }
 
@@ -88,7 +100,7 @@ function createWindow() {
     height: 940,
     minWidth: 1180,
     minHeight: 760,
-    backgroundColor: '#070a10',
+    backgroundColor: '#07090d',
     autoHideMenuBar: true,
     show: false,
     title: 'Rebirth Arena',
@@ -101,13 +113,13 @@ function createWindow() {
   });
 
   mainWindow.loadFile('index.html');
+
   mainWindow.once('ready-to-show', () => {
     mainWindow.center();
     mainWindow.show();
 
-    // Updater only works from an installed/packaged app.
     if (app.isPackaged) {
-      setTimeout(() => autoUpdater.checkForUpdates(), 2500);
+      setTimeout(() => autoUpdater.checkForUpdates().catch(() => {}), 2200);
     }
   });
 

@@ -1,563 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rebirth Arena</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rebirth Arena // v1.0.5</title>
 <link rel="icon" href="assets/rebirth-v.png">
 <style>
 :root{
-  --bg:#070a10;
-  --shell:#090d14;
-  --panel:#0e141e;
-  --panel2:#111925;
-  --panel3:#151f2d;
-  --line:#202b3a;
-  --line2:#283549;
-  --text:#f7f9fc;
-  --muted:#8d99ab;
-  --muted2:#667487;
-  --purple:#9b5cff;
-  --purple2:#6b35d8;
-  --cyan:#67e8f9;
-  --green:#63efb5;
-  --amber:#f6c667;
-  --danger:#ff6373;
-  --sidebar:248px;
+ --bg:#07090d;--side:#090c12;--panel:#0d121a;--panel2:#111722;--line:#202836;
+ --text:#f6f7fb;--muted:#7f8b9d;--red:#ff304f;--red2:#b90f2d;--green:#5ce1a4;
+ --gold:#f4c85b;--sidebar:238px;
 }
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
-body{overflow:hidden}
-button,input{font:inherit}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+body{overflow:hidden}button,input{font:inherit}
+.app{height:100vh;display:grid;grid-template-columns:var(--sidebar) 1fr;background:
+ radial-gradient(circle at 80% 0%,rgba(255,48,79,.08),transparent 28%),#07090d}
+.sidebar{background:linear-gradient(180deg,#0a0d13,#07090d);border-right:1px solid #171e28;display:flex;flex-direction:column}
+.brand{height:84px;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid #171e28}
+.logo{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,48,79,.25))}
+.brand-name{font-weight:1000;letter-spacing:.12em;font-size:14px}.brand-sub{font-size:8px;color:#6f7b8d;letter-spacing:.16em;margin-top:3px}
+.nav{display:grid;gap:5px;padding:14px 10px}
+.nav-btn{border:0;background:transparent;color:#98a2b1;text-align:left;padding:11px 12px;border-radius:9px;font-size:10px;font-weight:900;cursor:pointer}
+.nav-btn:hover{background:#111722;color:#fff}.nav-btn.active{background:linear-gradient(90deg,rgba(255,48,79,.18),rgba(255,48,79,.04));color:#ff8b9c;border:1px solid rgba(255,48,79,.18)}
+.nav-icon{display:inline-block;width:20px;color:#ff516c}.spacer{flex:1}
+.account{margin:12px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#0c1118;display:flex;gap:9px;align-items:center}
+.avatar{width:32px;height:32px;border-radius:9px;background:#171f2b;display:grid;place-items:center;font-weight:1000}
+.account b{font-size:9px}.account span{display:block;color:#6f7b8d;font-size:8px;margin-top:2px}
+.version{padding:10px 16px;border-top:1px solid #151c25;font-size:8px;color:#566274}
+.main{min-width:0;display:grid;grid-template-rows:64px 1fr}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:0 22px;border-bottom:1px solid #181f2b;background:rgba(8,11,16,.96)}
+.top-left{display:flex;align-items:center;gap:10px}.page-title{font-weight:1000;font-size:16px}.crumb{font-size:8px;color:#657184}
+.statuses{display:flex;align-items:center;gap:8px}.beta{border:1px solid rgba(244,200,91,.22);background:rgba(244,200,91,.06);color:#f5cf72;padding:7px 9px;border-radius:999px;font-size:8px;font-weight:1000}
+.online{font-size:8px;color:#c9d0db;font-weight:900}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;box-shadow:0 0 10px rgba(92,225,164,.5)}
+.content{overflow:auto;padding:18px 22px 26px;scrollbar-width:none}.content::-webkit-scrollbar{display:none}
+.page{display:none;animation:in .18s ease}.page.active{display:block}@keyframes in{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-.app{
-  height:100vh;
-  display:grid;
-  grid-template-columns:var(--sidebar) 1fr;
-  background:
-    radial-gradient(circle at 80% 0%,rgba(103,232,249,.045),transparent 28%),
-    radial-gradient(circle at 22% 0%,rgba(155,92,255,.075),transparent 30%),
-    var(--bg);
+.hero{position:relative;overflow:hidden;border:1px solid #232c39;border-radius:16px;min-height:220px;background:
+ linear-gradient(100deg,#0d121a 0%,rgba(13,18,26,.94) 48%,rgba(13,18,26,.60) 100%)}
+.hero:after{content:"";position:absolute;right:-100px;top:-150px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,48,79,.18),transparent 62%)}
+.hero-lines{position:absolute;inset:0;background:linear-gradient(132deg,transparent 58%,rgba(255,48,79,.13) 58.2%,transparent 59%),linear-gradient(132deg,transparent 66%,rgba(255,48,79,.08) 66.2%,transparent 67%)}
+.hero-inner{position:relative;z-index:2;padding:25px;display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:center}
+.kicker{font-size:9px;color:#ff7589;font-weight:1000;letter-spacing:.13em}
+.hero h1{margin:7px 0 0;font-size:34px;line-height:1;font-weight:1000;letter-spacing:-1.3px}.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{max-width:650px;font-size:10px;color:#98a4b4;line-height:1.55;margin:9px 0 0}
+.hero-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.chip{font-size:8px;border:1px solid #293442;border-radius:999px;padding:6px 8px;color:#a8b2c0;background:#0b1118}
+.hero-panel{border:1px solid #242d3a;border-radius:13px;background:rgba(10,14,20,.72);padding:13px}
+.hero-panel-title{font-size:9px;font-weight:1000}.hero-panel-row{display:flex;justify-content:space-between;font-size:8px;color:#778497;padding:7px 0;border-bottom:1px solid #1b2430}.hero-panel-row:last-child{border-bottom:0}.hero-panel-row b{color:#e6ebf2}
+.connect{margin-top:10px;width:100%;padding:10px;border-radius:9px;border:1px solid rgba(255,48,79,.26);background:linear-gradient(135deg,#d92745,#92142c);color:#fff;font-size:8px;font-weight:1000;cursor:not-allowed}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.stat{border:1px solid #202938;border-radius:13px;background:linear-gradient(180deg,#101620,#0c1118);padding:13px;min-height:104px;position:relative;overflow:hidden}
+.stat:after{content:"";position:absolute;right:-24px;top:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(255,48,79,.09),transparent 70%)}
+.stat-label{font-size:8px;color:#768396;font-weight:1000;letter-spacing:.09em}.stat-value{font-size:26px;font-weight:1000;margin-top:8px}.stat-sub{font-size:8px;color:#657184;margin-top:5px}
+
+.two-col{display:grid;grid-template-columns:1fr 330px;gap:12px;margin-top:12px}.panel{border:1px solid #202938;border-radius:14px;background:#0d131b}.panel-pad{padding:13px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:10px}.section-title{font-size:13px;font-weight:1000}.section-sub{font-size:8px;color:#6e7b8e;margin-top:3px}
+.tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.filter{border:1px solid #283342;background:#111823;color:#8d99aa;border-radius:999px;padding:7px 9px;font-size:8px;font-weight:1000;cursor:pointer}
+.filter.active{background:rgba(255,48,79,.12);border-color:rgba(255,48,79,.34);color:#ff99a8}.search{margin-left:auto;min-width:190px;border:1px solid #273241;background:#0a1017;color:#f2f4f8;padding:7px 10px;border-radius:999px;font-size:8px}
+.agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.agent-card{position:relative;min-height:205px;border:1px solid #1f2936;border-radius:12px;background:#0a0f16;overflow:hidden;transition:.16s}
+.agent-card:hover{transform:translateY(-3px);border-color:#39485c;box-shadow:0 14px 30px rgba(0,0,0,.25)}
+.agent-card img{position:absolute;width:116%;height:72%;object-fit:contain;right:-18px;top:-5px}.fallback{position:absolute;inset:0 0 35% 0;display:grid;place-items:center;font-size:58px;font-weight:1000;color:#253345;background:radial-gradient(circle,#172231,#0b1017 70%)}
+.fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 36%,rgba(8,11,15,.97) 79%)}.agent-info{position:absolute;left:10px;right:10px;bottom:10px}.agent-top{display:flex;justify-content:space-between;align-items:end}.agent-name{font-size:13px;font-weight:1000}.score{font-size:11px;font-weight:1000;border:1px solid #2c3849;border-radius:7px;padding:3px 6px;background:#090e14}
+.bar{height:5px;border-radius:999px;background:#070b10;margin-top:6px;overflow:hidden}.bar>div{height:100%;background:linear-gradient(90deg,#ff304f,#ff7a8f)}
+.tier{font-size:8px;color:#7d899a;margin-top:6px}.tier b{color:#cfd6df}
+
+.flow{display:grid;gap:7px}.step{border:1px solid #202938;border-radius:10px;background:#0b1118;padding:9px;display:grid;grid-template-columns:24px 1fr;gap:8px}.step-n{width:22px;height:22px;border-radius:7px;background:#182333;color:#ff8fa0;display:grid;place-items:center;font-size:8px;font-weight:1000}.step b{font-size:9px}.step span{display:block;font-size:8px;color:#687588;margin-top:2px;line-height:1.35}
+.table{width:100%;border-collapse:collapse;border:1px solid #202938;background:#0d131b}.table th,.table td{padding:10px;border-bottom:1px solid #1e2733;text-align:left}.table th{font-size:8px;color:#708093;background:#0b1017}.table td{font-size:9px}.good{color:#76e5ad}
+.big-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.big-card{position:relative;min-height:230px;border:1px solid #202938;border-radius:12px;background:#0b1017;overflow:hidden}.big-card img{position:absolute;width:115%;height:74%;object-fit:contain;right:-18px;top:-6px}.big-card .agent-info{bottom:12px}
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.ladder-card{text-align:center;padding:15px;border:1px solid #202938;border-radius:12px;background:#0d131b}.emblem{width:50px;height:50px;margin:auto;border-radius:14px;background:linear-gradient(135deg,#42152a,#151e2c);border:1px solid #3c2c3a;display:grid;place-items:center;color:#ff8ea0;font-weight:1000}.ladder-card b{display:block;font-size:9px;margin-top:7px}.ladder-card span{font-size:8px;color:#677486}
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:850px}.plan{padding:20px}.price{font-size:30px;font-weight:1000}.price span{font-size:8px;color:#718095}.feature{font-size:9px;color:#a7b0bd;margin-top:8px}.feature:before{content:"✓";color:#67e0a6;margin-right:7px}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}.setting{padding:14px}.setting b{font-size:10px}.setting p{font-size:8px;color:#718095}
+@media(max-width:1250px){.agent-grid{grid-template-columns:repeat(3,1fr)}.big-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:900px){body{overflow:auto}.app{display:block;height:auto;padding-bottom:68px}.sidebar{position:fixed;bottom:0;left:0;right:0;height:62px;z-index:99;border-top:1px solid #202938;border-right:0}.brand,.spacer,.account,.version{display:none}.nav{grid-template-columns:repeat(6,1fr);padding:6px}.nav-btn{font-size:0;text-align:center;padding:9px}.nav-icon{font-size:16px;width:auto}.main{display:block}.topbar{position:sticky;top:0;z-index:50}.content{overflow:visible}.hero-inner{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}.agent-grid{grid-template-columns:1fr 1fr}.big-grid{grid-template-columns:1fr 1fr}.ladder{grid-template-columns:repeat(3,1fr)}.pricing,.settings{grid-template-columns:1fr}}
+
+/* Custom Rebirth Arena updater */
+.update-overlay{
+  position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;
+  background:rgba(3,5,8,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
 }
-
-/* Sidebar */
-.sidebar{
-  border-right:1px solid var(--line);
-  background:linear-gradient(180deg,#080c12,#070a10 72%);
-  display:flex;flex-direction:column;min-width:0
+.update-overlay.show{display:flex}
+.update-box{
+  width:min(420px,calc(100vw - 36px));border-radius:18px;padding:18px;
+  border:1px solid rgba(255,48,79,.28);
+  background:linear-gradient(180deg,#111722,#0a0f16);
+  box-shadow:0 28px 90px rgba(0,0,0,.58),0 0 50px rgba(255,48,79,.08)
 }
-.brand{
-  height:88px;display:flex;align-items:center;gap:12px;padding:0 20px;border-bottom:1px solid #131c29
-}
-.logo{
-  width:42px;height:42px;border-radius:14px;position:relative;
-  background:linear-gradient(135deg,var(--purple),var(--cyan));
-  box-shadow:0 0 26px rgba(155,92,255,.22)
-}
-.logo:before{content:"";position:absolute;inset:9px;border:2px solid rgba(255,255,255,.88);transform:rotate(45deg);border-radius:4px}
-.logo:after{content:"";position:absolute;inset:16px;border-radius:50%;background:#08111a}
-.brand-name{font-size:14px;font-weight:1000;letter-spacing:.14em}
-.brand-sub{font-size:8px;color:#6e7b8e;letter-spacing:.17em;margin-top:3px}
-
-.nav{padding:14px 12px;display:grid;gap:5px}
-.nav-btn{
-  display:flex;align-items:center;gap:11px;width:100%;border:0;background:transparent;color:#9ca7b6;
-  padding:11px 12px;border-radius:10px;cursor:pointer;text-align:left;font-size:11px;font-weight:900;
-  letter-spacing:.02em;transition:.15s
-}
-.nav-btn:hover{background:#111925;color:#e9edf4}
-.nav-btn.active{background:linear-gradient(90deg,rgba(155,92,255,.20),rgba(155,92,255,.07));color:#d9c5ff;border:1px solid rgba(155,92,255,.18)}
-.icon{width:20px;text-align:center;font-size:14px;color:#9b79df}
-.spacer{flex:1}
-.sidebar-card{
-  margin:12px;border:1px solid var(--line);border-radius:13px;background:#0c121b;padding:11px
-}
-.user-row{display:flex;gap:9px;align-items:center}
-.user-avatar{width:34px;height:34px;border-radius:10px;background:#172131;display:grid;place-items:center;font-size:12px;font-weight:1000}
-.user-title{font-size:9px;font-weight:1000}
-.user-sub{font-size:8px;color:#788699;margin-top:3px}
-.sidebar-footer{padding:11px 18px;border-top:1px solid #121b27;color:#526173;font-size:8px}
-
-/* Main shell */
-.main{min-width:0;min-height:0;height:100vh;display:grid;grid-template-rows:64px minmax(0,1fr)}
-.topbar{
-  border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-  background:rgba(8,12,18,.92);backdrop-filter:blur(12px)
-}
-.page-title{font-size:17px;font-weight:1000}
-.page-sub{font-size:9px;color:#748195;margin-top:3px}
-.top-actions{display:flex;gap:8px;align-items:center}
-.status-pill{font-size:8px;font-weight:1000;letter-spacing:.07em;padding:7px 9px;border-radius:999px;border:1px solid rgba(246,198,103,.22);background:rgba(246,198,103,.06);color:#ffd58b}
-.online{display:flex;gap:7px;align-items:center;font-size:8px;font-weight:1000;color:#cbd3df}
-.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(99,239,181,.5)}
-.content{
-  min-height:0;height:100%;overflow-y:auto;overflow-x:hidden;padding:20px 24px 38px;
-  scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;
-  scroll-behavior:smooth
-}
-.content::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
-.sidebar{scrollbar-width:none;-ms-overflow-style:none}
-.sidebar::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
-
-/* page visibility */
-.page{display:none;animation:fade .18s ease}
-.page.active{display:block}
-@keyframes fade{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:none}}
-
-/* shared */
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.panel{background:linear-gradient(180deg,rgba(255,255,255,.015),transparent),var(--panel);border:1px solid var(--line);border-radius:16px}
-.stat{padding:16px;min-height:112px;position:relative;overflow:hidden}
-.stat:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;right:-36px;top:-46px;background:radial-gradient(circle,rgba(155,92,255,.10),transparent 68%)}
-.stat-label{font-size:8px;font-weight:1000;letter-spacing:.1em;color:#758397;text-transform:uppercase}
-.stat-value{font-size:28px;font-weight:1000;margin-top:8px;letter-spacing:-1px}
-.stat-sub{font-size:8px;color:#68768a;margin-top:5px}
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:18px 0 10px}
-.section-title{font-size:15px;font-weight:1000}
-.section-sub{font-size:8px;color:#758397;margin-top:3px}
-.badge{font-size:8px;font-weight:1000;padding:6px 8px;border-radius:999px;border:1px solid var(--line2);color:#9ba7b7;background:#101722}
-.hero{
-  padding:22px;border-radius:18px;border:1px solid var(--line);
-  background:
-    radial-gradient(circle at 78% 20%,rgba(103,232,249,.08),transparent 24%),
-    radial-gradient(circle at 25% 0%,rgba(155,92,255,.13),transparent 30%),
-    linear-gradient(120deg,#101622,#0c1119);
-  display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:center
-}
-.hero-kicker{font-size:9px;font-weight:1000;letter-spacing:.12em;color:#bc8cff}
-.hero-title{font-size:29px;font-weight:1000;letter-spacing:-1px;margin-top:6px}
-.hero-copy{font-size:10px;color:#96a2b3;line-height:1.55;margin-top:8px;max-width:650px}
-.hero-btn{margin-top:14px;border:1px solid rgba(155,92,255,.3);background:linear-gradient(135deg,#8f50ee,#6631cb);color:white;border-radius:10px;padding:10px 13px;font-size:9px;font-weight:1000;cursor:not-allowed}
-.hero-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.hero-item{border:1px solid var(--line);border-radius:11px;padding:10px;background:rgba(9,14,21,.55)}
-.hero-item b{display:block;font-size:9px}.hero-item span{display:block;font-size:8px;color:#718095;margin-top:3px}
-
-/* Dashboard */
-.dashboard-grid{display:grid;grid-template-columns:1fr 340px;gap:14px;margin-top:14px}
-.agent-panel{padding:14px}
-.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
-.filter{border:1px solid var(--line);background:#111824;color:#8996a8;border-radius:999px;padding:7px 9px;font-size:8px;font-weight:1000}
-.filter.active{border-color:rgba(155,92,255,.36);background:rgba(155,92,255,.13);color:#d7c0ff}
-.search{margin-left:auto;min-width:190px;border:1px solid var(--line);background:#0b1119;color:#e8edf4;padding:7px 10px;border-radius:999px;font-size:8px}
-.agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.agent-card{position:relative;min-height:250px;border:1px solid var(--line);border-radius:14px;background:#0b1017;overflow:hidden}
-.agent-art{position:absolute;inset:0 0 35% 0;background:radial-gradient(circle at 50% 28%,#1e2b3b,#0b1017 70%);display:grid;place-items:center}
-.agent-letter{font-size:60px;font-weight:1000;color:#263549}
-.agent-card img{position:absolute;width:110%;height:72%;right:-18px;top:-6px;object-fit:contain;object-position:center top}
-.agent-fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(8,11,15,.96) 78%)}
-.agent-info{position:absolute;bottom:12px;left:12px;right:12px}
-.agent-top{display:flex;justify-content:space-between;align-items:end}
-.agent-name{font-size:15px;font-weight:1000}
-.score{font-size:13px;font-weight:1000;padding:4px 7px;border-radius:8px;border:1px solid var(--line2);background:#091019}
-.bar{height:5px;border-radius:999px;background:#081019;margin-top:7px;overflow:hidden}
-.bar>div{height:100%;background:linear-gradient(90deg,var(--purple),var(--cyan))}
-.tier{margin-top:8px;display:flex;align-items:center;gap:7px}
-.tier-dot{width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#31234e,#14233d);display:grid;place-items:center;color:#cdb6ff;font-size:8px;font-weight:1000}
-.tier-name{font-size:9px;font-weight:1000}.tier-sub{font-size:8px;color:#6f7d90;margin-top:2px}
-
-/* Right column */
-.side-stack{display:grid;gap:12px}
-.info-card{padding:14px}
-.flow{display:grid;gap:7px;margin-top:9px}
-.flow-step{display:grid;grid-template-columns:26px 1fr;gap:8px;padding:9px;border:1px solid var(--line);border-radius:10px;background:#0c131d}
-.step-n{width:24px;height:24px;border-radius:8px;background:#1a2940;display:grid;place-items:center;font-size:8px;font-weight:1000;color:#9edfff}
-.step-title{font-size:9px;font-weight:1000}.step-sub{font-size:8px;color:#6f7c8e;margin-top:2px;line-height:1.4}
-
-/* Tables */
-.table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
-.table th,.table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}
-.table th{font-size:8px;color:#718094;text-transform:uppercase;letter-spacing:.08em;background:#0c121b}
-.table td{font-size:9px;color:#c8d0dc}
-.table tr:last-child td{border-bottom:0}
-.good{color:#8cf1bc!important}.muted{color:#748195!important}
-
-/* Agents full page */
-.big-agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.big-agent{min-height:250px;padding:14px;position:relative;overflow:hidden;background:#0b1017}
-.big-agent img{position:absolute;right:-10px;top:12px;width:58%;height:68%;object-fit:contain;object-position:center top;opacity:.96;filter:saturate(.95) contrast(1.05)}
-.big-agent .big-agent-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,16,23,.94) 0%,rgba(11,16,23,.55) 46%,rgba(11,16,23,.12) 100%);pointer-events:none}
-.big-agent .big-agent-content{position:relative;z-index:2}
-.agent-card.hidden,.big-agent.hidden{display:none}
-.big-agent h3{margin:0;font-size:15px}.big-agent p{font-size:8px;color:#718095}
-.big-progress{margin-top:70px}
-
-/* Progression */
-.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.ladder-tier{padding:16px;text-align:center}
-.ladder-emblem{width:52px;height:52px;border-radius:16px;margin:auto;display:grid;place-items:center;background:linear-gradient(135deg,#281d42,#14243b);border:1px solid #34425a;font-weight:1000;color:#d8c7ff}
-.ladder-name{font-size:10px;font-weight:1000;margin-top:8px}.ladder-note{font-size:8px;color:#6b788c;margin-top:3px}
-
-/* Rebirth+ */
-.pricing{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:850px}
-.plan{padding:22px}
-.plan.plus{border-color:rgba(155,92,255,.28);background:linear-gradient(160deg,rgba(155,92,255,.09),#0e141e)}
-.plan-name{font-size:11px;font-weight:1000}.price{font-size:34px;font-weight:1000;margin-top:7px}.price span{font-size:9px;color:#718095}
-.features{display:grid;gap:8px;margin-top:15px}.feature{font-size:9px;color:#aab4c1}.feature:before{content:"✓";color:var(--green);margin-right:7px}
-
-/* Settings */
-.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.setting{padding:16px}.setting h3{font-size:11px;margin:0}.setting p{font-size:8px;color:#758195}
-.toggle{width:38px;height:20px;border-radius:999px;background:#1a2433;position:relative;margin-top:8px}
-.toggle.on{background:#48316e}.toggle:after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:white;top:2px;left:2px}.toggle.on:after{left:20px}
-
-/* Responsive-ish desktop */
-@media(max-width:1250px){
-  :root{--sidebar:215px}
-  .agent-grid{grid-template-columns:repeat(2,1fr)}
-  .big-agent-grid{grid-template-columns:repeat(3,1fr)}
-  .grid-4{grid-template-columns:repeat(2,1fr)}
-}
-
-/* v1.0.4 dashboard polish */
-.hero{box-shadow:0 20px 70px rgba(0,0,0,.28)}
-.agent-card{transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
-.agent-card:hover{transform:translateY(-3px);border-color:#354861;box-shadow:0 16px 38px rgba(0,0,0,.26)}
-#viewAllAgents{cursor:pointer}
-#viewAllAgents:hover{color:#fff;border-color:rgba(155,92,255,.42)}
+.update-head{display:flex;gap:12px;align-items:center}
+.update-logo{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,48,79,.32))}
+.update-kicker{font-size:8px;color:#ff8394;font-weight:1000;letter-spacing:.13em}
+.update-title{font-size:17px;font-weight:1000;margin-top:3px}
+.update-desc{font-size:9px;line-height:1.55;color:#8b98aa;margin-top:12px}
+.update-progress{height:7px;border-radius:999px;background:#070b10;overflow:hidden;margin-top:13px;border:1px solid #1e2733}
+.update-progress>div{height:100%;width:0;background:linear-gradient(90deg,#ff304f,#ff7b90);transition:width .2s ease}
+.update-meta{display:flex;justify-content:space-between;gap:10px;margin-top:7px;font-size:8px;color:#667487}
+.update-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:15px}
+.update-btn{border:1px solid #2a3544;background:#131a24;color:#b8c1ce;border-radius:9px;padding:9px 11px;font-size:8px;font-weight:1000;cursor:pointer}
+.update-btn.primary{border-color:rgba(255,48,79,.36);background:linear-gradient(135deg,#df2443,#98152d);color:#fff}
+.update-btn:hover{filter:brightness(1.08)}
+.check-update-btn{margin-top:10px;border:1px solid rgba(255,48,79,.22);background:rgba(255,48,79,.06);color:#ff98a7;border-radius:8px;padding:8px 10px;font-size:8px;font-weight:1000;cursor:pointer}
 
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="logo"></div>
-      <div><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div>
+<aside class="sidebar">
+ <div class="brand"><img class="logo" src="assets/rebirth-v.png"><div><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div></div>
+ <nav class="nav">
+  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+  <button class="nav-btn" data-page="matches"><span class="nav-icon">◫</span>Matches</button>
+  <button class="nav-btn" data-page="agents"><span class="nav-icon">◉</span>Agents</button>
+  <button class="nav-btn" data-page="progression"><span class="nav-icon">◇</span>Progression</button>
+  <button class="nav-btn" data-page="rebirthplus"><span class="nav-icon">✦</span>Rebirth+</button>
+  <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
+ </nav>
+ <div class="spacer"></div>
+ <div class="account"><div class="avatar">R</div><div><b>RIOT ACCOUNT</b><span>Not connected</span></div></div>
+ <div class="version">REBIRTH ARENA v1.0.5</div>
+</aside>
+<section class="main">
+ <header class="topbar"><div class="top-left"><div><div class="page-title" id="pageTitle">Dashboard</div><div class="crumb" id="pageSub">Your progression hub</div></div></div><div class="statuses"><div class="beta">BETA • v1.0.5</div><div class="online"><span class="dot"></span>AUTO-SAVE ON</div></div></header>
+ <div class="content">
+  <section class="page active" id="page-dashboard">
+   <div class="hero"><div class="hero-lines"></div><div class="hero-inner">
+    <div><div class="kicker">REBIRTH ARENA // PERSONAL TRACKER</div><h1>WELCOME TO <em>REBIRTH</em></h1><p>Your post-match challenge dashboard. Your own agent never receives progression — the enemy agent eliminated on your exact #10, #20, #30 kill receives +1.</p>
+     <div class="hero-chips"><span class="chip">#10 → VICTIM +1</span><span class="chip">#20 → VICTIM +1</span><span class="chip">5 POINTS → TIER UP</span></div>
     </div>
-
-    <nav class="nav">
-      <button class="nav-btn active" data-page="dashboard"><span class="icon">▦</span>Dashboard</button>
-      <button class="nav-btn" data-page="matches"><span class="icon">◫</span>Matches</button>
-      <button class="nav-btn" data-page="agents"><span class="icon">◉</span>Agents</button>
-      <button class="nav-btn" data-page="progression"><span class="icon">◇</span>Progression</button>
-      <button class="nav-btn" data-page="rebirthplus"><span class="icon">✦</span>Rebirth+</button>
-      <button class="nav-btn" data-page="settings"><span class="icon">⚙</span>Settings</button>
-    </nav>
-
-    <div class="spacer"></div>
-
-    <div class="sidebar-card">
-      <div class="user-row">
-        <div class="user-avatar">R</div>
-        <div><div class="user-title">RIOT ACCOUNT</div><div class="user-sub">Not connected</div></div>
-      </div>
+    <div class="hero-panel"><div class="hero-panel-title">RIOT CONNECTION</div><div class="hero-panel-row"><span>Status</span><b style="color:#ff8a9c">API PENDING</b></div><div class="hero-panel-row"><span>Tracking</span><b>Post-match only</b></div><div class="hero-panel-row"><span>Live advantage</span><b>None</b></div><button class="connect" disabled>CONNECT RIOT ACCOUNT</button></div>
+   </div></div>
+   <div class="stats"><div class="stat"><div class="stat-label">Matches Processed</div><div class="stat-value">0</div><div class="stat-sub">Completed matches</div></div><div class="stat"><div class="stat-label">Milestone Kills</div><div class="stat-value">0</div><div class="stat-sub">#10, #20, #30...</div></div><div class="stat"><div class="stat-label">Agents Ranked</div><div class="stat-value">0</div><div class="stat-sub">With Rebirth progress</div></div><div class="stat"><div class="stat-label">Highest Tier</div><div class="stat-value">—</div><div class="stat-sub">Initiate → Reborn</div></div></div>
+   <div class="two-col">
+    <div class="panel panel-pad"><div class="section-head"><div><div class="section-title">Agent Progression</div><div class="section-sub">Search any agent — the dashboard now searches the full roster.</div></div><span class="beta">DEMO DATA</span></div>
+     <div class="tools"><button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="progress">IN PROGRESS</button><button class="filter" data-filter="near">NEAR RANK UP</button><button class="filter" data-filter="ranked">RANKED</button><button class="filter" data-filter="reborn">REBORN</button><input id="dashSearch" class="search" placeholder="Search all agents..."><button id="viewAll" class="filter">VIEW ALL</button></div>
+     <div id="dashAgents" class="agent-grid" style="margin-top:10px"></div>
     </div>
-    <div class="sidebar-footer">REBIRTH ARENA DESKTOP v1.0.2</div>
-  </aside>
-
-  <section class="main">
-    <header class="topbar">
-      <div><div class="page-title" id="topTitle">Dashboard</div><div class="page-sub" id="topSub">Your post-match progression hub.</div></div>
-      <div class="top-actions">
-        <div class="status-pill">BETA • v1.0.4</div>
-        <div class="online"><span class="online-dot"></span>AUTO-SAVE ON</div>
-      </div>
-    </header>
-
-    <div class="content">
-
-      <!-- DASHBOARD -->
-      <section class="page active" id="page-dashboard">
-        <div class="hero">
-          <div>
-            <div class="hero-kicker">REBIRTH ARENA • PERSONAL TRACKER</div>
-            <div class="hero-title">Your Rebirth Dashboard</div>
-            <div class="hero-copy">Your personal progression hub. After Riot API approval, your Riot ID and completed matches will sync automatically. Milestone kills are analyzed post-match only — no live competitive advantage.</div>
-            <button class="hero-btn" disabled>CONNECT RIOT ACCOUNT — API APPROVAL PENDING</button>
-          </div>
-          <div style="margin-top:12px;display:flex;gap:7px;flex-wrap:wrap">
-              <span class="badge">YOUR #10 → ENEMY AGENT +1</span>
-              <span class="badge">YOUR #20 → ENEMY AGENT +1</span>
-              <span class="badge">5 POINTS → NEXT TIER</span>
-            </div>
-            <div class="hero-list">
-            <div class="hero-item"><b>Automatic tracking</b><span>Completed matches only</span></div>
-            <div class="hero-item"><b>Milestone detection</b><span>#10, #20, #30...</span></div>
-            <div class="hero-item"><b>Victim-agent progress</b><span>Enemy agent gets +1</span></div>
-            <div class="hero-item"><b>Personal analytics</b><span>History and progression</span></div>
-          </div>
-        </div>
-
-        <div class="grid-4" style="margin-top:14px">
-          <div class="panel stat"><div class="stat-label">Matches Processed</div><div class="stat-value">0</div><div class="stat-sub">Total analyzed matches</div></div>
-          <div class="panel stat"><div class="stat-label">Milestone Kills</div><div class="stat-value">0</div><div class="stat-sub">#10, #20, #30 and beyond</div></div>
-          <div class="panel stat"><div class="stat-label">Agents Ranked</div><div class="stat-value">0</div><div class="stat-sub">Agents with progression</div></div>
-          <div class="panel stat"><div class="stat-label">Highest Tier</div><div class="stat-value">—</div><div class="stat-sub">Initiate → Reborn</div></div>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="panel agent-panel">
-            <div class="section-head">
-              <div><div class="section-title">Agent Progression</div><div class="section-sub">Progress goes to the enemy agent eliminated on your milestone kill.</div></div>
-              <div class="badge">DEMO DATA</div>
-            </div>
-            <div class="filters">
-              <button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="progress">IN PROGRESS</button><button class="filter" data-filter="near">NEAR RANK UP</button><button class="filter" data-filter="ranked">RANKED</button><button class="filter" data-filter="reborn">REBORN</button>
-              <input class="search" id="dashSearch" placeholder="Search agent..." />
-            </div>
-            <div class="agent-grid" id="dashAgents"></div>
-          </div>
-
-          <div class="side-stack">
-            <div class="panel info-card">
-              <div class="section-head" style="margin:0 0 8px">
-                <div><div class="section-title">Automatic Sync</div><div class="section-sub">How the post-match flow works.</div></div>
-                <div class="status-pill">API PENDING</div>
-              </div>
-              <div class="flow">
-                <div class="flow-step"><div class="step-n">1</div><div><div class="step-title">Match completes</div><div class="step-sub">Only completed match data is used.</div></div></div>
-                <div class="flow-step"><div class="step-n">2</div><div><div class="step-title">Your kills are ordered</div><div class="step-sub">Eliminations are counted chronologically.</div></div></div>
-                <div class="flow-step"><div class="step-n">3</div><div><div class="step-title">Milestone victim identified</div><div class="step-sub">Kill #10 on Reyna means Reyna +1.</div></div></div>
-                <div class="flow-step"><div class="step-n">4</div><div><div class="step-title">Progression updates</div><div class="step-sub">5 points on one enemy agent advances one tier.</div></div></div>
-              </div>
-            </div>
-            <div class="panel info-card">
-              <div class="section-title">Latest Match</div>
-              <div class="section-sub">Example analysis preview.</div>
-              <table class="table" style="margin-top:9px">
-                <tr><th>Milestone</th><th>Victim</th><th>Result</th></tr>
-                <tr><td>#10</td><td>Reyna</td><td class="good">+1</td></tr>
-                <tr><td>#20</td><td>Omen</td><td class="good">+1</td></tr>
-                <tr><td>#30</td><td>Jett</td><td class="good">+1</td></tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- MATCHES -->
-      <section class="page" id="page-matches">
-        <div class="section-head" style="margin-top:0">
-          <div><div class="section-title">Match History</div><div class="section-sub">Completed matches processed by Rebirth Arena.</div></div>
-          <div class="badge">DEMO PREVIEW</div>
-        </div>
-        <table class="table">
-          <tr><th>Date</th><th>Map</th><th>Mode</th><th>Result</th><th>Kills</th><th>Milestones</th><th>Status</th></tr>
-          <tr><td>23 Aug</td><td>Ascent</td><td>Competitive</td><td class="good">13–9 Victory</td><td>32</td><td>3</td><td class="good">Processed</td></tr>
-          <tr><td>22 Aug</td><td>Lotus</td><td>Competitive</td><td>10–13 Defeat</td><td>24</td><td>2</td><td class="good">Processed</td></tr>
-          <tr><td>21 Aug</td><td>Bind</td><td>Unrated</td><td class="good">13–7 Victory</td><td>18</td><td>1</td><td class="good">Processed</td></tr>
-        </table>
-
-        <div class="section-head"><div><div class="section-title">Selected Match Breakdown</div><div class="section-sub">Your milestone kills and the enemy agent who received progression.</div></div></div>
-        <div class="grid-4">
-          <div class="panel stat"><div class="stat-label">Kill #10</div><div class="stat-value" style="font-size:20px">Reyna</div><div class="stat-sub">Reyna +1 progression</div></div>
-          <div class="panel stat"><div class="stat-label">Kill #20</div><div class="stat-value" style="font-size:20px">Omen</div><div class="stat-sub">Omen +1 progression</div></div>
-          <div class="panel stat"><div class="stat-label">Kill #30</div><div class="stat-value" style="font-size:20px">Jett</div><div class="stat-sub">Jett +1 progression</div></div>
-          <div class="panel stat"><div class="stat-label">Your Agent</div><div class="stat-value" style="font-size:20px">Phoenix</div><div class="stat-sub">Does not determine progression</div></div>
-        </div>
-      </section>
-
-      <!-- AGENTS -->
-      <section class="page" id="page-agents">
-        <div class="section-head" style="margin-top:0">
-          <div><div class="section-title">Agents</div><div class="section-sub">Your progression against each enemy agent.</div></div>
-          <input class="search" id="agentsSearch" placeholder="Search agent..." />
-        </div>
-        <div class="big-agent-grid" id="allAgents"></div>
-      </section>
-
-      <!-- PROGRESSION -->
-      <section class="page" id="page-progression">
-        <div class="section-head" style="margin-top:0">
-          <div><div class="section-title">Rebirth Progression</div><div class="section-sub">Original Rebirth Arena tiers. Five milestone points on the same enemy agent advances one tier.</div></div>
-        </div>
-        <div class="ladder" id="ladder"></div>
-
-        <div class="section-head"><div><div class="section-title">Progress Summary</div><div class="section-sub">Example profile overview.</div></div></div>
-        <table class="table">
-          <tr><th>Agent</th><th>Tier</th><th>Current Points</th><th>Total Rebirths</th></tr>
-          <tr><td>Reyna</td><td>Phantom</td><td>4/5</td><td>4</td></tr>
-          <tr><td>Jett</td><td>Elite</td><td>1/5</td><td>5</td></tr>
-          <tr><td>Omen</td><td>Hunter</td><td>2/5</td><td>2</td></tr>
-        </table>
-      </section>
-
-      <!-- REBIRTH+ -->
-      <section class="page" id="page-rebirthplus">
-        <div class="section-head" style="margin-top:0">
-          <div><div class="section-title">Rebirth+</div><div class="section-sub">Premium concept preview. Payments remain disabled pending Riot approval.</div></div>
-          <div class="status-pill">PREVIEW ONLY</div>
-        </div>
-        <div class="pricing">
-          <div class="panel plan">
-            <div class="plan-name">FREE</div>
-            <div class="price">£0 <span>/ forever</span></div>
-            <div class="features">
-              <div class="feature">Automatic post-match tracking</div>
-              <div class="feature">Milestone kill progression</div>
-              <div class="feature">All agents and tiers</div>
-              <div class="feature">Recent match summaries</div>
-            </div>
-          </div>
-          <div class="panel plan plus">
-            <div class="plan-name">REBIRTH+</div>
-            <div class="price">£2.99 <span>/ month</span></div>
-            <div class="features">
-              <div class="feature">Advanced analytics</div>
-              <div class="feature">Full progression history</div>
-              <div class="feature">Cinematic match recaps</div>
-              <div class="feature">Themes and profile cosmetics</div>
-              <div class="feature">Shareable progression cards</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SETTINGS -->
-      <section class="page" id="page-settings">
-        <div class="section-head" style="margin-top:0">
-          <div><div class="section-title">Settings</div><div class="section-sub">Desktop application preferences.</div></div>
-        </div>
-        <div class="settings-grid">
-          <div class="panel setting"><h3>Launch with Windows</h3><p>Start Rebirth Arena automatically when Windows starts.</p><div class="toggle"></div></div>
-          <div class="panel setting"><h3>Desktop notifications</h3><p>Notify when a completed match is processed or a tier-up occurs.</p><div class="toggle on"></div></div>
-          <div class="panel setting"><h3>Cinematic tier-up effects</h3><p>Play visual effects after a new Rebirth tier is reached.</p><div class="toggle on"></div></div>
-          <div class="panel setting"><h3>Background sync</h3><p>Keep the app ready to process completed matches when connected.</p><div class="toggle on"></div></div>
-        </div>
-      </section>
-
+    <div class="panel panel-pad"><div class="section-head"><div><div class="section-title">Automatic Sync</div><div class="section-sub">Exactly how progression is assigned.</div></div></div>
+     <div class="flow"><div class="step"><div class="step-n">1</div><div><b>Match completes</b><span>Only completed match data is processed.</span></div></div><div class="step"><div class="step-n">2</div><div><b>Your kills are ordered</b><span>#1, #2, #3 … #10, #20, #30.</span></div></div><div class="step"><div class="step-n">3</div><div><b>Victim agent identified</b><span>If your #10 kills Reyna, Reyna receives +1.</span></div></div><div class="step"><div class="step-n">4</div><div><b>Tier updates</b><span>5 milestone points on the same enemy agent = next Rebirth tier.</span></div></div></div>
     </div>
+   </div>
   </section>
+
+  <section class="page" id="page-matches"><div class="section-head"><div><div class="section-title">Match History</div><div class="section-sub">Completed matches and milestone victims.</div></div></div><table class="table"><tr><th>Date</th><th>Map</th><th>Result</th><th>Kills</th><th>#10</th><th>#20</th><th>#30</th></tr><tr><td>Demo</td><td>Ascent</td><td class="good">13–9</td><td>32</td><td>Reyna +1</td><td>Omen +1</td><td>Jett +1</td></tr></table></section>
+  <section class="page" id="page-agents"><div class="section-head"><div><div class="section-title">All Agents</div><div class="section-sub">Your progression against every enemy agent.</div></div><input id="agentSearch" class="search" placeholder="Search agent..."></div><div id="allAgents" class="big-grid"></div></section>
+  <section class="page" id="page-progression"><div class="section-head"><div><div class="section-title">Rebirth Tiers</div><div class="section-sub">Original Rebirth Arena progression ladder.</div></div></div><div id="ladder" class="ladder"></div></section>
+  <section class="page" id="page-rebirthplus"><div class="section-head"><div><div class="section-title">Rebirth+</div><div class="section-sub">Premium concept preview. Payments disabled pending Riot approval.</div></div></div><div class="pricing"><div class="panel plan"><b>FREE</b><div class="price">£0 <span>/ forever</span></div><div class="feature">Automatic tracking</div><div class="feature">All agents</div><div class="feature">Recent match summaries</div></div><div class="panel plan" style="border-color:rgba(255,48,79,.25)"><b>REBIRTH+</b><div class="price">£2.99 <span>/ month</span></div><div class="feature">Advanced analytics</div><div class="feature">Full progression history</div><div class="feature">Cinematic recaps</div><div class="feature">Themes and cosmetics</div></div></div></section>
+  <section class="page" id="page-settings"><div class="section-head"><div><div class="section-title">Settings</div><div class="section-sub">Application preferences.</div></div></div><div class="settings"><div class="panel setting"><b>Automatic updates</b><p>Rebirth Arena checks GitHub Releases and downloads new versions automatically.</p><button id="checkUpdatesBtn" class="check-update-btn">CHECK FOR UPDATES</button></div><div class="panel setting"><b>Notifications</b><p>Tier-up and match processing notifications.</p></div><div class="panel setting"><b>Cinematic effects</b><p>Visual effects when a Rebirth tier is earned.</p></div><div class="panel setting"><b>Background sync</b><p>Ready for completed-match processing when connected.</p></div></div></section>
+ </div>
+</section>
 </div>
-
 <script>
-const pages = {
-  dashboard:["Dashboard","Your post-match progression hub."],
-  matches:["Matches","Completed match history and milestone analysis."],
-  agents:["Agents","Progression against each enemy agent."],
-  progression:["Progression","Your Rebirth Arena tier ladder."],
-  rebirthplus:["Rebirth+","Optional premium features preview."],
-  settings:["Settings","Desktop application preferences."]
-};
-
-document.querySelectorAll(".nav-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    const key=btn.dataset.page;
-    document.getElementById("page-"+key).classList.add("active");
-    topTitle.textContent=pages[key][0];
-    topSub.textContent=pages[key][1];
-  });
-});
+const pages={dashboard:["Dashboard","Your progression hub"],matches:["Matches","Completed match analysis"],agents:["Agents","Full enemy-agent roster"],progression:["Progression","Your Rebirth ladder"],rebirthplus:["Rebirth+","Premium preview"],settings:["Settings","Application preferences"]};
+document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));let p=b.dataset.page;document.getElementById("page-"+p).classList.add("active");pageTitle.textContent=pages[p][0];pageSub.textContent=pages[p][1]});
 
 const agents=["Astra","Breach","Brimstone","Chamber","Clove","Cypher","Deadlock","Fade","Gekko","Harbor","Iso","Jett","KAY/O","Killjoy","Neon","Omen","Phoenix","Raze","Reyna","Sage","Skye","Sova","Tejo","Viper","Vyse","Waylay","Yoru"];
-const demo={
-  Astra:[0,1], Reyna:[4,4], Omen:[2,2], Jett:[1,5], Sage:[3,1], Killjoy:[2,4], Phoenix:[0,9]
-};
+const demo={Astra:[0,1],Reyna:[4,4],Omen:[2,2],Jett:[1,5],Sage:[3,1],Killjoy:[2,4],Phoenix:[0,9],Clove:[4,0]};
 const tiers=["Unranked","Initiate","Hunter","Vanguard","Phantom","Elite","Mythic","Ascended","Immortalized","Reborn"];
-
-function tierName(n){return tiers[Math.min(Math.max(n,0),9)]}
+let art={},filter="all",q="",expanded=false;
+const tier=n=>tiers[Math.min(Math.max(n,0),9)];
+function card(a,big=false){let [p,r]=demo[a]||[0,0],img=art[a];return `<div class="${big?"big-card":"agent-card"}">${img?`<img src="${img}" onerror="this.style.display='none'">`:`<div class="fallback">${a[0]}</div>`}<div class="fade"></div><div class="agent-info"><div class="agent-top"><div class="agent-name">${a}</div><div class="score">${p}/5</div></div><div class="bar"><div style="width:${p*20}%"></div></div><div class="tier"><b>${tier(r)}</b> • Rebirth ${r}</div></div></div>`}
+function ok(a){let [p,r]=demo[a]||[0,0];if(q&&!a.toLowerCase().includes(q.toLowerCase()))return false;if(filter==="progress"&&p<=0)return false;if(filter==="near"&&p!==4)return false;if(filter==="ranked"&&r<=0)return false;if(filter==="reborn"&&r<9)return false;return true}
+function renderDash(){let list=agents.filter(ok);if(!expanded&&!q&&filter==="all")list=list.slice(0,8);dashAgents.innerHTML=list.map(a=>card(a)).join("")||`<div style="grid-column:1/-1;padding:25px;text-align:center;color:#738095">No agents found.</div>`}
+function renderAll(list=agents){allAgents.innerHTML=list.map(a=>card(a,true)).join("")}
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter;renderDash()});
+dashSearch.oninput=()=>{q=dashSearch.value.trim();renderDash()};viewAll.onclick=()=>{expanded=!expanded;viewAll.textContent=expanded?"SHOW LESS":"VIEW ALL";renderDash()};
+agentSearch.oninput=()=>{let s=agentSearch.value.toLowerCase();renderAll(agents.filter(a=>a.toLowerCase().includes(s)))};
+ladder.innerHTML=tiers.slice(1).map((t,i)=>`<div class="ladder-card"><div class="emblem">${i+1}</div><b>${t}</b><span>Rebirth ${i+1}</span></div>`).join("");
 
 async function loadArt(){
-  let art={};
-  try{
-    if(window.rebirthDesktop && window.rebirthDesktop.getAgentArt){
-      art = await window.rebirthDesktop.getAgentArt();
-    } else {
-      const res=await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true");
-      const json=await res.json();
-      (json.data||[]).forEach(a=>art[a.displayName]=a.fullPortraitV2||a.fullPortrait||a.displayIcon);
-    }
-  }catch(e){
-    console.warn("Agent artwork unavailable",e);
-  }
-  renderAgents(art||{});
+ try{
+  if(window.rebirthDesktop?.getAgentArt){art=await window.rebirthDesktop.getAgentArt()}
+  else{let r=await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true"),j=await r.json();(j.data||[]).forEach(a=>art[a.displayName]=a.fullPortraitV2||a.fullPortrait||a.displayIcon)}
+ }catch(e){}
+ renderDash();renderAll();
 }
-
-function cardHTML(a,art,big=false){
-  const [points,rebirths]=demo[a]||[0,0];
-  if(big){
-    return `<div class="panel big-agent" data-agent="${a.toLowerCase()}" data-points="${points}" data-rebirths="${rebirths}">
-      ${art?`<img src="${art}" alt="${a}" onerror="this.style.display='none'">`:""}
-      <div class="big-agent-shade"></div>
-      <div class="big-agent-content">
-        <h3>${a}</h3><p>${tierName(rebirths)} • Rebirth ${rebirths}</p>
-        <div class="big-progress"><div class="bar"><div style="width:${points*20}%"></div></div>
-        <div style="font-size:9px;color:#8b98aa;margin-top:7px">${points}/5 to next tier</div></div>
-      </div>
-    </div>`;
-  }
-  return `<div class="agent-card" data-agent="${a.toLowerCase()}" data-points="${points}" data-rebirths="${rebirths}">
-    <div class="agent-art"><div class="agent-letter">${a[0]}</div></div>
-    ${art?`<img src="${art}" alt="${a}" onerror="this.style.display='none'">`:""}
-    <div class="agent-fade"></div>
-    <div class="agent-info">
-      <div class="agent-top"><div class="agent-name">${a}</div><div class="score">${points}/5</div></div>
-      <div class="bar"><div style="width:${points*20}%"></div></div>
-      <div class="tier"><div class="tier-dot">${rebirths?rebirths:"•"}</div><div><div class="tier-name">${tierName(rebirths)}</div><div class="tier-sub">Rebirth ${rebirths}</div></div></div>
-    </div>
-  </div>`;
-}
-
-let agentArtCache = {};
-let dashboardFilter = "all";
-let dashboardQuery = "";
-let dashboardExpanded = false;
-
-function matchesDashboardFilter(a){
-  const [points,rebirths]=demo[a]||[0,0];
-  if(dashboardQuery && !a.toLowerCase().includes(dashboardQuery.toLowerCase())) return false;
-  if(dashboardFilter==="progress" && points<=0) return false;
-  if(dashboardFilter==="near" && points!==4) return false;
-  if(dashboardFilter==="ranked" && rebirths<=0) return false;
-  if(dashboardFilter==="reborn" && rebirths<9) return false;
-  return true;
-}
-
-function renderDashboardAgents(){
-  let list=agents.filter(matchesDashboardFilter);
-  const searching = dashboardQuery.length>0;
-  const filtering = dashboardFilter!=="all";
-  if(!dashboardExpanded && !searching && !filtering) list=list.slice(0,6);
-  dashAgents.innerHTML=list.map(a=>cardHTML(a,agentArtCache[a])).join("") ||
-    `<div style="grid-column:1/-1;padding:28px;text-align:center;color:#758195;border:1px dashed var(--line);border-radius:12px">No agents match your search.</div>`;
-}
-
-function renderAgents(art){
-  agentArtCache=art||{};
-  renderDashboardAgents();
-  allAgents.innerHTML=agents.map(a=>cardHTML(a,agentArtCache[a],true)).join("");
-}
-
-document.querySelectorAll(".filter[data-filter]").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".filter[data-filter]").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    dashboardFilter=btn.dataset.filter;
-    renderDashboardAgents();
-  });
-});
-
-const dashSearchEl=document.getElementById("dashSearch") || document.querySelector("#page-dashboard .search");
-if(dashSearchEl){
-  dashSearchEl.addEventListener("input",()=>{
-    dashboardQuery=dashSearchEl.value.trim();
-    renderDashboardAgents();
-  });
-}
-
-const viewAll=document.getElementById("viewAllAgents");
-if(viewAll){
-  viewAll.addEventListener("click",()=>{
-    dashboardExpanded=!dashboardExpanded;
-    viewAll.textContent=dashboardExpanded?"SHOW LESS":"VIEW ALL";
-    renderDashboardAgents();
-  });
-}
-
-const agentsPageSearch=document.querySelector("#page-agents .search");
-if(agentsPageSearch){
-  agentsPageSearch.addEventListener("input",()=>{
-    const q=agentsPageSearch.value.trim().toLowerCase();
-    const list=agents.filter(a=>a.toLowerCase().includes(q));
-    allAgents.innerHTML=list.map(a=>cardHTML(a,agentArtCache[a],true)).join("") ||
-      `<div style="grid-column:1/-1;padding:28px;text-align:center;color:#758195;border:1px dashed var(--line);border-radius:12px">No agents found.</div>`;
-  });
-}
-
 loadArt();
+
+function setupDesktopUpdater(){
+  if(!window.rebirthDesktop) return;
+
+  const overlay=document.getElementById("updateOverlay");
+  const title=document.getElementById("updateTitle");
+  const desc=document.getElementById("updateDesc");
+  const bar=document.getElementById("updateProgressBar");
+  const percent=document.getElementById("updatePercent");
+  const version=document.getElementById("updateVersion");
+  const later=document.getElementById("updateLater");
+  const install=document.getElementById("updateInstall");
+  const checkBtn=document.getElementById("checkUpdatesBtn");
+
+  function show(){ overlay.classList.add("show") }
+  function hide(){ overlay.classList.remove("show") }
+
+  later.onclick=hide;
+  install.onclick=()=>window.rebirthDesktop.installUpdate();
+  if(checkBtn) checkBtn.onclick=()=>window.rebirthDesktop.checkForUpdates();
+
+  window.rebirthDesktop.onUpdateStatus(data=>{
+    const s=data.status;
+    if(s==="checking"){
+      show(); title.textContent="Checking for updates";
+      desc.textContent="Looking for the latest Rebirth Arena release.";
+      bar.style.width="8%"; percent.textContent="Checking...";
+      install.style.display="none";
+    }
+    if(s==="available"){
+      show(); title.textContent=`Update ${data.version} available`;
+      desc.textContent="A new Rebirth Arena build was found. Downloading automatically...";
+      version.textContent=`v${data.version}`; bar.style.width="12%";
+      percent.textContent="Preparing...";
+    }
+    if(s==="downloading"){
+      show(); title.textContent="Downloading update";
+      desc.textContent="Keep Rebirth Arena open while the update downloads.";
+      bar.style.width=`${data.percent}%`; percent.textContent=`${data.percent}%`;
+    }
+    if(s==="ready"){
+      show(); title.textContent=`Rebirth Arena ${data.version} is ready`;
+      desc.textContent="The update has finished downloading. Restart Rebirth Arena to install it.";
+      version.textContent=`v${data.version}`; bar.style.width="100%"; percent.textContent="100%";
+      install.style.display="inline-block";
+    }
+    if(s==="current"){
+      show(); title.textContent="You're up to date";
+      desc.textContent="You already have the latest Rebirth Arena version.";
+      bar.style.width="100%"; percent.textContent="Current";
+      install.style.display="none";
+      setTimeout(hide,1800);
+    }
+    if(s==="error"){
+      show(); title.textContent="Update check failed";
+      desc.textContent="Rebirth Arena couldn't check for updates right now. Try again later.";
+      bar.style.width="0%"; percent.textContent="Error";
+      install.style.display="none";
+    }
+    if(s==="dev"){
+      show(); title.textContent="Development mode";
+      desc.textContent="Automatic updates are only available in the installed Rebirth Arena build.";
+      bar.style.width="0%"; percent.textContent="DEV";
+      install.style.display="none";
+    }
+  });
+}
+setupDesktopUpdater();
+
 </script>
+
+<div id="updateOverlay" class="update-overlay">
+  <div class="update-box">
+    <div class="update-head">
+      <img class="update-logo" src="assets/rebirth-v.png" alt="">
+      <div>
+        <div class="update-kicker">REBIRTH ARENA // UPDATE</div>
+        <div id="updateTitle" class="update-title">Checking for updates...</div>
+      </div>
+    </div>
+    <div id="updateDesc" class="update-desc">Looking for the latest Rebirth Arena release.</div>
+    <div id="updateProgress" class="update-progress"><div id="updateProgressBar"></div></div>
+    <div class="update-meta"><span id="updatePercent">0%</span><span id="updateVersion">v1.0.5</span></div>
+    <div class="update-actions">
+      <button id="updateLater" class="update-btn">LATER</button>
+      <button id="updateInstall" class="update-btn primary" style="display:none">RESTART & UPDATE</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

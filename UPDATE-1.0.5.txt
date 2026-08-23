@@ -1,0 +1,23 @@
+Rebirth Arena v1.0.5 MAJOR REDESIGN + CUSTOM UPDATER
+
+Visible changes:
+- Full red/black Rebirth Arena identity
+- Completely redesigned Dashboard
+- Functional full-roster search and filters
+- View All / Show Less
+- Redesigned Matches, Agents, Progression, Rebirth+ and Settings
+- Same visual redesign on Web + Desktop
+- NEW custom in-app updater
+- Small Rebirth Arena update popup
+- Live download progress
+- LATER button
+- RESTART & UPDATE button
+- Check for Updates button in Settings
+- No standard Electron/Windows update dialog
+
+Keep your existing riot.txt untouched.
+
+Release flow:
+Commit + Push
+Create tag/release v1.0.5
+GitHub Actions publishes the Windows update.
