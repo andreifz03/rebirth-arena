@@ -244,6 +244,130 @@ html,body{height:100%;min-height:100%;overflow:hidden}
   background:rgba(255,48,79,.07);color:#ff9aaa;font-size:8px;font-weight:1000
 }
 
+
+/* ===== v1.1.0 THEME + SCROLL DEEP FIX ===== */
+:root{
+  --app-bg:#07090d;
+  --sidebar-bg:#090c12;
+  --panel-bg:#0d121a;
+  --panel-bg-2:#111722;
+  --panel-border:#202836;
+  --topbar-bg:#090d13;
+}
+body{
+  color:#f6f7fb !important;
+  background:var(--app-bg) !important;
+}
+body.light-mode{
+  --app-bg:#e8edf3;
+  --sidebar-bg:#f3f6fa;
+  --panel-bg:#ffffff;
+  --panel-bg-2:#eef2f7;
+  --panel-border:#cbd4df;
+  --topbar-bg:#f7f9fc;
+}
+body.midnight-mode{
+  --app-bg:#02050a;
+  --sidebar-bg:#050811;
+  --panel-bg:#090e17;
+  --panel-bg-2:#0c1320;
+  --panel-border:#1a2636;
+  --topbar-bg:#060a11;
+}
+body.graphite-mode{
+  --app-bg:#101214;
+  --sidebar-bg:#15181b;
+  --panel-bg:#1a1e22;
+  --panel-bg-2:#20252a;
+  --panel-border:#31383f;
+  --topbar-bg:#14181b;
+}
+.app{background:var(--app-bg)!important}
+.sidebar{background:linear-gradient(180deg,var(--sidebar-bg),var(--app-bg))!important}
+.topbar{background:var(--topbar-bg)!important}
+.panel,.stat,.hero-panel,.step,.account,.big-card,.ladder-card,.setting,.plan,.agent-card{
+  background-color:var(--panel-bg)!important;
+  border-color:var(--panel-border)!important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 82% 10%,rgba(255,48,79,.10),transparent 28%),
+    linear-gradient(110deg,var(--panel-bg),var(--panel-bg-2))!important;
+  border-color:var(--panel-border)!important
+}
+.filter,.search,.select,.update-btn,.check-update-btn{
+  background:var(--panel-bg-2)!important;
+  border-color:var(--panel-border)!important;
+}
+body.light-mode .stat-sub,
+body.light-mode .section-sub,
+body.light-mode .crumb,
+body.light-mode .tier,
+body.light-mode .setting p,
+body.light-mode .benefit p{
+  color:#667184!important;
+}
+body.light-mode .page-title,
+body.light-mode .section-title,
+body.light-mode .agent-name,
+body.light-mode .stat-value,
+body.light-mode .hero h1,
+body.light-mode .setting b,
+body.light-mode .benefit b{
+  color:#f6f7fb!important;
+}
+/* text intentionally remains dark-theme styled; theme changes surfaces/backgrounds */
+
+html,body{
+  width:100%;
+  height:100%;
+  min-height:100%;
+  overflow:hidden!important;
+}
+.app{
+  width:100vw;
+  height:100vh!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+.main{
+  display:grid!important;
+  grid-template-rows:64px minmax(0,1fr)!important;
+  height:100vh!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+.content{
+  min-height:0!important;
+  height:auto!important;
+  overflow-y:scroll!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none!important;
+  padding-bottom:70px!important;
+}
+.content::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
+.page{min-height:100%;height:auto!important;overflow:visible!important}
+#page-dashboard{min-height:max-content!important;padding-bottom:34px!important}
+.two-col,.agent-grid,.big-grid,.stats,.settings,.pricing,.ladder{
+  overflow:visible!important;
+}
+@media(max-width:900px){
+  html,body{height:auto!important;min-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important}
+  .app{height:auto!important;min-height:100dvh!important;overflow:visible!important}
+  .main{height:auto!important;min-height:100dvh!important;display:block!important;overflow:visible!important}
+  .content{height:auto!important;overflow:visible!important;padding-bottom:95px!important}
+}
+
+
+body.no-animations *,body.no-animations *::before,body.no-animations *::after{
+  animation-duration:.001ms!important;
+  animation-iteration-count:1!important;
+  transition-duration:.001ms!important;
+  scroll-behavior:auto!important;
+}
+
 </style>
 </head>
 <body>
@@ -305,14 +429,72 @@ html,body{height:100%;min-height:100%;overflow:hidden}
         <div class="plus-hero"><span class="plus-badge">REBIRTH+ PREVIEW</span><div class="plus-title">GO BEYOND THE MATCH.</div><div class="section-sub">A temporary concept preview for the premium layer. Payments remain disabled during beta.</div>
         <div class="benefits"><div class="benefit"><b>ADVANCED ANALYTICS</b><p>Deeper milestone trends, agent targets and progression insights.</p></div><div class="benefit"><b>FULL HISTORY</b><p>Extended match and Rebirth progression history across your account.</p></div><div class="benefit"><b>PROFILE CUSTOMIZATION</b><p>Premium themes, profile frames and cosmetic dashboard options.</p></div><div class="benefit"><b>CINEMATIC RECAPS</b><p>Enhanced visual recaps when milestone kills and tier-ups are processed.</p></div><div class="benefit"><b>EXPORT & SHARE</b><p>Shareable progression cards and season summaries.</p></div><div class="benefit"><b>EARLY FEATURES</b><p>Preview selected Rebirth Arena features before general rollout.</p></div></div></div>
         <div class="pricing" style="margin-top:12px"><div class="panel plan"><b>FREE</b><div class="price">£0 <span>/ forever</span></div><div class="feature">Automatic tracking</div><div class="feature">Core agent progression</div></div><div class="panel plan" style="border-color:rgba(255,48,79,.3)"><b>REBIRTH+</b><div class="price">£2.99 <span>/ month • concept</span></div><div class="feature">Everything in Free</div><div class="feature">Advanced analytics</div><div class="feature">Premium customization</div></div></div></section>
-  <section class="page" id="page-settings"><div class="section-head"><div><div class="section-title">Settings</div><div class="section-sub">Personalize Rebirth Arena. Preferences are saved on this device.</div></div></div><div class="settings">
-        <div class="panel setting"><b>Appearance</b><p>Switch between dark and light interface modes.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Theme</span><select id="themeSelect" class="select"><option value="dark">Rebirth Dark</option><option value="light">Arena Light</option></select></div></div>
-        <div class="panel setting"><b>Accent</b><p>Choose the interface highlight style.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Accent</span><select id="accentSelect" class="select"><option value="crimson">Crimson</option><option value="ice">Ice</option></select></div></div>
-        <div class="panel setting"><b>Compact layout</b><p>Fit more progression information on screen.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Compact cards</span><button id="compactToggle" class="toggle"><i></i></button></div></div>
-        <div class="panel setting"><b>Notifications</b><p>Show Rebirth tier and update notifications.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Enabled</span><button id="notifToggle" class="toggle on"><i></i></button></div></div>
-        <div class="panel setting"><b>Cinematic effects</b><p>Enable enhanced animations for progression moments.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Effects</span><button id="fxToggle" class="toggle on"><i></i></button></div></div>
-        <div class="panel setting"><b>Automatic updates</b><p>Check GitHub Releases and install new desktop builds.</p><div class="setting-row"><button id="checkUpdatesBtn" class="check-update-btn">CHECK FOR UPDATES</button></div></div>
-        </div></section>
+  <section class="page" id="page-settings">
+        <div class="section-head"><div><div class="section-title">Settings</div><div class="section-sub">Personalize Rebirth Arena. Preferences are saved on this device.</div></div></div>
+        <div class="settings">
+          <div class="panel setting">
+            <b>Interface theme</b><p>Changes the application background and panel surfaces. Text styling stays consistent.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Theme</span>
+              <select id="themeSelect" class="select">
+                <option value="dark">Rebirth Dark</option>
+                <option value="light">Arena Light</option>
+                <option value="midnight">Midnight</option>
+                <option value="graphite">Graphite</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="panel setting">
+            <b>Accent color</b><p>Changes buttons, active states and highlights.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Accent</span>
+              <select id="accentSelect" class="select">
+                <option value="crimson">Crimson</option>
+                <option value="ice">Ice</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="panel setting">
+            <b>Compact layout</b><p>Fits more progression information on screen.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Compact cards</span><button id="compactToggle" class="toggle"><i></i></button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Animations</b><p>Enable card motion and interface transitions.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Animations</span><button id="animToggle" class="toggle on"><i></i></button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Startup cinematic</b><p>Show the Rebirth Arena initialization screen when opening the app.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Startup screen</span><button id="splashToggle" class="toggle on"><i></i></button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Notifications</b><p>Show tier-up and match processing notifications.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Enabled</span><button id="notifToggle" class="toggle on"><i></i></button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Cinematic tier-up effects</b><p>Enhanced effects when an agent reaches the next Rebirth tier.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Effects</span><button id="fxToggle" class="toggle on"><i></i></button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Remember last page</b><p>Open Rebirth Arena on the page you were using last time.</p>
+            <div class="setting-row"><span style="font-size:8px;color:#7c899a">Remember</span><button id="rememberPageToggle" class="toggle"><i></i></button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Automatic updates</b><p>Check GitHub Releases and install new desktop builds.</p>
+            <div class="setting-row"><button id="checkUpdatesBtn" class="check-update-btn">CHECK FOR UPDATES</button></div>
+          </div>
+
+          <div class="panel setting">
+            <b>Reset preferences</b><p>Restore all interface preferences to Rebirth Arena defaults.</p>
+            <div class="setting-row"><button id="resetPrefsBtn" class="check-update-btn">RESET SETTINGS</button></div>
+          </div>
+        </div>
+        </section>
  </div>
 </section>
 </div>
@@ -413,23 +595,81 @@ function setupDesktopUpdater(){
 setupDesktopUpdater();
 
 
+
+
+
 const pref=(k,d)=>localStorage.getItem("ra_"+k)??d;
-function toastMsg(m){const e=document.getElementById("toast");if(!e)return;e.textContent=m;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1400)}
+function toastMsg(m){
+  const e=document.getElementById("toast");
+  if(!e)return;
+  e.textContent=m;e.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>e.classList.remove("show"),1400);
+}
+function setToggle(id,key,def="0"){
+  const e=document.getElementById(id); if(!e)return;
+  e.classList.toggle("on",pref(key,def)==="1");
+  e.onclick=()=>{
+    const next=!e.classList.contains("on");
+    e.classList.toggle("on",next);
+    localStorage.setItem("ra_"+key,next?"1":"0");
+    applyPrefs();
+    toastMsg("Preference saved");
+  };
+}
 function applyPrefs(){
- const th=pref("theme","dark"),ac=pref("accent","crimson"),cp=pref("compact","0")==="1";
- document.body.classList.toggle("light-mode",th==="light");document.body.classList.toggle("ice-mode",ac==="ice");document.body.classList.toggle("crimson-mode",ac==="crimson");document.body.classList.toggle("compact",cp);
- if(window.themeSelect)themeSelect.value=th;if(window.accentSelect)accentSelect.value=ac;if(window.compactToggle)compactToggle.classList.toggle("on",cp);
+  const theme=pref("theme","dark");
+  const accent=pref("accent","crimson");
+  document.body.classList.toggle("light-mode",theme==="light");
+  document.body.classList.toggle("midnight-mode",theme==="midnight");
+  document.body.classList.toggle("graphite-mode",theme==="graphite");
+  document.body.classList.toggle("ice-mode",accent==="ice");
+  document.body.classList.toggle("crimson-mode",accent==="crimson");
+  document.body.classList.toggle("compact",pref("compact","0")==="1");
+  document.body.classList.toggle("no-animations",pref("animations","1")!=="1");
+
+  const ts=document.getElementById("themeSelect"); if(ts)ts.value=theme;
+  const as=document.getElementById("accentSelect"); if(as)as.value=accent;
 }
 applyPrefs();
-const splashStatus=document.getElementById("splashStatus");
-setTimeout(()=>{if(splashStatus)splashStatus.textContent="LOADING AGENT MODULES"},450);
-setTimeout(()=>{if(splashStatus)splashStatus.textContent="SYNCING INTERFACE"},900);
-setTimeout(()=>{if(splashStatus)splashStatus.textContent="READY"},1350);
-setTimeout(()=>document.getElementById("splash")?.classList.add("hide"),1750);
-setTimeout(()=>document.getElementById("splash")?.remove(),2400);
-if(window.themeSelect)themeSelect.onchange=()=>{localStorage.setItem("ra_theme",themeSelect.value);applyPrefs();toastMsg("Theme saved")};
-if(window.accentSelect)accentSelect.onchange=()=>{localStorage.setItem("ra_accent",accentSelect.value);applyPrefs();toastMsg("Accent saved")};
-["compactToggle","notifToggle","fxToggle"].forEach(id=>{const e=document.getElementById(id);if(!e)return;let key=id.replace("Toggle","");if(key!=="compact"){e.classList.toggle("on",pref(key,"1")==="1")}e.onclick=()=>{e.classList.toggle("on");localStorage.setItem("ra_"+key,e.classList.contains("on")?"1":"0");applyPrefs();toastMsg("Preference saved")}});
+
+const themeSelectEl=document.getElementById("themeSelect");
+if(themeSelectEl)themeSelectEl.onchange=()=>{localStorage.setItem("ra_theme",themeSelectEl.value);applyPrefs();toastMsg("Theme saved")};
+const accentSelectEl=document.getElementById("accentSelect");
+if(accentSelectEl)accentSelectEl.onchange=()=>{localStorage.setItem("ra_accent",accentSelectEl.value);applyPrefs();toastMsg("Accent saved")};
+
+setToggle("compactToggle","compact","0");
+setToggle("animToggle","animations","1");
+setToggle("splashToggle","splash","1");
+setToggle("notifToggle","notif","1");
+setToggle("fxToggle","fx","1");
+setToggle("rememberPageToggle","rememberPage","0");
+
+const resetPrefsBtn=document.getElementById("resetPrefsBtn");
+if(resetPrefsBtn)resetPrefsBtn.onclick=()=>{
+  ["theme","accent","compact","animations","splash","notif","fx","rememberPage","lastPage"].forEach(k=>localStorage.removeItem("ra_"+k));
+  applyPrefs();
+  ["compactToggle","rememberPageToggle"].forEach(id=>document.getElementById(id)?.classList.remove("on"));
+  ["animToggle","splashToggle","notifToggle","fxToggle"].forEach(id=>document.getElementById(id)?.classList.add("on"));
+  toastMsg("Settings reset");
+};
+
+/* startup splash preference */
+if(pref("splash","1")!=="1"){
+  const sp=document.getElementById("splash"); if(sp)sp.remove();
+}
+
+/* remember last page */
+const rememberedPage=pref("rememberPage","0")==="1" ? pref("lastPage","dashboard") : "dashboard";
+setTimeout(()=>{
+  const btn=document.querySelector(`.nav-btn[data-page="${rememberedPage}"]`);
+  if(btn && rememberedPage!=="dashboard") btn.click();
+},0);
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    if(pref("rememberPage","0")==="1")localStorage.setItem("ra_lastPage",btn.dataset.page);
+  });
+});
 
 </script>
 
