@@ -508,7 +508,23 @@ body.bg-purple{
             <div class="loader"><i></i></div>
             <div class="splash-dots"><i></i><i></i><i></i></div>
           </div>
-        </div><div id="toast" class="toast">Preference saved</div><div class="app">
+        </div><div id="toast" class="toast">Preference saved</div>
+<script id="splashBootstrap">
+(function(){
+  const removeSplash=()=>{
+    const sp=document.getElementById("splash");
+    if(!sp)return;
+    sp.classList.add("hide");
+    setTimeout(()=>sp.remove(),600);
+  };
+  setTimeout(()=>{const s=document.getElementById("splashStatus");if(s)s.textContent="LOADING AGENT MODULES";},250);
+setTimeout(()=>{const s=document.getElementById("splashStatus");if(s)s.textContent="SYNCING INTERFACE";},600);
+setTimeout(()=>{const s=document.getElementById("splashStatus");if(s)s.textContent="READY";},1200);
+  setTimeout(removeSplash,1750);
+  /* absolute safety fallback */
+  setTimeout(()=>{const sp=document.getElementById("splash");if(sp)sp.remove();},5000);
+})();
+</script><div class="app">
 <aside class="sidebar">
  <div class="brand"><img class="logo" src="assets/rebirth-v.png"><div><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div></div>
  <nav class="nav">
