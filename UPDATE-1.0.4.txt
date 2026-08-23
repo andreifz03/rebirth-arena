@@ -1,0 +1,37 @@
+REBIRTH ARENA v1.0.4 MASTER UPDATE
+
+COPY INTO:
+Documents\GitHub\rebirth-arena\
+
+Replace:
+- index.html
+- desktop\index.html
+- desktop\main.js
+- desktop\preload.js
+- desktop\package.json
+- desktop\assets\...
+- assets\...
+- .github\workflows\release.yml
+
+DO NOT DELETE OR REPLACE your existing riot.txt.
+
+Then GitHub Desktop:
+1. Commit: Rebirth Arena v1.0.4
+2. Push origin
+
+WEB:
+GitHub Pages updates automatically after push.
+
+DESKTOP AUTO-UPDATE RELEASE:
+After push, create/push tag v1.0.4.
+GitHub Actions builds the release.
+Installed v1.0.3 should detect v1.0.4 automatically.
+
+Changes:
+- New original red V app/installer icon
+- Dashboard search now searches ALL agents
+- View All / Show Less button
+- Filters search the full agent roster
+- Agents-page search works
+- Dashboard visual polish
+- Both web + desktop updated from one master package

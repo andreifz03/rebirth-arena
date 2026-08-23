@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Rebirth Arena</title>
+<link rel="icon" href="assets/rebirth-v.png">
 <style>
 :root{
   --bg:#070a10;
@@ -206,6 +207,14 @@ button,input{font:inherit}
   .big-agent-grid{grid-template-columns:repeat(3,1fr)}
   .grid-4{grid-template-columns:repeat(2,1fr)}
 }
+
+/* v1.0.4 dashboard polish */
+.hero{box-shadow:0 20px 70px rgba(0,0,0,.28)}
+.agent-card{transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.agent-card:hover{transform:translateY(-3px);border-color:#354861;box-shadow:0 16px 38px rgba(0,0,0,.26)}
+#viewAllAgents{cursor:pointer}
+#viewAllAgents:hover{color:#fff;border-color:rgba(155,92,255,.42)}
+
 </style>
 </head>
 <body>
@@ -240,7 +249,7 @@ button,input{font:inherit}
     <header class="topbar">
       <div><div class="page-title" id="topTitle">Dashboard</div><div class="page-sub" id="topSub">Your post-match progression hub.</div></div>
       <div class="top-actions">
-        <div class="status-pill">PUBLIC BETA PREVIEW</div>
+        <div class="status-pill">BETA • v1.0.4</div>
         <div class="online"><span class="online-dot"></span>AUTO-SAVE ON</div>
       </div>
     </header>
@@ -251,12 +260,17 @@ button,input{font:inherit}
       <section class="page active" id="page-dashboard">
         <div class="hero">
           <div>
-            <div class="hero-kicker">CONNECT YOUR RIOT ACCOUNT</div>
-            <div class="hero-title">Your Riot Profile</div>
-            <div class="hero-copy">After Riot API approval, your Riot ID, match history and Rebirth progression will sync automatically. Rebirth Arena only processes completed matches and does not display live competitive information.</div>
+            <div class="hero-kicker">REBIRTH ARENA • PERSONAL TRACKER</div>
+            <div class="hero-title">Your Rebirth Dashboard</div>
+            <div class="hero-copy">Your personal progression hub. After Riot API approval, your Riot ID and completed matches will sync automatically. Milestone kills are analyzed post-match only — no live competitive advantage.</div>
             <button class="hero-btn" disabled>CONNECT RIOT ACCOUNT — API APPROVAL PENDING</button>
           </div>
-          <div class="hero-list">
+          <div style="margin-top:12px;display:flex;gap:7px;flex-wrap:wrap">
+              <span class="badge">YOUR #10 → ENEMY AGENT +1</span>
+              <span class="badge">YOUR #20 → ENEMY AGENT +1</span>
+              <span class="badge">5 POINTS → NEXT TIER</span>
+            </div>
+            <div class="hero-list">
             <div class="hero-item"><b>Automatic tracking</b><span>Completed matches only</span></div>
             <div class="hero-item"><b>Milestone detection</b><span>#10, #20, #30...</span></div>
             <div class="hero-item"><b>Victim-agent progress</b><span>Enemy agent gets +1</span></div>
@@ -477,53 +491,71 @@ function cardHTML(a,art,big=false){
   </div>`;
 }
 
-function renderAgents(art){
-  const dash=["Astra","Breach","Brimstone","Reyna","Omen","Jett"];
-  dashAgents.innerHTML=dash.map(a=>cardHTML(a,art[a])).join("");
-  allAgents.innerHTML=agents.map(a=>cardHTML(a,art[a],true)).join("");
-  applyDashboardFilter();
-  applyAgentsSearch();
+let agentArtCache = {};
+let dashboardFilter = "all";
+let dashboardQuery = "";
+let dashboardExpanded = false;
+
+function matchesDashboardFilter(a){
+  const [points,rebirths]=demo[a]||[0,0];
+  if(dashboardQuery && !a.toLowerCase().includes(dashboardQuery.toLowerCase())) return false;
+  if(dashboardFilter==="progress" && points<=0) return false;
+  if(dashboardFilter==="near" && points!==4) return false;
+  if(dashboardFilter==="ranked" && rebirths<=0) return false;
+  if(dashboardFilter==="reborn" && rebirths<9) return false;
+  return true;
 }
 
-let dashboardFilter="all";
-function applyDashboardFilter(){
-  const q=(document.getElementById("dashSearch")?.value||"").trim().toLowerCase();
-  document.querySelectorAll("#dashAgents .agent-card").forEach(card=>{
-    const points=Number(card.dataset.points||0);
-    const rebirths=Number(card.dataset.rebirths||0);
-    const name=card.dataset.agent||"";
-    let ok=name.includes(q);
-    if(dashboardFilter==="progress") ok=ok && points>0;
-    if(dashboardFilter==="near") ok=ok && points===4;
-    if(dashboardFilter==="ranked") ok=ok && rebirths>0;
-    if(dashboardFilter==="reborn") ok=ok && rebirths>=9;
-    card.classList.toggle("hidden",!ok);
-  });
+function renderDashboardAgents(){
+  let list=agents.filter(matchesDashboardFilter);
+  const searching = dashboardQuery.length>0;
+  const filtering = dashboardFilter!=="all";
+  if(!dashboardExpanded && !searching && !filtering) list=list.slice(0,6);
+  dashAgents.innerHTML=list.map(a=>cardHTML(a,agentArtCache[a])).join("") ||
+    `<div style="grid-column:1/-1;padding:28px;text-align:center;color:#758195;border:1px dashed var(--line);border-radius:12px">No agents match your search.</div>`;
 }
-function applyAgentsSearch(){
-  const q=(document.getElementById("agentsSearch")?.value||"").trim().toLowerCase();
-  document.querySelectorAll("#allAgents .big-agent").forEach(card=>{
-    card.classList.toggle("hidden",!(card.dataset.agent||"").includes(q));
-  });
+
+function renderAgents(art){
+  agentArtCache=art||{};
+  renderDashboardAgents();
+  allAgents.innerHTML=agents.map(a=>cardHTML(a,agentArtCache[a],true)).join("");
 }
+
 document.querySelectorAll(".filter[data-filter]").forEach(btn=>{
   btn.addEventListener("click",()=>{
     document.querySelectorAll(".filter[data-filter]").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     dashboardFilter=btn.dataset.filter;
-    applyDashboardFilter();
+    renderDashboardAgents();
   });
 });
-document.getElementById("dashSearch")?.addEventListener("input",applyDashboardFilter);
-document.getElementById("agentsSearch")?.addEventListener("input",applyAgentsSearch);
 
-const ladderNames=["Initiate","Hunter","Vanguard","Phantom","Elite","Mythic","Ascended","Immortalized","Reborn"];
-ladder.innerHTML=ladderNames.map((n,i)=>`
-  <div class="panel ladder-tier">
-    <div class="ladder-emblem">${i+1}</div>
-    <div class="ladder-name">${n}</div>
-    <div class="ladder-note">Rebirth ${i+1}</div>
-  </div>`).join("");
+const dashSearchEl=document.getElementById("dashSearch") || document.querySelector("#page-dashboard .search");
+if(dashSearchEl){
+  dashSearchEl.addEventListener("input",()=>{
+    dashboardQuery=dashSearchEl.value.trim();
+    renderDashboardAgents();
+  });
+}
+
+const viewAll=document.getElementById("viewAllAgents");
+if(viewAll){
+  viewAll.addEventListener("click",()=>{
+    dashboardExpanded=!dashboardExpanded;
+    viewAll.textContent=dashboardExpanded?"SHOW LESS":"VIEW ALL";
+    renderDashboardAgents();
+  });
+}
+
+const agentsPageSearch=document.querySelector("#page-agents .search");
+if(agentsPageSearch){
+  agentsPageSearch.addEventListener("input",()=>{
+    const q=agentsPageSearch.value.trim().toLowerCase();
+    const list=agents.filter(a=>a.toLowerCase().includes(q));
+    allAgents.innerHTML=list.map(a=>cardHTML(a,agentArtCache[a],true)).join("") ||
+      `<div style="grid-column:1/-1;padding:28px;text-align:center;color:#758195;border:1px dashed var(--line);border-radius:12px">No agents found.</div>`;
+  });
+}
 
 loadArt();
 </script>

@@ -1,12 +1,13 @@
 {
   "name": "rebirth-arena",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Rebirth Arena desktop post-match tracker",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build:win": "electron-builder --win nsis",
-    "build:portable": "electron-builder --win portable"
+    "build:portable": "electron-builder --win portable",
+    "release:win": "electron-builder --win nsis --publish always"
   },
   "build": {
     "appId": "com.rebirtharena.desktop",
@@ -18,23 +19,39 @@
       "index.html",
       "main.js",
       "preload.js",
-      "package.json"
+      "package.json",
+      "assets/**/*"
     ],
     "win": {
       "target": [
         "nsis"
       ],
-      "artifactName": "Rebirth-Arena-Setup-${version}.${ext}"
+      "artifactName": "Rebirth-Arena-Setup-${version}.${ext}",
+      "icon": "assets/rebirth-v.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
-    }
+      "createStartMenuShortcut": true,
+      "installerIcon": "assets/rebirth-v.ico",
+      "uninstallerIcon": "assets/rebirth-v.ico",
+      "installerHeaderIcon": "assets/rebirth-v.ico"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "andreifz03",
+        "repo": "rebirth-arena",
+        "releaseType": "release"
+      }
+    ]
   },
   "devDependencies": {
     "electron": "^38.0.0",
     "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2"
   }
 }

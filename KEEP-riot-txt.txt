@@ -1,0 +1,1 @@
+Do NOT replace your existing riot.txt in the repository. Keep the current Riot verification file exactly as it is.
