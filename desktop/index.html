@@ -658,33 +658,10 @@ async function loadArt(){
   if(window.rebirthDesktop?.getAgentArt){art=await window.rebirthDesktop.getAgentArt()}
   else{let r=await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true"),j=await r.json();(j.data||[]).forEach(a=>art[a.displayName]=a.fullPortraitV2||a.fullPortrait||a.displayIcon)}
  }catch(e){}
- renderDash();renderAll();applyArenaBackground();
+ renderDash();renderAll(); if(typeof applyArenaBackground==='function') applyArenaBackground();
 }
 
-const ARENA_BACKGROUNDS = {"black": {"agent": "Omen", "c1": "#05070b", "c2": "#111827", "glow": "#000000"}, "white": {"agent": "Sage", "c1": "#dfe5ec", "c2": "#bfc8d4", "glow": "#ffffff"}, "red": {"agent": "Phoenix", "c1": "#2a070c", "c2": "#b7172c", "glow": "#ff304f"}, "blue": {"agent": "Yoru", "c1": "#061226", "c2": "#133f8f", "glow": "#3c7cff"}, "cyan": {"agent": "Neon", "c1": "#041b21", "c2": "#087f92", "glow": "#4de7f7"}, "violet": {"agent": "Reyna", "c1": "#16091f", "c2": "#57206f", "glow": "#b86cff"}, "darkpurple": {"agent": "Omen", "c1": "#090713", "c2": "#24123e", "glow": "#6f3acb"}, "purple": {"agent": "Clove", "c1": "#13091c", "c2": "#4f1d67", "glow": "#a94dff"}};
 
-function applyArenaBackground(){
-  const key=pref("background","black");
-  const cfg=ARENA_BACKGROUNDS[key]||ARENA_BACKGROUNDS.black;
-  ["black","white","red","blue","cyan","violet","darkpurple","purple"].forEach(x=>document.body.classList.remove("bg-"+x));
-  document.body.classList.add("bg-"+key);
-  document.documentElement.style.setProperty("--arena-bg-1",cfg.c1);
-  document.documentElement.style.setProperty("--arena-bg-2",cfg.c2);
-  document.documentElement.style.setProperty("--arena-glow",cfg.glow);
-  if(art && art[cfg.agent]){
-    document.documentElement.style.setProperty("--arena-agent-image",`url("${art[cfg.agent]}")`);
-  }
-  const sel=document.getElementById("backgroundSelect");
-  if(sel)sel.value=key;
-}
-const backgroundSelectEl=document.getElementById("backgroundSelect");
-if(backgroundSelectEl)backgroundSelectEl.onchange=()=>{
-  localStorage.setItem("ra_background",backgroundSelectEl.value);
-  applyArenaBackground();
-  toastMsg("Background saved");
-};
-
-loadArt();
 
 function setupDesktopUpdater(){
   if(!window.rebirthDesktop) return;
@@ -774,7 +751,31 @@ function setToggle(id,key,def="0"){
     const next=!e.classList.contains("on");
     e.classList.toggle("on",next);
     localStorage.setItem("ra_"+key,next?"1":"0");
-    applyPrefs();
+    const ARENA_BACKGROUNDS = {"black": {"agent": "Omen", "c1": "#05070b", "c2": "#111827", "glow": "#000000"}, "white": {"agent": "Sage", "c1": "#dfe5ec", "c2": "#bfc8d4", "glow": "#ffffff"}, "red": {"agent": "Phoenix", "c1": "#2a070c", "c2": "#b7172c", "glow": "#ff304f"}, "blue": {"agent": "Yoru", "c1": "#061226", "c2": "#133f8f", "glow": "#3c7cff"}, "cyan": {"agent": "Neon", "c1": "#041b21", "c2": "#087f92", "glow": "#4de7f7"}, "violet": {"agent": "Reyna", "c1": "#16091f", "c2": "#57206f", "glow": "#b86cff"}, "darkpurple": {"agent": "Omen", "c1": "#090713", "c2": "#24123e", "glow": "#6f3acb"}, "purple": {"agent": "Clove", "c1": "#13091c", "c2": "#4f1d67", "glow": "#a94dff"}};
+
+function applyArenaBackground(){
+  const key=pref("background","black");
+  const cfg=ARENA_BACKGROUNDS[key]||ARENA_BACKGROUNDS.black;
+  ["black","white","red","blue","cyan","violet","darkpurple","purple"].forEach(x=>document.body.classList.remove("bg-"+x));
+  document.body.classList.add("bg-"+key);
+  document.documentElement.style.setProperty("--arena-bg-1",cfg.c1);
+  document.documentElement.style.setProperty("--arena-bg-2",cfg.c2);
+  document.documentElement.style.setProperty("--arena-glow",cfg.glow);
+  if(art && art[cfg.agent]){
+    document.documentElement.style.setProperty("--arena-agent-image",`url("${art[cfg.agent]}")`);
+  }
+  const sel=document.getElementById("backgroundSelect");
+  if(sel)sel.value=key;
+}
+const backgroundSelectEl=document.getElementById("backgroundSelect");
+if(backgroundSelectEl)backgroundSelectEl.onchange=()=>{
+  localStorage.setItem("ra_background",backgroundSelectEl.value);
+  applyArenaBackground();
+loadArt();
+  toastMsg("Background saved");
+};
+
+applyPrefs();
 applyArenaBackground();
     toastMsg("Preference saved");
   };
