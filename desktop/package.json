@@ -1,6 +1,6 @@
 {
   "name": "rebirth-arena",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Rebirth Arena desktop post-match tracker",
   "main": "main.js",
   "scripts": {

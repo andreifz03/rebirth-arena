@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Rebirth Arena // v1.0.5</title>
+<title>Rebirth Arena // v1.1.0</title>
 <link rel="icon" href="assets/rebirth-v.png">
 <style>
 :root{
@@ -98,10 +98,31 @@ body{overflow:hidden}button,input{font:inherit}
 .update-btn:hover{filter:brightness(1.08)}
 .check-update-btn{margin-top:10px;border:1px solid rgba(255,48,79,.22);background:rgba(255,48,79,.06);color:#ff98a7;border-radius:8px;padding:8px 10px;font-size:8px;font-weight:1000;cursor:pointer}
 
+
+/* ===== v1.1.0 BIG UPDATE ===== */
+:root{--accent:#ff304f;--accent2:#8f142c}
+body.light-mode{--bg:#edf1f6;--side:#f7f9fc;--panel:#fff;--panel2:#f3f6fa;--line:#d7dee8;--text:#151922;--muted:#667184}
+body.crimson-mode{--accent:#ff304f;--accent2:#8f142c}
+body.ice-mode{--accent:#6dc8ff;--accent2:#226b9a}
+body.compact .stat{min-height:86px;padding:10px}body.compact .agent-card{min-height:180px}
+.iconbox{width:30px;height:30px;border-radius:9px;border:1px solid rgba(255,48,79,.22);background:rgba(255,48,79,.07);display:grid;place-items:center;color:var(--accent);font-weight:1000}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:11px}
+.toggle{width:42px;height:23px;border:1px solid #344052;background:#121923;border-radius:999px;padding:2px;cursor:pointer;transition:.2s}
+.toggle i{display:block;width:17px;height:17px;border-radius:50%;background:#788597;transition:.2s}.toggle.on{background:rgba(255,48,79,.22);border-color:rgba(255,48,79,.45)}.toggle.on i{transform:translateX(17px);background:var(--accent)}
+.select{background:#0a1017;color:var(--text);border:1px solid #2a3544;border-radius:8px;padding:7px 9px;font-size:8px}
+.toast{position:fixed;right:22px;bottom:22px;z-index:1200;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:10px 13px;font-size:9px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}
+.splash{position:fixed;inset:0;z-index:5000;background:#06080c;display:flex;align-items:center;justify-content:center;transition:opacity .42s ease,visibility .42s}
+.splash.hide{opacity:0;visibility:hidden}.splash-core{text-align:center}.splash-logo{width:105px;height:105px;filter:drop-shadow(0 0 28px rgba(255,48,79,.3));animation:pulse 1.15s ease-in-out infinite}.splash-name{font-weight:1000;letter-spacing:.28em;font-size:15px;margin-top:15px}.splash-sub{font-size:8px;color:#6d7888;letter-spacing:.16em;margin-top:7px}.loader{width:220px;height:3px;background:#151b24;border-radius:99px;margin:20px auto 0;overflow:hidden}.loader i{display:block;height:100%;width:35%;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:load 1s linear infinite}
+@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(300%)}}@keyframes pulse{50%{transform:scale(.96);opacity:.82}}
+.plus-hero{padding:24px;border:1px solid rgba(255,48,79,.25);border-radius:16px;background:radial-gradient(circle at 80% 20%,rgba(255,48,79,.14),transparent 35%),linear-gradient(135deg,#121722,#0b1017)}
+.plus-badge{display:inline-block;border:1px solid rgba(255,48,79,.3);color:#ff8799;background:rgba(255,48,79,.08);padding:6px 8px;border-radius:999px;font-size:8px;font-weight:1000}.plus-title{font-size:31px;font-weight:1000;margin:10px 0 5px}.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.benefit{padding:13px;border:1px solid #222c39;border-radius:11px;background:#0d131b}.benefit b{font-size:9px}.benefit p{font-size:8px;color:#748195;line-height:1.45;margin:5px 0 0}
+.update-box{border-top:2px solid var(--accent)}.update-status-icon{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px rgba(255,48,79,.55);display:inline-block;margin-right:6px}
+@media(max-width:900px){.benefits{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
-<div class="app">
+<div id="splash" class="splash"><div class="splash-core"><img class="splash-logo" src="assets/rebirth-v.png"><div class="splash-name">REBIRTH ARENA</div><div class="splash-sub">INITIALIZING POST-MATCH SYSTEMS</div><div class="loader"><i></i></div></div></div><div id="toast" class="toast">Preference saved</div><div class="app">
 <aside class="sidebar">
  <div class="brand"><img class="logo" src="assets/rebirth-v.png"><div><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div></div>
  <nav class="nav">
@@ -114,10 +135,10 @@ body{overflow:hidden}button,input{font:inherit}
  </nav>
  <div class="spacer"></div>
  <div class="account"><div class="avatar">R</div><div><b>RIOT ACCOUNT</b><span>Not connected</span></div></div>
- <div class="version">REBIRTH ARENA v1.0.5</div>
+ <div class="version">REBIRTH ARENA v1.1.0</div>
 </aside>
 <section class="main">
- <header class="topbar"><div class="top-left"><div><div class="page-title" id="pageTitle">Dashboard</div><div class="crumb" id="pageSub">Your progression hub</div></div></div><div class="statuses"><div class="beta">BETA • v1.0.5</div><div class="online"><span class="dot"></span>AUTO-SAVE ON</div></div></header>
+ <header class="topbar"><div class="top-left"><div><div class="page-title" id="pageTitle">Dashboard</div><div class="crumb" id="pageSub">Your progression hub</div></div></div><div class="statuses"><div class="beta">BETA • v1.1.0</div><div class="online"><span class="dot"></span>AUTO-SAVE ON</div></div></header>
  <div class="content">
   <section class="page active" id="page-dashboard">
    <div class="hero"><div class="hero-lines"></div><div class="hero-inner">
@@ -126,7 +147,7 @@ body{overflow:hidden}button,input{font:inherit}
     </div>
     <div class="hero-panel"><div class="hero-panel-title">RIOT CONNECTION</div><div class="hero-panel-row"><span>Status</span><b style="color:#ff8a9c">API PENDING</b></div><div class="hero-panel-row"><span>Tracking</span><b>Post-match only</b></div><div class="hero-panel-row"><span>Live advantage</span><b>None</b></div><button class="connect" disabled>CONNECT RIOT ACCOUNT</button></div>
    </div></div>
-   <div class="stats"><div class="stat"><div class="stat-label">Matches Processed</div><div class="stat-value">0</div><div class="stat-sub">Completed matches</div></div><div class="stat"><div class="stat-label">Milestone Kills</div><div class="stat-value">0</div><div class="stat-sub">#10, #20, #30...</div></div><div class="stat"><div class="stat-label">Agents Ranked</div><div class="stat-value">0</div><div class="stat-sub">With Rebirth progress</div></div><div class="stat"><div class="stat-label">Highest Tier</div><div class="stat-value">—</div><div class="stat-sub">Initiate → Reborn</div></div></div>
+   <div class="stats"><div class="stat"><div class="iconbox">M</div><div class="stat-label" style="margin-top:9px">Matches Processed</div><div class="stat-value">0</div><div class="stat-sub">Completed matches</div></div><div class="stat"><div class="iconbox">#</div><div class="stat-label" style="margin-top:9px">Milestone Kills</div><div class="stat-value">0</div><div class="stat-sub">#10, #20, #30...</div></div><div class="stat"><div class="iconbox">A</div><div class="stat-label" style="margin-top:9px">Agents Ranked</div><div class="stat-value">0</div><div class="stat-sub">With Rebirth progress</div></div><div class="stat"><div class="iconbox">V</div><div class="stat-label" style="margin-top:9px">Highest Tier</div><div class="stat-value">—</div><div class="stat-sub">Initiate → Reborn</div></div></div>
    <div class="two-col">
     <div class="panel panel-pad"><div class="section-head"><div><div class="section-title">Agent Progression</div><div class="section-sub">Search any agent — the dashboard now searches the full roster.</div></div><span class="beta">DEMO DATA</span></div>
      <div class="tools"><button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="progress">IN PROGRESS</button><button class="filter" data-filter="near">NEAR RANK UP</button><button class="filter" data-filter="ranked">RANKED</button><button class="filter" data-filter="reborn">REBORN</button><input id="dashSearch" class="search" placeholder="Search all agents..."><button id="viewAll" class="filter">VIEW ALL</button></div>
@@ -141,8 +162,18 @@ body{overflow:hidden}button,input{font:inherit}
   <section class="page" id="page-matches"><div class="section-head"><div><div class="section-title">Match History</div><div class="section-sub">Completed matches and milestone victims.</div></div></div><table class="table"><tr><th>Date</th><th>Map</th><th>Result</th><th>Kills</th><th>#10</th><th>#20</th><th>#30</th></tr><tr><td>Demo</td><td>Ascent</td><td class="good">13–9</td><td>32</td><td>Reyna +1</td><td>Omen +1</td><td>Jett +1</td></tr></table></section>
   <section class="page" id="page-agents"><div class="section-head"><div><div class="section-title">All Agents</div><div class="section-sub">Your progression against every enemy agent.</div></div><input id="agentSearch" class="search" placeholder="Search agent..."></div><div id="allAgents" class="big-grid"></div></section>
   <section class="page" id="page-progression"><div class="section-head"><div><div class="section-title">Rebirth Tiers</div><div class="section-sub">Original Rebirth Arena progression ladder.</div></div></div><div id="ladder" class="ladder"></div></section>
-  <section class="page" id="page-rebirthplus"><div class="section-head"><div><div class="section-title">Rebirth+</div><div class="section-sub">Premium concept preview. Payments disabled pending Riot approval.</div></div></div><div class="pricing"><div class="panel plan"><b>FREE</b><div class="price">£0 <span>/ forever</span></div><div class="feature">Automatic tracking</div><div class="feature">All agents</div><div class="feature">Recent match summaries</div></div><div class="panel plan" style="border-color:rgba(255,48,79,.25)"><b>REBIRTH+</b><div class="price">£2.99 <span>/ month</span></div><div class="feature">Advanced analytics</div><div class="feature">Full progression history</div><div class="feature">Cinematic recaps</div><div class="feature">Themes and cosmetics</div></div></div></section>
-  <section class="page" id="page-settings"><div class="section-head"><div><div class="section-title">Settings</div><div class="section-sub">Application preferences.</div></div></div><div class="settings"><div class="panel setting"><b>Automatic updates</b><p>Rebirth Arena checks GitHub Releases and downloads new versions automatically.</p><button id="checkUpdatesBtn" class="check-update-btn">CHECK FOR UPDATES</button></div><div class="panel setting"><b>Notifications</b><p>Tier-up and match processing notifications.</p></div><div class="panel setting"><b>Cinematic effects</b><p>Visual effects when a Rebirth tier is earned.</p></div><div class="panel setting"><b>Background sync</b><p>Ready for completed-match processing when connected.</p></div></div></section>
+  <section class="page" id="page-rebirthplus">
+        <div class="plus-hero"><span class="plus-badge">REBIRTH+ PREVIEW</span><div class="plus-title">GO BEYOND THE MATCH.</div><div class="section-sub">A temporary concept preview for the premium layer. Payments remain disabled during beta.</div>
+        <div class="benefits"><div class="benefit"><b>ADVANCED ANALYTICS</b><p>Deeper milestone trends, agent targets and progression insights.</p></div><div class="benefit"><b>FULL HISTORY</b><p>Extended match and Rebirth progression history across your account.</p></div><div class="benefit"><b>PROFILE CUSTOMIZATION</b><p>Premium themes, profile frames and cosmetic dashboard options.</p></div><div class="benefit"><b>CINEMATIC RECAPS</b><p>Enhanced visual recaps when milestone kills and tier-ups are processed.</p></div><div class="benefit"><b>EXPORT & SHARE</b><p>Shareable progression cards and season summaries.</p></div><div class="benefit"><b>EARLY FEATURES</b><p>Preview selected Rebirth Arena features before general rollout.</p></div></div></div>
+        <div class="pricing" style="margin-top:12px"><div class="panel plan"><b>FREE</b><div class="price">£0 <span>/ forever</span></div><div class="feature">Automatic tracking</div><div class="feature">Core agent progression</div></div><div class="panel plan" style="border-color:rgba(255,48,79,.3)"><b>REBIRTH+</b><div class="price">£2.99 <span>/ month • concept</span></div><div class="feature">Everything in Free</div><div class="feature">Advanced analytics</div><div class="feature">Premium customization</div></div></div></section>
+  <section class="page" id="page-settings"><div class="section-head"><div><div class="section-title">Settings</div><div class="section-sub">Personalize Rebirth Arena. Preferences are saved on this device.</div></div></div><div class="settings">
+        <div class="panel setting"><b>Appearance</b><p>Switch between dark and light interface modes.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Theme</span><select id="themeSelect" class="select"><option value="dark">Rebirth Dark</option><option value="light">Arena Light</option></select></div></div>
+        <div class="panel setting"><b>Accent</b><p>Choose the interface highlight style.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Accent</span><select id="accentSelect" class="select"><option value="crimson">Crimson</option><option value="ice">Ice</option></select></div></div>
+        <div class="panel setting"><b>Compact layout</b><p>Fit more progression information on screen.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Compact cards</span><button id="compactToggle" class="toggle"><i></i></button></div></div>
+        <div class="panel setting"><b>Notifications</b><p>Show Rebirth tier and update notifications.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Enabled</span><button id="notifToggle" class="toggle on"><i></i></button></div></div>
+        <div class="panel setting"><b>Cinematic effects</b><p>Enable enhanced animations for progression moments.</p><div class="setting-row"><span style="font-size:8px;color:#7c899a">Effects</span><button id="fxToggle" class="toggle on"><i></i></button></div></div>
+        <div class="panel setting"><b>Automatic updates</b><p>Check GitHub Releases and install new desktop builds.</p><div class="setting-row"><button id="checkUpdatesBtn" class="check-update-btn">CHECK FOR UPDATES</button></div></div>
+        </div></section>
  </div>
 </section>
 </div>
@@ -241,6 +272,21 @@ function setupDesktopUpdater(){
 }
 setupDesktopUpdater();
 
+
+const pref=(k,d)=>localStorage.getItem("ra_"+k)??d;
+function toastMsg(m){const e=document.getElementById("toast");if(!e)return;e.textContent=m;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1400)}
+function applyPrefs(){
+ const th=pref("theme","dark"),ac=pref("accent","crimson"),cp=pref("compact","0")==="1";
+ document.body.classList.toggle("light-mode",th==="light");document.body.classList.toggle("ice-mode",ac==="ice");document.body.classList.toggle("crimson-mode",ac==="crimson");document.body.classList.toggle("compact",cp);
+ if(window.themeSelect)themeSelect.value=th;if(window.accentSelect)accentSelect.value=ac;if(window.compactToggle)compactToggle.classList.toggle("on",cp);
+}
+applyPrefs();
+setTimeout(()=>document.getElementById("splash")?.classList.add("hide"),1450);
+setTimeout(()=>document.getElementById("splash")?.remove(),2100);
+if(window.themeSelect)themeSelect.onchange=()=>{localStorage.setItem("ra_theme",themeSelect.value);applyPrefs();toastMsg("Theme saved")};
+if(window.accentSelect)accentSelect.onchange=()=>{localStorage.setItem("ra_accent",accentSelect.value);applyPrefs();toastMsg("Accent saved")};
+["compactToggle","notifToggle","fxToggle"].forEach(id=>{const e=document.getElementById(id);if(!e)return;let key=id.replace("Toggle","");if(key!=="compact"){e.classList.toggle("on",pref(key,"1")==="1")}e.onclick=()=>{e.classList.toggle("on");localStorage.setItem("ra_"+key,e.classList.contains("on")?"1":"0");applyPrefs();toastMsg("Preference saved")}});
+
 </script>
 
 <div id="updateOverlay" class="update-overlay">
@@ -254,7 +300,7 @@ setupDesktopUpdater();
     </div>
     <div id="updateDesc" class="update-desc">Looking for the latest Rebirth Arena release.</div>
     <div id="updateProgress" class="update-progress"><div id="updateProgressBar"></div></div>
-    <div class="update-meta"><span id="updatePercent">0%</span><span id="updateVersion">v1.0.5</span></div>
+    <div class="update-meta"><span id="updatePercent">0%</span><span id="updateVersion">v1.1.0</span></div>
     <div class="update-actions">
       <button id="updateLater" class="update-btn">LATER</button>
       <button id="updateInstall" class="update-btn primary" style="display:none">RESTART & UPDATE</button>
