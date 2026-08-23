@@ -422,39 +422,148 @@ body.bg-purple{
   .main::before{inset:58px 0 68px 0}
 }
 
+
+/* ===== REBIRTH v2 WEB SPLASH — SELF CONTAINED ===== */
+.web-splash{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(255,48,79,.14),transparent 28%),
+    radial-gradient(circle at 50% 50%,#10141c,#05070b 66%);
+  opacity:1;visibility:visible;pointer-events:auto;
+  animation:webSplashAutoHide .55s ease 2.05s forwards;
+}
+.web-splash.force-hide{
+  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+  transition:opacity .48s ease,visibility .48s ease;
+}
+.web-splash-grid{
+  position:absolute;inset:-20%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:46px 46px;
+  transform:perspective(700px) rotateX(62deg) translateY(18%);
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 78%);
+  mask-image:linear-gradient(to top,#000,transparent 78%);
+  opacity:.6
+}
+.web-splash-ring{
+  position:absolute;width:520px;height:520px;border-radius:50%;
+  border:1px solid rgba(255,48,79,.12);
+  box-shadow:0 0 90px rgba(255,48,79,.08),inset 0 0 90px rgba(255,48,79,.04);
+  animation:webSplashSpin 10s linear infinite
+}
+.web-splash-ring:before,.web-splash-ring:after{
+  content:"";position:absolute;inset:46px;border-radius:50%;
+  border:1px dashed rgba(255,48,79,.15)
+}
+.web-splash-ring:after{
+  inset:112px;border-color:rgba(255,255,255,.07);
+  animation:webSplashSpinReverse 6s linear infinite
+}
+.web-splash-core{position:relative;z-index:3;text-align:center}
+.web-splash-logo-wrap{position:relative;width:132px;height:132px;margin:auto}
+.web-splash-glow{
+  position:absolute;inset:-34px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,48,79,.28),transparent 65%);
+  animation:webSplashGlow 1.4s ease-in-out infinite alternate
+}
+.web-splash-logo{
+  position:absolute;inset:13px;width:106px;height:106px;
+  filter:drop-shadow(0 0 25px rgba(255,48,79,.36));
+  animation:webSplashLogo 1.1s cubic-bezier(.18,.85,.2,1) both
+}
+.web-splash-name{
+  font-weight:1000;letter-spacing:.34em;font-size:16px;margin-top:16px;color:#f6f7fb
+}
+.web-splash-sub{
+  font-size:8px;color:#737f90;letter-spacing:.18em;margin-top:8px
+}
+.web-splash-status{
+  font-size:8px;color:#ff8092;font-weight:1000;letter-spacing:.13em;margin-top:16px
+}
+.web-splash-loader{
+  width:260px;height:4px;background:#11161e;border-radius:999px;
+  margin:12px auto 0;overflow:hidden;border:1px solid #1a222d
+}
+.web-splash-loader i{
+  display:block;height:100%;width:34%;
+  background:linear-gradient(90deg,transparent,#ff304f,#ff8395,transparent);
+  animation:webSplashLoad .9s linear infinite
+}
+.web-splash-dots{display:flex;justify-content:center;gap:5px;margin-top:11px}
+.web-splash-dots i{
+  width:4px;height:4px;border-radius:50%;background:#333c49;
+  animation:webSplashDot 1s infinite
+}
+.web-splash-dots i:nth-child(2){animation-delay:.15s}
+.web-splash-dots i:nth-child(3){animation-delay:.3s}
+@keyframes webSplashSpin{to{transform:rotate(360deg)}}
+@keyframes webSplashSpinReverse{to{transform:rotate(-360deg)}}
+@keyframes webSplashGlow{to{transform:scale(1.15);opacity:.55}}
+@keyframes webSplashLogo{
+  0%{opacity:0;transform:scale(.55) rotate(-12deg)}
+  70%{transform:scale(1.07) rotate(1deg)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes webSplashLoad{from{transform:translateX(-100%)}to{transform:translateX(300%)}}
+@keyframes webSplashDot{50%{background:#ff526b;box-shadow:0 0 10px rgba(255,48,79,.5)}}
+@keyframes webSplashAutoHide{
+  to{opacity:0;visibility:hidden;pointer-events:none}
+}
+@media(max-width:700px){
+  .web-splash-ring{width:390px;height:390px}
+  .web-splash-logo-wrap{width:112px;height:112px}
+  .web-splash-logo{width:90px;height:90px;inset:11px}
+  .web-splash-loader{width:220px}
+}
+
 </style>
 </head>
 <body>
-<div id="splash" class="splash">
-          <div class="splash-grid"></div>
-          <div class="splash-beam"></div>
-          <div class="splash-core">
-            <div class="splash-logo-wrap">
-              <div class="splash-logo-glow"></div>
-              <img class="splash-logo" src="assets/rebirth-v.png" alt="">
-            </div>
-            <div class="splash-name">REBIRTH ARENA</div>
-            <div class="splash-sub">POST-MATCH COMPANION</div>
-            <div id="splashStatus" class="splash-status">INITIALIZING SYSTEMS</div>
-            <div class="loader"><i></i></div>
-            <div class="splash-dots"><i></i><i></i><i></i></div>
-          </div>
-        </div><div id="toast" class="toast">Preference saved</div>
-<script id="splashBootstrap">
+
+<div id="webSplash" class="web-splash" aria-hidden="true">
+  <div class="web-splash-grid"></div>
+  <div class="web-splash-ring"></div>
+  <div class="web-splash-core">
+    <div class="web-splash-logo-wrap">
+      <div class="web-splash-glow"></div>
+      <img class="web-splash-logo" src="assets/rebirth-v.png" alt="">
+    </div>
+    <div class="web-splash-name">REBIRTH ARENA</div>
+    <div class="web-splash-sub">POST-MATCH COMPANION</div>
+    <div id="webSplashStatus" class="web-splash-status">INITIALIZING SYSTEMS</div>
+    <div class="web-splash-loader"><i></i></div>
+    <div class="web-splash-dots"><i></i><i></i><i></i></div>
+  </div>
+</div>
+<script id="webSplashBoot">
 (function(){
-  const removeSplash=()=>{
-    const sp=document.getElementById("splash");
-    if(!sp)return;
-    sp.classList.add("hide");
-    setTimeout(()=>sp.remove(),600);
+  const splash = document.getElementById("webSplash");
+  const status = document.getElementById("webSplashStatus");
+  if(!splash) return;
+
+  const setStatus = (text) => { if(status) status.textContent = text; };
+  const closeSplash = () => {
+    splash.classList.add("force-hide");
+    setTimeout(() => { if(splash && splash.parentNode) splash.remove(); }, 650);
   };
-  setTimeout(()=>{const s=document.getElementById("splashStatus");if(s)s.textContent="LOADING INTERFACE";},180);
-setTimeout(()=>{const s=document.getElementById("splashStatus");if(s)s.textContent="READY";},420);
-  setTimeout(removeSplash,650);
-  /* absolute safety fallback */
-  setTimeout(()=>{const sp=document.getElementById("splash");if(sp)sp.remove();},5000);
+
+  setTimeout(() => setStatus("LOADING INTERFACE"), 420);
+  setTimeout(() => setStatus("LOADING AGENT MODULES"), 900);
+  setTimeout(() => setStatus("READY"), 1450);
+  setTimeout(closeSplash, 1900);
+
+  // Hard fail-safe: absolutely remove it even if something strange happens.
+  window.setTimeout(() => {
+    const el = document.getElementById("webSplash");
+    if(el) el.remove();
+  }, 3500);
 })();
-</script><div class="app">
+</script>
+
+<div id="toast" class="toast">Preference saved</div><div class="app">
 <aside class="sidebar">
  <div class="brand"><img class="logo" src="assets/rebirth-v.png"><div><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div></div>
  <nav class="nav">
@@ -470,7 +579,7 @@ setTimeout(()=>{const s=document.getElementById("splashStatus");if(s)s.textConte
  <div class="version">REBIRTH ARENA v1.1.0</div>
 </aside>
 <section class="main">
- <header class="topbar"><div class="top-left"><div><div class="page-title" id="pageTitle">Dashboard</div><div class="crumb" id="pageSub">Your progression hub</div></div></div><div class="statuses"><div class="beta">BETA • v1.1.0</div><div class="online"><span class="dot"></span>AUTO-SAVE ON</div></div></header>
+ <header class="topbar"><div class="top-left"><div><div class="page-title" id="pageTitle">Dashboard</div><div class="crumb" id="pageSub">Your progression hub</div></div></div><div class="statuses"><div class="beta">WEB CLIENT • INSTANT LOAD</div><div class="online"><span class="dot"></span>AUTO-SAVE ON</div></div></header>
  <div class="content">
   <section class="page active" id="page-dashboard">
    <div class="hero"><div class="hero-lines"></div><div class="hero-inner">
@@ -675,10 +784,7 @@ if(resetPrefsBtn)resetPrefsBtn.onclick=()=>{
   toastMsg("Settings reset");
 };
 
-/* startup splash preference */
-if(pref("splash","1")!=="1"){
-  const sp=document.getElementById("splash"); if(sp)sp.remove();
-}
+
 
 /* remember last page */
 const rememberedPage=pref("rememberPage","0")==="1" ? pref("lastPage","dashboard") : "dashboard";
