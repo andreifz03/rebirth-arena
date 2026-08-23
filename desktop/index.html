@@ -209,6 +209,81 @@ body.no-animations *{animation-duration:.001ms!important;transition-duration:.00
 @media(max-width:1280px){.agent-grid{grid-template-columns:repeat(3,1fr)}.big-agent-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:1000px){:root{--sidebar-w:78px}.brand-text,.nav-label,.riot-copy,.release-footer{display:none!important}.nav-btn{justify-content:center;padding:0}.nav-icon{width:auto}.home-hero{grid-template-columns:1fr}.home-agent{min-height:300px}.rule-grid{grid-template-columns:1fr 1fr}.home-info-grid,.dashboard-grid,.leaderboard{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.big-agent-grid{grid-template-columns:repeat(3,1fr)}.rank-grid,.benefits{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}
 @media(max-width:680px){html,body{height:auto;min-height:100%;overflow-y:auto}.app{height:auto;min-height:100dvh;display:block;padding-bottom:70px}.sidebar{position:fixed;bottom:0;left:0;right:0;height:64px;width:100%;z-index:100;border-right:0;border-top:1px solid #202a38}.brand,.sidebar-spacer,.riot-card,.release-footer,.sidebar-rail-toggle{display:none}.nav{grid-template-columns:repeat(6,1fr);height:64px;padding:6px 4px;gap:2px}.nav-btn{height:50px;font-size:0;justify-content:center;padding:0}.nav-icon{font-size:17px}.main{height:auto;min-height:100dvh;display:block;overflow:visible}.topbar{position:sticky;top:0;z-index:90;min-height:58px;padding:9px 12px}.content{overflow:visible;padding:13px 12px 86px}.home-copy{padding:22px}.home-title{font-size:40px}.home-agent{min-height:270px}.rule-grid,.stats,.agent-grid,.big-agent-grid,.rank-grid,.benefits{grid-template-columns:1fr}.match-card{grid-template-columns:1fr}.match-result{border-right:0;border-bottom:1px solid #222d3a;padding:0 0 11px}.match-stats{grid-template-columns:1fr 1fr}.milestones{justify-content:flex-start;max-width:none}.leader-row{grid-template-columns:42px 1fr 90px}.leader-row>*:nth-child(4){display:none}.splash-rings{width:390px;height:390px}}
+
+/* ===== Rebirth v2.0.1 Luxury In-App Updater ===== */
+.update-luxbar{
+  position:fixed;
+  z-index:100000;
+  left:calc(var(--sidebar-w) + 22px);
+  right:22px;
+  bottom:20px;
+  min-height:72px;
+  display:none;
+  align-items:center;
+  gap:14px;
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid var(--accent-border);
+  background:
+    radial-gradient(circle at 92% 20%,var(--accent-soft),transparent 31%),
+    linear-gradient(135deg,rgba(17,23,34,.98),rgba(8,12,18,.98));
+  box-shadow:0 22px 65px rgba(0,0,0,.46),0 0 35px var(--accent-soft);
+  backdrop-filter:blur(16px);
+  transform:translateY(22px);
+  opacity:0;
+  transition:opacity .22s ease,transform .22s ease,left .22s ease;
+}
+.update-luxbar.show{display:flex;opacity:1;transform:none}
+body.sidebar-collapsed .update-luxbar{left:100px}
+.update-luxmark{
+  width:46px;height:46px;flex:0 0 auto;border-radius:13px;
+  display:grid;place-items:center;
+  border:1px solid var(--accent-border);background:var(--accent-soft)
+}
+.update-luxmark img{width:37px;height:37px}
+.update-luxcontent{min-width:0;flex:1}
+.update-luxtop{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.update-luxtitle{font-size:13px;font-weight:1000;letter-spacing:.025em}
+.update-luxstate{font-size:9px;color:color-mix(in srgb,var(--accent) 58%,white);font-weight:1000;letter-spacing:.08em;white-space:nowrap}
+.update-luxdesc{font-size:9px;color:#8390a2;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.update-luxtrack{
+  height:5px;border-radius:999px;background:#05090e;border:1px solid #18212c;
+  overflow:hidden;margin-top:8px
+}
+.update-luxtrack>div{
+  width:0;height:100%;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 68%,#fff));
+  box-shadow:0 0 15px var(--accent-soft);
+  transition:width .18s ease
+}
+.update-luxpct{min-width:42px;text-align:right;font-size:11px;font-weight:1000;color:#e8edf4}
+.update-luxactions{display:flex;align-items:center;gap:7px}
+.update-luxbtn{
+  border-radius:10px;padding:9px 11px;font-size:9px;font-weight:1000;cursor:pointer;
+  border:1px solid #2a3544;background:#111822;color:#aeb8c5
+}
+.update-luxbtn.primary{
+  border-color:var(--accent-border);
+  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 54%,#19040b));
+  color:white
+}
+.update-luxbtn:hover{filter:brightness(1.08)}
+.update-luxclose{
+  width:30px;height:30px;border-radius:9px;border:1px solid #283442;
+  background:#101722;color:#8290a3;cursor:pointer
+}
+.update-luxbar.ready{
+  border-color:color-mix(in srgb,var(--accent) 50%,white);
+  box-shadow:0 22px 65px rgba(0,0,0,.50),0 0 44px var(--accent-soft)
+}
+@media(max-width:680px){
+  .update-luxbar,body.sidebar-collapsed .update-luxbar{
+    left:10px;right:10px;bottom:76px;padding:10px;min-height:66px
+  }
+  .update-luxdesc{display:none}
+  .update-luxactions .update-luxbtn:not(.primary){display:none}
+}
+
 </style>
 </head>
 <body>
@@ -395,30 +470,26 @@ body.no-animations *{animation-duration:.001ms!important;transition-duration:.00
 </section>
 </div>
 
-<div id="toast" style="position:fixed;right:20px;bottom:20px;z-index:100001;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:11px 14px;font-size:10px;opacity:0;transform:translateY(7px);pointer-events:none;transition:.2s">Saved</div>
 
-<div id="updateOverlay" class="update-overlay">
-  <div class="update-shell">
-    <div class="update-luxury-head">
-      <div class="update-mark-wrap"><img src="assets/rebirth-v.png" class="update-mark"></div>
-      <div>
-        <div class="micro-label">REBIRTH ARENA // UPDATE SERVICE</div>
-        <div id="updateTitle" class="update-title">Checking for updates</div>
-        <div id="updateDesc" class="update-desc">Connecting to the release channel.</div>
-      </div>
-      <div id="updateVersion" class="version-pill">Rebirth v2</div>
+<div id="updateBar" class="update-luxbar">
+  <div class="update-luxmark"><img src="assets/rebirth-v.png" alt=""></div>
+  <div class="update-luxcontent">
+    <div class="update-luxtop">
+      <div id="updateBarTitle" class="update-luxtitle">Checking for updates</div>
+      <div id="updateBarState" class="update-luxstate">REBIRTH UPDATE</div>
     </div>
-    <div class="update-body">
-      <div class="update-track"><div id="updateProgressBar"></div></div>
-      <div class="update-meta"><span id="updatePercent">0%</span><span id="updateState">SECURE CHANNEL</span></div>
-      <div class="update-actions">
-        <button id="updateLater" class="btn btn-ghost">LATER</button>
-        <button id="updateInstall" class="btn btn-primary" style="display:none">RESTART & UPDATE</button>
-      </div>
-    </div>
+    <div id="updateBarDesc" class="update-luxdesc">Connecting to the Rebirth release channel.</div>
+    <div class="update-luxtrack"><div id="updateBarProgress"></div></div>
   </div>
+  <div id="updateBarPercent" class="update-luxpct">0%</div>
+  <div class="update-luxactions">
+    <button id="updateBarLater" class="update-luxbtn">LATER</button>
+    <button id="updateBarInstall" class="update-luxbtn primary" style="display:none">RESTART & UPDATE</button>
+  </div>
+  <button id="updateBarClose" class="update-luxclose" title="Hide">×</button>
 </div>
 
+<div id="toast" style="position:fixed;right:20px;bottom:20px;z-index:100001;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:11px 14px;font-size:10px;opacity:0;transform:translateY(7px);pointer-events:none;transition:.2s">Saved</div>
 
 <script>
 const RELEASE_LABEL="Rebirth v2";
@@ -516,16 +587,75 @@ loadArt();
 
 function setupUpdater(){
  if(!window.rebirthDesktop)return;
- const overlay=updateOverlay,show=()=>overlay.classList.add("show"),hide=()=>overlay.classList.remove("show");
- updateLater.onclick=hide;updateInstall.onclick=()=>window.rebirthDesktop.installUpdate();checkUpdatesBtn.onclick=()=>window.rebirthDesktop.checkForUpdates();
+
+ const bar=document.getElementById("updateBar");
+ const title=document.getElementById("updateBarTitle");
+ const desc=document.getElementById("updateBarDesc");
+ const progress=document.getElementById("updateBarProgress");
+ const percent=document.getElementById("updateBarPercent");
+ const state=document.getElementById("updateBarState");
+ const later=document.getElementById("updateBarLater");
+ const install=document.getElementById("updateBarInstall");
+ const close=document.getElementById("updateBarClose");
+
+ const show=()=>bar.classList.add("show");
+ const hide=()=>bar.classList.remove("show");
+
+ later.onclick=hide;
+ close.onclick=hide;
+ install.onclick=()=>window.rebirthDesktop.installUpdate();
+ if(window.checkUpdatesBtn) checkUpdatesBtn.onclick=()=>window.rebirthDesktop.checkForUpdates();
+
  window.rebirthDesktop.onUpdateStatus(d=>{
-   if(d.status==="checking"){show();updateTitle.textContent="Checking for updates";updateDesc.textContent="Connecting to the Rebirth release channel.";updateProgressBar.style.width="8%";updatePercent.textContent="Checking";updateState.textContent="GITHUB RELEASES";updateInstall.style.display="none"}
-   if(d.status==="available"){show();updateTitle.textContent=`Update ${d.version} found`;updateDesc.textContent="A new Rebirth build is available. Downloading automatically.";updateVersion.textContent=`v${d.version}`;updateProgressBar.style.width="12%";updatePercent.textContent="Preparing";updateState.textContent="STARTING DOWNLOAD"}
-   if(d.status==="downloading"){show();updateTitle.textContent="Downloading update";updateDesc.textContent="Keep Rebirth Arena open while the update downloads.";updateProgressBar.style.width=`${d.percent}%`;updatePercent.textContent=`${d.percent}%`;updateState.textContent="SECURE DOWNLOAD"}
-   if(d.status==="ready"){show();updateTitle.textContent=`Rebirth Arena ${d.version} is ready`;updateDesc.textContent="Download complete. Restart to install the new build.";updateVersion.textContent=`v${d.version}`;updateProgressBar.style.width="100%";updatePercent.textContent="100%";updateState.textContent="READY";updateInstall.style.display="inline-block"}
-   if(d.status==="current"){show();updateTitle.textContent="You're up to date";updateDesc.textContent="You already have the latest Rebirth Arena build.";updateProgressBar.style.width="100%";updatePercent.textContent="Current";updateState.textContent="NO UPDATE";updateInstall.style.display="none";setTimeout(hide,1800)}
-   if(d.status==="error"){show();updateTitle.textContent="Update check failed";updateDesc.textContent="Rebirth Arena couldn't reach the update service right now.";updateProgressBar.style.width="0";updatePercent.textContent="Error";updateState.textContent="TRY AGAIN LATER";updateInstall.style.display="none"}
-   if(d.status==="dev"){show();updateTitle.textContent="Development mode";updateDesc.textContent="Automatic updates are available only in the installed Windows build.";updateProgressBar.style.width="0";updatePercent.textContent="DEV";updateState.textContent="LOCAL BUILD";updateInstall.style.display="none"}
+   if(d.status==="checking"){
+     show();bar.classList.remove("ready");
+     title.textContent="Checking for updates";
+     desc.textContent="Connecting to the Rebirth release channel.";
+     progress.style.width="6%";percent.textContent="…";state.textContent="CHECKING";
+     install.style.display="none";later.style.display="inline-block";
+   }
+   if(d.status==="available"){
+     show();bar.classList.remove("ready");
+     title.textContent=`Rebirth ${d.version} available`;
+     desc.textContent="New build found. Downloading quietly in the background.";
+     progress.style.width="10%";percent.textContent="10%";state.textContent="PREPARING";
+     install.style.display="none";
+   }
+   if(d.status==="downloading"){
+     show();bar.classList.remove("ready");
+     title.textContent="Downloading Rebirth update";
+     desc.textContent="You can keep using the app while the update downloads.";
+     progress.style.width=`${d.percent}%`;percent.textContent=`${d.percent}%`;state.textContent="DOWNLOADING";
+   }
+   if(d.status==="ready"){
+     show();bar.classList.add("ready");
+     title.textContent=`Rebirth ${d.version} is ready`;
+     desc.textContent="Update downloaded. Restart whenever you're ready.";
+     progress.style.width="100%";percent.textContent="100%";state.textContent="UPDATE READY";
+     install.style.display="inline-block";later.style.display="inline-block";
+   }
+   if(d.status==="current"){
+     show();bar.classList.remove("ready");
+     title.textContent="Rebirth is up to date";
+     desc.textContent="You're already running the newest release.";
+     progress.style.width="100%";percent.textContent="✓";state.textContent="CURRENT";
+     install.style.display="none";later.style.display="none";
+     setTimeout(hide,1700);
+   }
+   if(d.status==="error"){
+     show();bar.classList.remove("ready");
+     title.textContent="Update service unavailable";
+     desc.textContent="Couldn't reach the release channel. Rebirth will try again later.";
+     progress.style.width="0%";percent.textContent="!";state.textContent="OFFLINE";
+     install.style.display="none";
+   }
+   if(d.status==="dev"){
+     show();bar.classList.remove("ready");
+     title.textContent="Development build";
+     desc.textContent="Automatic updates are available only in the installed Windows build.";
+     progress.style.width="0%";percent.textContent="DEV";state.textContent="LOCAL";
+     install.style.display="none";
+   }
  });
 }
 setupUpdater();
