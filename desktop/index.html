@@ -119,10 +119,149 @@ body.compact .stat{min-height:86px;padding:10px}body.compact .agent-card{min-hei
 .update-box{border-top:2px solid var(--accent)}.update-status-icon{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px rgba(255,48,79,.55);display:inline-block;margin-right:6px}
 @media(max-width:900px){.benefits{grid-template-columns:1fr}}
 
+
+/* ===== v1.1.0 FINAL SCROLL / LAYOUT FIX ===== */
+html,body{height:100%;min-height:100%;overflow:hidden}
+.app{height:100vh;min-height:0}
+.main{height:100vh;min-height:0;overflow:hidden}
+.content{
+  min-height:0;
+  height:100%;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  scrollbar-width:none;
+}
+.content::-webkit-scrollbar{display:none;width:0;height:0}
+.page{min-height:min-content}
+#page-dashboard{padding-bottom:36px}
+.agent-grid,.big-grid,.settings,.pricing,.ladder{min-width:0}
+@media(max-width:900px){
+  html,body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+  .app{height:auto;min-height:100dvh}
+  .main{height:auto;min-height:100dvh;overflow:visible}
+  .content{height:auto;min-height:0;overflow:visible !important;padding-bottom:92px}
+  #page-dashboard{padding-bottom:18px}
+}
+
+
+/* ===== PREMIUM STARTUP EXPERIENCE ===== */
+.splash{
+  position:fixed;inset:0;z-index:5000;background:
+  radial-gradient(circle at 50% 42%,rgba(255,48,79,.13),transparent 28%),
+  radial-gradient(circle at 50% 50%,#10141c,#05070b 66%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  transition:opacity .55s ease,visibility .55s ease
+}
+.splash.hide{opacity:0;visibility:hidden}
+.splash-grid{
+  position:absolute;inset:-20%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:46px 46px;
+  transform:perspective(700px) rotateX(62deg) translateY(18%);
+  mask-image:linear-gradient(to top,#000,transparent 78%);
+  opacity:.6
+}
+.splash-beam{
+  position:absolute;width:520px;height:520px;border-radius:50%;
+  border:1px solid rgba(255,48,79,.12);
+  box-shadow:0 0 90px rgba(255,48,79,.08),inset 0 0 90px rgba(255,48,79,.04);
+  animation:splashSpin 10s linear infinite
+}
+.splash-beam:before,.splash-beam:after{
+  content:"";position:absolute;inset:46px;border-radius:50%;
+  border:1px dashed rgba(255,48,79,.15)
+}
+.splash-beam:after{inset:112px;border-color:rgba(255,255,255,.07);animation:splashSpinReverse 6s linear infinite}
+.splash-core{position:relative;z-index:3;text-align:center}
+.splash-logo-wrap{position:relative;width:132px;height:132px;margin:auto}
+.splash-logo-glow{
+  position:absolute;inset:-34px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,48,79,.27),transparent 65%);
+  animation:splashGlow 1.4s ease-in-out infinite alternate
+}
+.splash-logo{
+  position:absolute;inset:13px;width:106px;height:106px;
+  filter:drop-shadow(0 0 25px rgba(255,48,79,.36));
+  animation:splashLogo 1.25s cubic-bezier(.18,.85,.2,1) both
+}
+.splash-name{font-weight:1000;letter-spacing:.34em;font-size:16px;margin-top:16px}
+.splash-sub{font-size:8px;color:#737f90;letter-spacing:.18em;margin-top:8px}
+.splash-status{font-size:8px;color:#ff8092;font-weight:1000;letter-spacing:.13em;margin-top:16px}
+.loader{position:relative;width:260px;height:4px;background:#11161e;border-radius:999px;margin:12px auto 0;overflow:hidden;border:1px solid #1a222d}
+.loader i{display:block;height:100%;width:34%;background:linear-gradient(90deg,transparent,#ff304f,#ff8395,transparent);animation:load 1s linear infinite}
+.splash-dots{display:flex;justify-content:center;gap:5px;margin-top:11px}
+.splash-dots i{width:4px;height:4px;border-radius:50%;background:#333c49;animation:dotPulse 1s infinite}
+.splash-dots i:nth-child(2){animation-delay:.15s}.splash-dots i:nth-child(3){animation-delay:.3s}
+@keyframes splashSpin{to{transform:rotate(360deg)}}
+@keyframes splashSpinReverse{to{transform:rotate(-360deg)}}
+@keyframes splashGlow{to{transform:scale(1.15);opacity:.55}}
+@keyframes splashLogo{0%{opacity:0;transform:scale(.55) rotate(-12deg)}70%{transform:scale(1.07) rotate(1deg)}100%{opacity:1;transform:scale(1)}}
+@keyframes dotPulse{50%{background:#ff526b;box-shadow:0 0 10px rgba(255,48,79,.5)}}
+
+
+/* ===== PREMIUM CUSTOM UPDATER v1.1.0 ===== */
+.update-overlay{
+  background:rgba(3,5,8,.78)!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important
+}
+.update-box{
+  width:min(470px,calc(100vw - 34px))!important;
+  padding:0!important;overflow:hidden!important;border-radius:20px!important;
+  border:1px solid rgba(255,48,79,.28)!important;
+  background:linear-gradient(180deg,#111722,#090d13)!important;
+  box-shadow:0 35px 120px rgba(0,0,0,.66),0 0 70px rgba(255,48,79,.09)!important
+}
+.update-hero{
+  position:relative;padding:20px 20px 17px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,48,79,.15),transparent 34%),
+    linear-gradient(135deg,#151b25,#0d1219)
+}
+.update-hero:after{
+  content:"";position:absolute;right:-70px;top:-100px;width:250px;height:250px;border-radius:50%;
+  border:1px solid rgba(255,48,79,.11)
+}
+.update-head{position:relative;z-index:2}
+.update-logo{width:52px!important;height:52px!important}
+.update-kicker{font-size:8px!important;letter-spacing:.16em!important}
+.update-title{font-size:19px!important;margin-top:4px!important}
+.update-body{padding:16px 20px 18px}
+.update-desc{font-size:9px!important;line-height:1.6!important;margin-top:0!important}
+.update-progress{height:8px!important;margin-top:14px!important;background:#060a0f!important}
+.update-progress>div{box-shadow:0 0 18px rgba(255,48,79,.32)}
+.update-meta{margin-top:8px!important}
+.update-actions{margin-top:16px!important}
+.update-btn{padding:10px 12px!important;border-radius:10px!important}
+.update-btn.primary{padding-left:15px!important;padding-right:15px!important}
+.update-version-chip{
+  position:absolute;right:18px;top:18px;z-index:3;
+  padding:6px 8px;border-radius:999px;border:1px solid rgba(255,48,79,.22);
+  background:rgba(255,48,79,.07);color:#ff9aaa;font-size:8px;font-weight:1000
+}
+
 </style>
 </head>
 <body>
-<div id="splash" class="splash"><div class="splash-core"><img class="splash-logo" src="assets/rebirth-v.png"><div class="splash-name">REBIRTH ARENA</div><div class="splash-sub">INITIALIZING POST-MATCH SYSTEMS</div><div class="loader"><i></i></div></div></div><div id="toast" class="toast">Preference saved</div><div class="app">
+<div id="splash" class="splash">
+          <div class="splash-grid"></div>
+          <div class="splash-beam"></div>
+          <div class="splash-core">
+            <div class="splash-logo-wrap">
+              <div class="splash-logo-glow"></div>
+              <img class="splash-logo" src="assets/rebirth-v.png" alt="">
+            </div>
+            <div class="splash-name">REBIRTH ARENA</div>
+            <div class="splash-sub">POST-MATCH COMPANION</div>
+            <div id="splashStatus" class="splash-status">INITIALIZING SYSTEMS</div>
+            <div class="loader"><i></i></div>
+            <div class="splash-dots"><i></i><i></i><i></i></div>
+          </div>
+        </div><div id="toast" class="toast">Preference saved</div><div class="app">
 <aside class="sidebar">
  <div class="brand"><img class="logo" src="assets/rebirth-v.png"><div><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div></div>
  <nav class="nav">
@@ -213,6 +352,7 @@ function setupDesktopUpdater(){
   const bar=document.getElementById("updateProgressBar");
   const percent=document.getElementById("updatePercent");
   const version=document.getElementById("updateVersion");
+  const speed=document.getElementById("updateSpeed");
   const later=document.getElementById("updateLater");
   const install=document.getElementById("updateInstall");
   const checkBtn=document.getElementById("checkUpdatesBtn");
@@ -241,7 +381,7 @@ function setupDesktopUpdater(){
     if(s==="downloading"){
       show(); title.textContent="Downloading update";
       desc.textContent="Keep Rebirth Arena open while the update downloads.";
-      bar.style.width=`${data.percent}%`; percent.textContent=`${data.percent}%`;
+      bar.style.width=`${data.percent}%`; percent.textContent=`${data.percent}%`; if(speed) speed.textContent=data.percent<100?"DOWNLOADING":"READY";
     }
     if(s==="ready"){
       show(); title.textContent=`Rebirth Arena ${data.version} is ready`;
@@ -281,8 +421,12 @@ function applyPrefs(){
  if(window.themeSelect)themeSelect.value=th;if(window.accentSelect)accentSelect.value=ac;if(window.compactToggle)compactToggle.classList.toggle("on",cp);
 }
 applyPrefs();
-setTimeout(()=>document.getElementById("splash")?.classList.add("hide"),1450);
-setTimeout(()=>document.getElementById("splash")?.remove(),2100);
+const splashStatus=document.getElementById("splashStatus");
+setTimeout(()=>{if(splashStatus)splashStatus.textContent="LOADING AGENT MODULES"},450);
+setTimeout(()=>{if(splashStatus)splashStatus.textContent="SYNCING INTERFACE"},900);
+setTimeout(()=>{if(splashStatus)splashStatus.textContent="READY"},1350);
+setTimeout(()=>document.getElementById("splash")?.classList.add("hide"),1750);
+setTimeout(()=>document.getElementById("splash")?.remove(),2400);
 if(window.themeSelect)themeSelect.onchange=()=>{localStorage.setItem("ra_theme",themeSelect.value);applyPrefs();toastMsg("Theme saved")};
 if(window.accentSelect)accentSelect.onchange=()=>{localStorage.setItem("ra_accent",accentSelect.value);applyPrefs();toastMsg("Accent saved")};
 ["compactToggle","notifToggle","fxToggle"].forEach(id=>{const e=document.getElementById(id);if(!e)return;let key=id.replace("Toggle","");if(key!=="compact"){e.classList.toggle("on",pref(key,"1")==="1")}e.onclick=()=>{e.classList.toggle("on");localStorage.setItem("ra_"+key,e.classList.contains("on")?"1":"0");applyPrefs();toastMsg("Preference saved")}});
@@ -290,23 +434,27 @@ if(window.accentSelect)accentSelect.onchange=()=>{localStorage.setItem("ra_accen
 </script>
 
 <div id="updateOverlay" class="update-overlay">
-  <div class="update-box">
-    <div class="update-head">
-      <img class="update-logo" src="assets/rebirth-v.png" alt="">
-      <div>
-        <div class="update-kicker">REBIRTH ARENA // UPDATE</div>
-        <div id="updateTitle" class="update-title">Checking for updates...</div>
-      </div>
-    </div>
-    <div id="updateDesc" class="update-desc">Looking for the latest Rebirth Arena release.</div>
-    <div id="updateProgress" class="update-progress"><div id="updateProgressBar"></div></div>
-    <div class="update-meta"><span id="updatePercent">0%</span><span id="updateVersion">v1.1.0</span></div>
-    <div class="update-actions">
-      <button id="updateLater" class="update-btn">LATER</button>
-      <button id="updateInstall" class="update-btn primary" style="display:none">RESTART & UPDATE</button>
-    </div>
-  </div>
-</div>
-
-</body>
+              <div class="update-box">
+                <div class="update-hero">
+                  <div class="update-version-chip" id="updateVersion">v1.1.0</div>
+                  <div class="update-head">
+                    <img class="update-logo" src="assets/rebirth-v.png" alt="">
+                    <div>
+                      <div class="update-kicker">REBIRTH ARENA // SYSTEM UPDATE</div>
+                      <div id="updateTitle" class="update-title">Checking for updates...</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="update-body">
+                  <div id="updateDesc" class="update-desc">Looking for the latest Rebirth Arena release.</div>
+                  <div id="updateProgress" class="update-progress"><div id="updateProgressBar"></div></div>
+                  <div class="update-meta"><span id="updatePercent">0%</span><span id="updateSpeed">SECURE DOWNLOAD</span></div>
+                  <div class="update-actions">
+                    <button id="updateLater" class="update-btn">LATER</button>
+                    <button id="updateInstall" class="update-btn primary" style="display:none">RESTART & UPDATE</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </body>
 </html>
