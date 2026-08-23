@@ -27,6 +27,10 @@ function getJson(url) {
   });
 }
 
+ipcMain.on('window-minimize', () => mainWindow?.minimize());
+ipcMain.on('window-maximize', () => { if (!mainWindow) return; mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize(); });
+ipcMain.on('window-close', () => mainWindow?.close());
+
 ipcMain.handle('get-agent-art', async () => {
   try {
     const json = await getJson('https://valorant-api.com/v1/agents?isPlayableCharacter=true');
@@ -63,7 +67,7 @@ ipcMain.handle('check-for-updates', async () => {
 });
 
 ipcMain.handle('install-update', () => {
-  autoUpdater.quitAndInstall(false, true);
+  autoUpdater.quitAndInstall(true, true);
   return true;
 });
 
@@ -104,6 +108,8 @@ function createWindow() {
     autoHideMenuBar: true,
     show: false,
     title: 'Rebirth Arena',
+    frame: false,
+    titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

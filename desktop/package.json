@@ -1,6 +1,6 @@
 {
   "name": "rebirth-arena",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Rebirth Arena desktop post-match tracker",
   "main": "main.js",
   "scripts": {
@@ -30,13 +30,15 @@
       "icon": "assets/rebirth-v.ico"
     },
     "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "installerIcon": "assets/rebirth-v.ico",
       "uninstallerIcon": "assets/rebirth-v.ico",
-      "installerHeaderIcon": "assets/rebirth-v.ico"
+      "installerHeaderIcon": "assets/rebirth-v.ico",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
     },
     "publish": [
       {
