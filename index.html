@@ -293,6 +293,51 @@ h1{font-size:52px;line-height:.92;letter-spacing:-2.8px;margin:10px 0 13px;max-w
   .agent-grid{grid-template-columns:1fr}.legend-grid{grid-template-columns:repeat(3,1fr)}
   .rankup-title{font-size:36px}.energy-ring{width:330px;height:330px}.ring2{width:240px;height:240px}.ring3{width:420px;height:420px}
 }
+
+.auto-panel{
+  margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)
+}
+.connection-card{
+  border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:12px;
+  background:linear-gradient(135deg,rgba(22,30,41,.88),rgba(12,17,24,.82));
+}
+.connection-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.connection-title{font-size:12px;font-weight:1000;letter-spacing:.04em}
+.connection-state{
+  font-size:9px;font-weight:1000;letter-spacing:.08em;padding:6px 8px;border-radius:999px;
+  color:#ffd690;background:rgba(255,183,67,.10);border:1px solid rgba(255,183,67,.22)
+}
+.connection-desc{font-size:10px;line-height:1.55;color:#909bad;margin-top:8px}
+.sync-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.sync-stat{
+  border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:9px;background:rgba(9,13,19,.55)
+}
+.sync-stat b{display:block;font-size:10px;color:#dce2ea}
+.sync-stat span{display:block;font-size:9px;color:#758195;margin-top:3px}
+.connect-btn{
+  width:100%;margin-top:10px;padding:11px;border-radius:11px;border:1px solid rgba(108,232,255,.24);
+  background:linear-gradient(135deg,rgba(54,115,139,.28),rgba(32,61,84,.35));color:#bff5ff;
+  font-size:10px;font-weight:1000;letter-spacing:.06em;cursor:not-allowed
+}
+.prototype-note{
+  margin-top:8px;font-size:9px;line-height:1.45;color:#758195
+}
+.auto-banner{
+  display:flex;gap:10px;align-items:center;margin-bottom:12px;padding:11px 12px;border-radius:13px;
+  border:1px solid rgba(95,247,160,.15);background:rgba(49,137,87,.07)
+}
+.auto-pulse{
+  width:9px;height:9px;border-radius:50%;background:#5ff7a0;box-shadow:0 0 16px rgba(95,247,160,.55);
+  animation:autoPulse 1.6s infinite alternate
+}
+@keyframes autoPulse{to{transform:scale(1.3);opacity:.65}}
+.auto-banner-title{font-size:11px;font-weight:1000}
+.auto-banner-sub{font-size:9px;color:#7f8d9f;margin-top:2px}
+.match-empty{
+  border:1px dashed rgba(255,255,255,.10);border-radius:14px;padding:18px;text-align:center;color:#748196;
+  font-size:11px;line-height:1.6;background:rgba(9,13,19,.28)
+}
+
 </style>
 </head>
 <body>
@@ -311,7 +356,7 @@ h1{font-size:52px;line-height:.92;letter-spacing:-2.8px;margin:10px 0 13px;max-w
       <div class="vmark"></div>
       <div>
         <div class="brand-title">REBIRTH // ARENA</div>
-        <div class="brand-sub">CINEMATIC TRACKER</div>
+        <div class="brand-sub">AUTOMATIC POST-MATCH TRACKER</div>
       </div>
     </div>
     <div class="live"><span class="live-dot"></span>AUTO-SAVE ACTIVE</div>
@@ -320,30 +365,41 @@ h1{font-size:52px;line-height:.92;letter-spacing:-2.8px;margin:10px 0 13px;max-w
   <section class="hero">
     <div class="eyebrow">Competitive Side Challenge</div>
     <h1>CLIMB THE RANKS.<br>ONE AGENT AT A TIME.</h1>
-    <p>Fiecare al 10-lea kill adaugă un punct pe agentul eliminat. La 5/5, acel agent urcă un rank — separat pentru fiecare jucător.</p>
+    <p>După fiecare meci finalizat, Rebirth Arena va analiza automat match data, va identifica kill-urile #10, #20, #30 și va aplica progresul pe agentul eliminat — fără input manual.</p>
     <div class="hero-stats">
       <div class="stat-pill">5 POINTS = RANK UP</div>
       <div class="stat-pill">IRON → RADIANT</div>
       <div class="stat-pill">AGENT-SPECIFIC PROGRESS</div>
-      <div class="stat-pill">CINEMATIC RANK UPS</div>
+      <div class="stat-pill">AUTO POST-MATCH SYNC</div>
+      <div class="stat-pill">NO MANUAL KILL INPUT</div>
     </div>
   </section>
 
   <div class="main-grid">
     <aside class="sidebar panel">
-      <div class="section-title">Squad</div>
+      <div class="section-title">Squad Preview</div>
       <div class="player-tabs" id="playerTabs"></div>
-      <div class="names">
-        <input id="name0"><input id="name1"><input id="name2">
-      </div>
 
-      <div class="control-card">
-        <div class="section-title">Quick Add</div>
-        <select id="agentSelect"></select>
-        <button class="add-btn" onclick="addPointSelected()">+ ADD 10TH KILL POINT</button>
-        <div class="soft-row">
-          <button onclick="undo()">UNDO</button>
-          <button onclick="resetAll()">RESET</button>
+      <div class="auto-panel">
+        <div class="section-title">Riot Connection</div>
+        <div class="connection-card">
+          <div class="connection-head">
+            <div class="connection-title">Automatic Match Sync</div>
+            <div class="connection-state">API APPROVAL PENDING</div>
+          </div>
+          <div class="connection-desc">
+            Rebirth Arena is designed to process completed VALORANT matches automatically after the user opts in and connects a Riot account.
+          </div>
+          <div class="sync-grid">
+            <div class="sync-stat"><b>Post-match only</b><span>No live competitive data</span></div>
+            <div class="sync-stat"><b>Milestone kills</b><span>#10, #20, #30...</span></div>
+            <div class="sync-stat"><b>Auto progression</b><span>Agent-specific points</span></div>
+            <div class="sync-stat"><b>Auto rank-up</b><span>5 points per rank</span></div>
+          </div>
+          <button class="connect-btn" disabled>CONNECT RIOT ACCOUNT — AVAILABLE AFTER API APPROVAL</button>
+          <div class="prototype-note">
+            Prototype mode: Riot account authentication and automatic match retrieval are the next integration stage. No manual kill controls are exposed to users.
+          </div>
         </div>
         <div class="sound-toggle on" id="soundToggle" onclick="toggleSound()"><span class="dot"></span> FINISHER AUDIO: ON</div>
       </div>
@@ -362,6 +418,13 @@ h1{font-size:52px;line-height:.92;letter-spacing:-2.8px;margin:10px 0 13px;max-w
             <div class="content-meta" id="activeMeta"></div>
           </div>
         </div>
+        <div class="auto-banner">
+          <div class="auto-pulse"></div>
+          <div>
+            <div class="auto-banner-title">AUTOMATIC POST-MATCH TRACKING</div>
+            <div class="auto-banner-sub">When Riot API access is connected, completed matches will be detected and processed automatically.</div>
+          </div>
+        </div>
         <div class="filterbar">
           <span class="filter-label">FILTER</span>
           <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">ALL</button>
@@ -375,7 +438,7 @@ h1{font-size:52px;line-height:.92;letter-spacing:-2.8px;margin:10px 0 13px;max-w
       </section>
 
       <section class="history panel">
-        <div class="section-title">Match History</div>
+        <div class="section-title">Automated Match Processing</div>
         <div class="history-list" id="history"></div>
       </section>
     </main>
@@ -557,12 +620,6 @@ function playRandomFinisher(rankName){
 }
 
 function init(){
-  agentSelect.innerHTML=AGENTS.map(a=>`<option>${a}</option>`).join("");
-  [0,1,2].forEach(i=>{
-    const el=document.getElementById("name"+i);
-    el.value=state.names[i];
-    el.onchange=()=>{state.names[i]=el.value.trim()||`Player ${i+1}`;save();render()}
-  });
   legend.innerHTML=RANKS.slice(1).map((r,i)=>`
     <div class="legend rank-${r.name}">
       <div class="legend-badge">${r.icon}</div>${i+1}. ${r.name}
@@ -637,7 +694,6 @@ function render(){
         : `<div class="agent-fallback">${a[0]}</div>`}
       <div class="agent-shadow"></div>
       <div class="combo-badge">${x.rebirths>0?`RB ${x.rebirths}`:`${x.points}/5`}</div>
-      <button class="quickplus" onclick="event.stopPropagation();addPoint(${activePlayer},'${a.replace("'","\\'")}')">+</button>
       <div class="agent-info">
         <div class="agent-topline">
           <div class="agent-name">${a}</div>
@@ -661,7 +717,7 @@ function render(){
       <div><b>${esc(state.names[h.p])}</b> • ${h.a} ${h.ranked?`→ <b>${r.name}</b>`:`→ ${h.after.points}/5`}</div>
       <div class="time">${h.time||""}</div>
     </div>`;
-  }).join(""):`<div style="color:#758195;font-size:12px;padding:8px 0">No activity yet.</div>`;
+  }).join(""):`<div class="match-empty"><b>No completed matches imported yet.</b><br>After Riot API approval and account connection, this area will populate automatically with processed matches and milestone kills.</div>`;
 }
 init();
 </script>
