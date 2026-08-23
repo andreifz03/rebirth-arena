@@ -3,427 +3,417 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="rebirth-build" content="Rebirth-v2">
+<meta name="rebirth-build" content="Rebirth-v2-release-candidate">
 <title>Rebirth Arena // Rebirth v2</title>
 <link rel="icon" href="assets/rebirth-v.png">
 <style>
 :root{
-  --accent:#ff304f; --accent-soft:rgba(255,48,79,.14); --accent-border:rgba(255,48,79,.30);
-  --canvas-1:#030407; --canvas-2:#10141c; --agent-bg:none;
-  --sidebar-w:242px;
-  --panel:#0d121a; --panel2:#111722; --line:#202a38; --line2:#2b3747;
-  --text:#f4f7fb; --text2:#c5ceda; --muted:#7f8b9d; --muted2:#647083;
-  --green:#61e5aa; --amber:#f3c965; --danger:#ff647a; --cyan:#64dff4;
+ --accent:#ff2f68;--accent-soft:rgba(255,47,104,.14);--accent-border:rgba(255,47,104,.30);
+ --canvas1:#030407;--canvas2:#10141b;--agent-bg:none;--sidebar-w:246px;
+ --panel:#0c1118;--panel2:#111722;--line:#202a38;--line2:#2d394a;
+ --text:#f5f7fb;--text2:#c7d0dc;--muted:#8a96a8;--muted2:#6d7889;
+ --green:#61e7ae;--amber:#f1c965;--danger:#ff6f82;
 }
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#06080c;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#06080c;color:var(--text);font-family:"Bahnschrift","Bahnschrift SemiCondensed","Arial Narrow","Segoe UI",sans-serif}
+body{font-size:15px}
 button,input,select{font:inherit}
 button{-webkit-tap-highlight-color:transparent}
-body{font-size:14px}
-.tactical{font-family:"Bahnschrift SemiCondensed","Arial Narrow","Segoe UI",sans-serif;letter-spacing:.035em}
 .app{
-  width:100vw;height:100vh;min-height:0;display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr);
-  position:relative;isolation:isolate;overflow:hidden;
-  background:
-    radial-gradient(circle at 14% 8%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 29%),
-    linear-gradient(145deg,var(--canvas-1),var(--canvas-2));
+ width:100vw;height:100vh;display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr);position:relative;isolation:isolate;overflow:hidden;
+ background:
+   radial-gradient(circle at 12% 4%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 28%),
+   radial-gradient(circle at 92% 10%,color-mix(in srgb,var(--accent) 8%,transparent),transparent 26%),
+   linear-gradient(145deg,var(--canvas1),var(--canvas2));
 }
-.app::before{
-  content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
-  background:
-    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:54px 54px;mask-image:linear-gradient(to bottom,#000,transparent 86%);
-}
-.app::after{
-  content:"";position:fixed;z-index:-2;pointer-events:none;right:1vw;top:9vh;bottom:0;width:min(54vw,920px);
-  background-image:var(--agent-bg);background-repeat:no-repeat;background-position:center right;background-size:contain;
-  opacity:.19;filter:saturate(1.08) contrast(1.04) drop-shadow(0 0 34px color-mix(in srgb,var(--accent) 16%,transparent));
-  mask-image:linear-gradient(to left,#000 0 52%,rgba(0,0,0,.74) 72%,transparent 100%);
-}
-/* background presets: ONLY canvas + decorative agent change */
-body.bg-black{--canvas-1:#020307;--canvas-2:#10141b}
-body.bg-white{--canvas-1:#aeb8c4;--canvas-2:#596674}
-body.bg-red{--canvas-1:#170306;--canvas-2:#5a0b19}
-body.bg-blue{--canvas-1:#030915;--canvas-2:#102c68}
-body.bg-cyan{--canvas-1:#031015;--canvas-2:#075563}
-body.bg-violet{--canvas-1:#0c0412;--canvas-2:#351049}
-body.bg-darkpurple{--canvas-1:#050309;--canvas-2:#170b29}
-body.bg-purple{--canvas-1:#0a0410;--canvas-2:#351047}
-/* all normal UI surfaces stay unchanged across backgrounds */
-.sidebar,.topbar,.panel,.stat-card,.agent-card,.match-card,.rank-card,.setting-card,.quick-card,.riot-card,.plus-card{color:var(--text)}
+.app::before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:54px 54px;mask-image:linear-gradient(to bottom,#000,transparent 86%)}
+.app::after{content:"";position:fixed;z-index:-2;right:2vw;top:8vh;bottom:0;width:min(55vw,930px);background-image:var(--agent-bg);background-repeat:no-repeat;background-position:center right;background-size:contain;opacity:.21;filter:saturate(1.1) contrast(1.04) drop-shadow(0 0 38px var(--accent-soft));mask-image:linear-gradient(to left,#000 0 52%,rgba(0,0,0,.72) 74%,transparent 100%)}
 
-/* splash */
-.startup-splash{
-  position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden;
-  background:radial-gradient(circle at 50% 42%,rgba(255,48,79,.15),transparent 28%),radial-gradient(circle at 50% 50%,#11151d,#05070b 68%);
-  animation:splashFallback .5s ease 3.4s forwards;
-}
-.startup-splash.hide{opacity:0;visibility:hidden;pointer-events:none;transition:.5s}
+/* Background color presets — only the canvas changes */
+body.bg-black{--canvas1:#020307;--canvas2:#10141b}
+body.bg-white{--canvas1:#b2bdc9;--canvas2:#606c79}
+body.bg-red{--canvas1:#180306;--canvas2:#5b0b1a}
+body.bg-blue{--canvas1:#030915;--canvas2:#102c68}
+body.bg-cyan{--canvas1:#031015;--canvas2:#075563}
+body.bg-violet{--canvas1:#0c0412;--canvas2:#351049}
+body.bg-darkpurple{--canvas1:#050309;--canvas2:#170b29}
+body.bg-purple{--canvas1:#0a0410;--canvas2:#351047}
+
+/* Agent ability-like background effects */
+.theme-fx{position:fixed;inset:64px 0 0 var(--sidebar-w);z-index:-1;pointer-events:none;overflow:hidden}
+.fx-ring,.fx-orb,.fx-streak,.fx-shard,.fx-flare{position:absolute;opacity:.0}
+body.bg-black .fx-ring{opacity:.32;right:11%;top:22%;width:170px;height:170px;border-radius:50%;border:2px solid rgba(126,103,255,.28);box-shadow:0 0 45px rgba(95,74,255,.26),inset 0 0 55px rgba(95,74,255,.14);animation:omenPulse 3.6s ease-in-out infinite}
+body.bg-red .fx-flare{opacity:.32;right:17%;top:28%;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#ff764c 0 5%,rgba(255,80,57,.28) 18%,transparent 64%);filter:blur(2px);animation:flare 2.7s ease-in-out infinite}
+body.bg-blue .fx-ring{opacity:.35;right:12%;top:23%;width:155px;height:155px;border-radius:50%;border:3px solid rgba(58,117,255,.40);box-shadow:0 0 50px rgba(58,117,255,.28);animation:portal 2.9s ease-in-out infinite}
+body.bg-cyan .fx-streak{opacity:.45;right:6%;top:24%;width:420px;height:4px;background:linear-gradient(90deg,transparent,#5df2ff,transparent);box-shadow:0 0 22px #5df2ff;transform:rotate(-14deg);animation:streak 2.1s ease-in-out infinite}
+body.bg-violet .fx-orb{opacity:.38;right:13%;top:20%;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#e784ff 0 8%,rgba(190,75,255,.30) 25%,transparent 70%);box-shadow:0 0 55px rgba(190,75,255,.30);animation:reynaOrb 2.6s ease-in-out infinite}
+body.bg-white .fx-shard{opacity:.34;right:14%;top:18%;width:220px;height:220px;background:conic-gradient(from 45deg,transparent 0 8%,rgba(210,255,246,.55) 9% 11%,transparent 12% 24%,rgba(210,255,246,.32) 25% 28%,transparent 29%);filter:drop-shadow(0 0 18px rgba(210,255,246,.38));animation:shard 5s linear infinite}
+body.bg-purple .fx-orb,body.bg-darkpurple .fx-orb{opacity:.32;right:14%;top:23%;width:145px;height:145px;border-radius:50%;background:radial-gradient(circle,#c373ff 0 8%,rgba(155,76,255,.26) 27%,transparent 70%);box-shadow:0 0 55px rgba(155,76,255,.26);animation:reynaOrb 3.1s ease-in-out infinite}
+@keyframes omenPulse{50%{transform:scale(1.18);opacity:.55}}
+@keyframes flare{50%{transform:scale(1.22);filter:blur(5px)}}
+@keyframes portal{50%{transform:scale(.82) rotate(160deg);opacity:.55}}
+@keyframes streak{0%,100%{transform:translateX(120px) rotate(-14deg);opacity:.08}50%{transform:translateX(-160px) rotate(-14deg);opacity:.65}}
+@keyframes reynaOrb{50%{transform:scale(1.2);filter:brightness(1.35)}}
+@keyframes shard{to{transform:rotate(360deg)}}
+
+/* startup */
+.startup-splash{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 42%,rgba(255,47,104,.16),transparent 28%),radial-gradient(circle at 50% 50%,#11151d,#05070b 68%);animation:splashFallback .5s ease 4.2s forwards}
+.startup-splash.hide{opacity:0;visibility:hidden;pointer-events:none;transition:.55s}
 .splash-grid{position:absolute;inset:-20%;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:46px 46px;transform:perspective(700px) rotateX(62deg) translateY(18%);opacity:.56}
-.splash-rings{position:absolute;width:560px;height:560px;border-radius:50%;border:1px solid rgba(255,48,79,.12);box-shadow:0 0 90px rgba(255,48,79,.07),inset 0 0 70px rgba(255,48,79,.04);animation:spin 12s linear infinite}
-.splash-rings::before,.splash-rings::after{content:"";position:absolute;inset:55px;border-radius:50%;border:1px dashed rgba(255,48,79,.14)}
-.splash-rings::after{inset:128px;border-color:rgba(255,255,255,.07);animation:spinReverse 7s linear infinite}
+.splash-rings{position:absolute;width:560px;height:560px;border-radius:50%;border:1px solid rgba(255,47,104,.12);box-shadow:0 0 95px rgba(255,47,104,.08),inset 0 0 70px rgba(255,47,104,.04);animation:spin 12s linear infinite}
+.splash-rings::before,.splash-rings::after{content:"";position:absolute;inset:55px;border-radius:50%;border:1px dashed rgba(255,47,104,.14)}
+.splash-rings::after{inset:128px;border-color:rgba(255,255,255,.07);animation:spinR 7s linear infinite}
 .splash-core{position:relative;z-index:3;text-align:center}
-.splash-logo{width:112px;height:112px;filter:drop-shadow(0 0 28px rgba(255,48,79,.36));animation:logoIn 1.05s cubic-bezier(.18,.85,.2,1) both}
-.splash-title{font:1000 18px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.32em;margin:18px 0 0}
-.splash-sub{font-size:9px;color:#727f91;letter-spacing:.18em;margin-top:6px}
-.splash-status{font:900 9px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;color:#ff8193;letter-spacing:.14em;margin-top:18px}
-.splash-loader{width:270px;height:4px;border-radius:99px;background:#111720;border:1px solid #1b2430;margin:12px auto 0;overflow:hidden}
-.splash-loader i{display:block;width:36%;height:100%;background:linear-gradient(90deg,transparent,#ff304f,#ff8a9c,transparent);animation:load 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}} @keyframes spinReverse{to{transform:rotate(-360deg)}}
-@keyframes logoIn{0%{opacity:0;transform:scale(.55) rotate(-10deg)}75%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
-@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(300%)}}
-@keyframes splashFallback{to{opacity:0;visibility:hidden;pointer-events:none}}
+.splash-logo{width:116px;height:116px;filter:drop-shadow(0 0 30px rgba(255,47,104,.42));animation:logoIn 1.1s cubic-bezier(.18,.85,.2,1) both}
+.splash-title{font-size:19px;font-weight:1000;letter-spacing:.30em;margin-top:18px}
+.splash-sub{font-size:9px;color:#758194;letter-spacing:.18em;margin-top:7px}
+.splash-status{font-size:9px;color:#ff83ae;font-weight:1000;letter-spacing:.14em;margin-top:18px}
+.splash-loader{width:280px;height:4px;background:#111720;border:1px solid #1b2430;border-radius:99px;margin:12px auto 0;overflow:hidden}
+.splash-loader i{display:block;height:100%;width:36%;background:linear-gradient(90deg,transparent,#ff2f68,#ff8cab,transparent);animation:load 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}} @keyframes spinR{to{transform:rotate(-360deg)}} @keyframes logoIn{0%{opacity:0;transform:scale(.55) rotate(-10deg)}75%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}} @keyframes load{from{transform:translateX(-100%)}to{transform:translateX(300%)}} @keyframes splashFallback{to{opacity:0;visibility:hidden;pointer-events:none}}
 
 /* sidebar */
-.sidebar{
-  height:100vh;min-height:0;overflow:hidden;border-right:1px solid #171f2a;
-  background:linear-gradient(180deg,rgba(9,12,18,.98),rgba(6,9,13,.98));
-  display:flex;flex-direction:column;position:relative;z-index:10;transition:width .22s ease;
-}
-body.sidebar-collapsed{--sidebar-w:76px}
-.brand{height:82px;border-bottom:1px solid #171f2a;display:flex;align-items:center;gap:11px;padding:0 16px;white-space:nowrap;overflow:hidden}
-.brand-logo{width:43px;height:43px;flex:0 0 auto}
-.brand-name{font:1000 15px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.13em}
-.brand-sub{font-size:8px;color:#667386;letter-spacing:.15em;margin-top:2px}
-.collapse-btn{margin-left:auto;width:30px;height:30px;border-radius:8px;border:1px solid #25303d;background:#0f151e;color:#8c98aa;cursor:pointer;flex:0 0 auto}
-body.sidebar-collapsed .brand-text,body.sidebar-collapsed .nav-label,body.sidebar-collapsed .riot-copy,body.sidebar-collapsed .sidebar-agent-copy,body.sidebar-collapsed .release-footer{display:none}
-body.sidebar-collapsed .brand{padding:0 15px} body.sidebar-collapsed .collapse-btn{position:absolute;right:7px;top:49px;transform:translateY(-50%);opacity:.75}
+.sidebar{height:100vh;min-height:0;overflow:hidden;background:linear-gradient(180deg,rgba(9,12,18,.985),rgba(6,9,13,.985));border-right:1px solid #171f2a;display:flex;flex-direction:column;z-index:10;transition:width .22s ease}
+body.sidebar-collapsed{--sidebar-w:78px}
+.brand{height:82px;border-bottom:1px solid #171f2a;display:flex;align-items:center;gap:11px;padding:0 16px;overflow:hidden;white-space:nowrap}
+.brand-logo{width:44px;height:44px;flex:0 0 auto}
+.brand-name{font-size:16px;font-weight:1000;letter-spacing:.11em}
+.brand-sub{font-size:9px;color:#697688;letter-spacing:.13em;margin-top:3px}
 .nav{display:grid;gap:5px;padding:14px 10px}
-.nav-btn{height:43px;border:1px solid transparent;background:transparent;color:#9aa6b5;border-radius:10px;display:flex;align-items:center;gap:10px;padding:0 12px;cursor:pointer;font:900 11px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.045em;white-space:nowrap}
-.nav-btn:hover{background:#111722;color:#f4f7fb} .nav-btn.active{background:linear-gradient(90deg,var(--accent-soft),rgba(255,255,255,.015));border-color:var(--accent-border);color:color-mix(in srgb,var(--accent) 58%,white)}
-.nav-icon{width:20px;text-align:center;color:var(--accent);font-size:15px;flex:0 0 auto}
-body.sidebar-collapsed .nav-btn{justify-content:center;padding:0} body.sidebar-collapsed .nav-icon{width:auto}
+.nav-btn{height:45px;border:1px solid transparent;background:transparent;color:#9aa6b5;border-radius:11px;display:flex;align-items:center;gap:10px;padding:0 12px;cursor:pointer;font-size:12px;font-weight:900;letter-spacing:.035em;white-space:nowrap}
+.nav-btn:hover{background:#111722;color:#fff} .nav-btn.active{background:linear-gradient(90deg,var(--accent-soft),rgba(255,255,255,.01));border-color:var(--accent-border);color:color-mix(in srgb,var(--accent) 58%,white)}
+.nav-icon{width:21px;text-align:center;color:var(--accent);font-size:16px;flex:0 0 auto}
 .sidebar-spacer{flex:1}
-.sidebar-agent{position:relative;margin:6px 10px 10px;height:188px;border:1px solid #1e2834;border-radius:14px;overflow:hidden;background:radial-gradient(circle at 50% 10%,var(--accent-soft),transparent 55%),#090e15}
-.sidebar-agent img{position:absolute;inset:-8px -30px 0 auto;width:150%;height:115%;object-fit:contain;object-position:center top;opacity:.68;filter:drop-shadow(0 0 20px var(--accent-soft))}
-.sidebar-agent::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,#090e15 88%)}
-.sidebar-agent-copy{position:absolute;z-index:2;left:12px;right:12px;bottom:11px}
-.sidebar-agent-copy b{font:1000 12px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif} .sidebar-agent-copy span{display:block;font-size:8px;color:#7c899a;margin-top:2px}
-body.sidebar-collapsed .sidebar-agent{height:58px;margin:6px 8px} body.sidebar-collapsed .sidebar-agent img{width:180%;opacity:.55}
-.riot-card{margin:0 10px 9px;padding:10px;border:1px solid #202a37;border-radius:12px;background:#0d131b;display:flex;align-items:center;gap:9px}
-.riot-avatar{width:33px;height:33px;border-radius:9px;background:#172130;display:grid;place-items:center;font-weight:1000;flex:0 0 auto}
-.riot-copy b{font:1000 9px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif} .riot-copy span{display:block;font-size:8px;color:#6d7a8d;margin-top:2px}
-.release-footer{padding:9px 15px;border-top:1px solid #151d27;color:#667386;font-size:8px;letter-spacing:.05em}
+.riot-card{margin:0 10px 10px;padding:11px;border:1px solid #202a37;border-radius:12px;background:#0d131b;display:flex;align-items:center;gap:9px}
+.riot-avatar{width:34px;height:34px;border-radius:9px;background:#172130;display:grid;place-items:center;font-weight:1000;flex:0 0 auto}
+.riot-copy b{font-size:10px;font-weight:1000} .riot-copy span{display:block;font-size:9px;color:#6d7a8d;margin-top:2px}
+.release-footer{padding:10px 15px;border-top:1px solid #151d27;color:#6d798a;font-size:9px;letter-spacing:.04em}
+body.sidebar-collapsed .brand-text,body.sidebar-collapsed .nav-label,body.sidebar-collapsed .riot-copy,body.sidebar-collapsed .release-footer{display:none}
+body.sidebar-collapsed .nav-btn{justify-content:center;padding:0} body.sidebar-collapsed .nav-icon{width:auto}
+.sidebar-rail-toggle{position:fixed;z-index:30;left:calc(var(--sidebar-w) - 14px);top:50%;transform:translateY(-50%);width:28px;height:62px;border-radius:14px;border:1px solid #2a3544;background:linear-gradient(180deg,#121925,#0b1118);box-shadow:0 12px 30px rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;color:#9ba7b6;cursor:pointer;transition:left .22s ease,filter .16s}
+.sidebar-rail-toggle:hover{filter:brightness(1.15);color:#fff}
+.sidebar-rail-toggle span{font-size:18px;transition:.22s}
+body.sidebar-collapsed .sidebar-rail-toggle span{transform:rotate(180deg)}
 
-/* main */
-.main{height:100vh;min-height:0;overflow:hidden;display:grid;grid-template-rows:64px minmax(0,1fr);position:relative;z-index:3}
+/* main & top */
+.main{height:100vh;min-height:0;display:grid;grid-template-rows:66px minmax(0,1fr);overflow:hidden;z-index:3}
 .topbar{background:rgba(8,12,18,.96);backdrop-filter:blur(12px);border-bottom:1px solid #18212c;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
-.page-title{font:1000 18px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.025em} .page-sub{font-size:9px;color:#748195;margin-top:2px}
-.top-actions{display:flex;align-items:center;gap:8px} .beta-chip,.release-chip{border:1px solid rgba(243,201,101,.22);background:rgba(243,201,101,.06);color:#f4ce73;padding:6px 8px;border-radius:999px;font:900 8px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.06em}
-.online{font-size:8px;font-weight:900;color:#cad2dd} .online-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(97,229,170,.5);margin-right:6px}
-.content{min-height:0;overflow-y:auto;overflow-x:hidden;padding:19px 22px 72px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.content::-webkit-scrollbar{width:0;height:0;display:none}
-.page{display:none;min-height:min-content;animation:pageIn .18s ease} .page.active{display:block}
+.top-left{display:flex;align-items:center;gap:10px}
+.home-top-btn{width:36px;height:36px;border-radius:10px;border:1px solid #2a3544;background:#101722;color:#aab4c1;display:grid;place-items:center;cursor:pointer;font-size:16px}
+.home-top-btn:hover,.home-top-btn.active{border-color:var(--accent-border);background:var(--accent-soft);color:var(--accent)}
+.page-title{font-size:20px;font-weight:1000;letter-spacing:.02em} .page-sub{font-size:10px;color:#7c899a;margin-top:2px}
+.top-actions{display:flex;align-items:center;gap:8px} .version-chip{border:1px solid rgba(242,201,101,.22);background:rgba(242,201,101,.06);color:#f2cf7a;border-radius:999px;padding:7px 9px;font-size:9px;font-weight:1000;letter-spacing:.04em}
+.online{font-size:9px;font-weight:900;color:#cad2dd} .online-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(97,231,174,.5);margin-right:6px}
+.content{min-height:0;overflow-y:auto;overflow-x:hidden;padding:21px 22px 76px;scrollbar-width:none;-webkit-overflow-scrolling:touch} .content::-webkit-scrollbar{width:0;height:0;display:none}
+.page{display:none;animation:pageIn .18s ease} .page.active{display:block}
 @keyframes pageIn{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:none}}
 body.no-animations *{animation-duration:.001ms!important;transition-duration:.001ms!important}
 
-/* shared */
-.panel{background:rgba(13,18,26,.96);border:1px solid var(--line);border-radius:16px}
-.eyebrow{font:1000 9px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.14em;color:color-mix(in srgb,var(--accent) 68%,white)}
-.section-title{font:1000 18px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.015em} .section-sub{font-size:10px;color:#79869a;line-height:1.45;margin-top:3px}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:0 0 12px}
-.muted-copy{font-size:10px;color:#8591a3;line-height:1.55}
-.primary-btn,.secondary-btn,.ghost-btn{border-radius:10px;padding:9px 12px;font:1000 9px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.045em;cursor:pointer}
-.primary-btn{color:white;border:1px solid color-mix(in srgb,var(--accent) 62%,#fff);background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 58%,#15030a))}
-.secondary-btn{color:color-mix(in srgb,var(--accent) 55%,white);border:1px solid var(--accent-border);background:var(--accent-soft)}
-.ghost-btn{color:#a9b3c1;border:1px solid #2a3544;background:#111822}
-.primary-btn:hover,.secondary-btn:hover,.ghost-btn:hover{filter:brightness(1.08)}
-.badge{display:inline-flex;align-items:center;gap:5px;border:1px solid #2b3747;background:#111722;color:#a8b4c3;border-radius:999px;padding:6px 8px;font-size:8px;font-weight:900}
+/* typography/shared */
+.eyebrow{font-size:10px;font-weight:1000;letter-spacing:.13em;color:color-mix(in srgb,var(--accent) 65%,white)}
+.section-title{font-size:21px;font-weight:1000;letter-spacing:.01em}
+.section-sub{font-size:11px;color:#8390a2;line-height:1.5;margin-top:4px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:0 0 13px}
+.panel{background:rgba(12,17,24,.97);border:1px solid var(--line);border-radius:16px}
+.btn{border-radius:10px;padding:10px 13px;font-size:10px;font-weight:1000;letter-spacing:.04em;cursor:pointer}
+.btn-primary{color:#fff;border:1px solid color-mix(in srgb,var(--accent) 62%,#fff);background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 56%,#19040b))}
+.btn-secondary{color:color-mix(in srgb,var(--accent) 54%,white);border:1px solid var(--accent-border);background:var(--accent-soft)}
+.btn-ghost{color:#a9b3c1;border:1px solid #2a3544;background:#111822}
+.muted{font-size:11px;color:#8591a3;line-height:1.55}
+.badge{display:inline-flex;align-items:center;border:1px solid #2b3747;background:#111722;color:#a8b4c3;border-radius:999px;padding:6px 8px;font-size:9px;font-weight:900}
 
-/* HOME */
-.home-hero{min-height:330px;display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;position:relative;background:linear-gradient(120deg,rgba(13,18,26,.97),rgba(13,18,26,.84));border:1px solid #222d3b;border-radius:18px}
-.home-copy{padding:31px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
-.home-title{font:1000 clamp(38px,4vw,58px)/.93 "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:-.02em;margin:9px 0 0} .home-title em{font-style:normal;color:var(--accent)}
-.home-desc{font-size:12px;line-height:1.6;color:#9aa6b6;max-width:650px;margin-top:13px}
-.home-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:19px}
-.home-agent{position:relative;min-height:330px;overflow:hidden}
-.home-agent img{position:absolute;inset:-20px -20px 0 auto;width:115%;height:115%;object-fit:contain;object-position:center top;filter:drop-shadow(0 0 28px var(--accent-soft))}
-.home-agent::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,18,26,.92),transparent 34%),linear-gradient(180deg,transparent 52%,rgba(13,18,26,.96))}
-.home-agent-label{position:absolute;z-index:2;right:22px;bottom:19px;text-align:right} .home-agent-label b{display:block;font:1000 24px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif} .home-agent-label span{font-size:9px;color:#8693a4}
-.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-.quick-card{padding:15px;background:#0d131b;border:1px solid #202a38;border-radius:14px;cursor:pointer;transition:.16s} .quick-card:hover{transform:translateY(-3px);border-color:#35465a}
-.quick-icon{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-border);display:grid;place-items:center;color:var(--accent);font-weight:1000}
-.quick-card b{display:block;font:1000 13px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin-top:12px} .quick-card span{display:block;font-size:9px;color:#758295;line-height:1.4;margin-top:3px}
-.home-lower{display:grid;grid-template-columns:1fr 350px;gap:12px;margin-top:12px}
-.how-card,.connection-card{padding:17px}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px} .step{padding:12px;border:1px solid #202a38;border-radius:11px;background:#0a1017} .step-n{width:25px;height:25px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent-border);display:grid;place-items:center;font-weight:1000;color:var(--accent)} .step b{display:block;font:1000 10px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin-top:8px} .step span{display:block;font-size:8px;color:#718095;line-height:1.4;margin-top:3px}
+/* HOME - info only */
+.home-hero{min-height:370px;display:grid;grid-template-columns:1.08fr .92fr;overflow:hidden;position:relative;background:linear-gradient(120deg,rgba(12,17,24,.98),rgba(12,17,24,.85));border:1px solid #222d3b;border-radius:18px}
+.home-copy{padding:34px;display:flex;flex-direction:column;justify-content:center;z-index:2}
+.home-title{font-size:clamp(42px,4.2vw,62px);line-height:.94;font-weight:1000;letter-spacing:-.025em;margin-top:9px} .home-title em{font-style:normal;color:var(--accent)}
+.home-desc{font-size:13px;line-height:1.65;color:#a0abba;max-width:700px;margin-top:15px}
+.home-agent{position:relative;min-height:370px;overflow:hidden}
+.home-agent img{position:absolute;inset:-18px -18px auto auto;width:116%;height:116%;object-fit:contain;object-position:center top;filter:drop-shadow(0 0 30px var(--accent-soft))}
+.home-agent::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,17,24,.94),transparent 34%),linear-gradient(180deg,transparent 52%,rgba(12,17,24,.98))}
+.home-agent-label{position:absolute;z-index:2;right:24px;bottom:22px;text-align:right} .home-agent-label span{display:block;font-size:9px;color:#7f8b9d} .home-agent-label b{display:block;font-size:26px;font-weight:1000;margin-top:2px}
+.rule-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:13px}
+.rule-card{padding:16px;background:#0d131b;border:1px solid #202a38;border-radius:14px}
+.rule-number{width:32px;height:32px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-border);display:grid;place-items:center;color:var(--accent);font-weight:1000}
+.rule-card b{display:block;font-size:13px;margin-top:11px} .rule-card p{font-size:10px;color:#7f8b9d;line-height:1.5;margin:5px 0 0}
+.home-info-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:13px}
+.info-card{padding:18px}
+.example-box{margin-top:13px;border:1px solid #24303f;background:#0a1017;border-radius:13px;padding:14px}
+.example-line{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:11px} .example-kill{color:#fff;font-weight:1000} .example-agent{padding:6px 8px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent-border);color:color-mix(in srgb,var(--accent) 55%,white);font-weight:1000}
+.disclaimer{font-size:10px;color:#8793a4;line-height:1.55;margin-top:11px}
 
-/* dashboard */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} .stat-card{padding:16px;background:#0d131b;border:1px solid #202a38;border-radius:14px;min-height:118px;position:relative;overflow:hidden}
-.stat-card::after{content:"";position:absolute;right:-28px;top:-32px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft),transparent 68%)}
-.stat-icon{width:33px;height:33px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-border);display:grid;place-items:center;color:var(--accent);font-weight:1000}
-.stat-label{font:1000 9px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;letter-spacing:.08em;color:#8591a3;margin-top:9px} .stat-value{font:1000 29px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin-top:3px} .stat-sub{font-size:9px;color:#6f7c8f;margin-top:3px}
-.dashboard-grid{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:12px} .panel-pad{padding:15px}
-.tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap} .filter{border:1px solid #283442;background:#101722;color:#8e9aab;border-radius:999px;padding:7px 9px;font:900 8px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;cursor:pointer} .filter.active{background:var(--accent-soft);border-color:var(--accent-border);color:color-mix(in srgb,var(--accent) 55%,white)}
-.search{margin-left:auto;min-width:205px;border:1px solid #293543;background:#090f16;color:#eef2f7;padding:8px 11px;border-radius:999px;font-size:9px;outline:none}
-.search:focus{border-color:var(--accent-border);box-shadow:0 0 0 2px var(--accent-soft)}
-.agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:11px}
+/* Dashboard */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.stat{padding:17px;background:#0d131b;border:1px solid #202a38;border-radius:14px;min-height:124px}
+.stat-icon{width:35px;height:35px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-border);display:grid;place-items:center;color:var(--accent);font-weight:1000}
+.stat-label{font-size:10px;font-weight:1000;letter-spacing:.07em;color:#8995a7;margin-top:10px} .stat-value{font-size:31px;font-weight:1000;margin-top:4px} .stat-sub{font-size:10px;color:#717e91;margin-top:3px}
+.dashboard-grid{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-top:13px} .panel-pad{padding:16px}
+.tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap} .filter{border:1px solid #283442;background:#101722;color:#8e9aab;border-radius:999px;padding:8px 10px;font-size:9px;font-weight:1000;cursor:pointer} .filter.active{background:var(--accent-soft);border-color:var(--accent-border);color:color-mix(in srgb,var(--accent) 55%,white)}
+.search{margin-left:auto;min-width:210px;border:1px solid #293543;background:#090f16;color:#eef2f7;padding:9px 11px;border-radius:999px;font-size:10px;outline:none}
+.agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 
-/* agents */
-.agent-card{position:relative;min-height:242px;border:1px solid #202a38;border-radius:13px;background:#0a1017;overflow:hidden;transition:.16s}
+/* Agents */
+.agent-card{position:relative;min-height:255px;border:1px solid #202a38;border-radius:13px;background:#0a1017;overflow:hidden;transition:.16s}
 .agent-card:hover{transform:translateY(-3px);border-color:#38495e;box-shadow:0 14px 35px rgba(0,0,0,.24)}
 .agent-card img{position:absolute;inset:-8px -26px auto auto;width:116%;height:72%;object-fit:contain;object-position:center top}
-.agent-fallback{position:absolute;inset:0 0 34% 0;display:grid;place-items:center;font:1000 64px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;color:#263446;background:radial-gradient(circle,#172331,#0a1017 72%)}
-.agent-fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 37%,rgba(8,11,16,.98) 76%)}
-.agent-info{position:absolute;z-index:2;left:12px;right:12px;bottom:11px}
-.agent-heading{display:flex;justify-content:space-between;align-items:center;gap:8px} .agent-name{font:1000 16px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif}
-.progress-count{font:1000 13px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;color:#fff;background:#111a25;border:1px solid #334255;border-radius:8px;padding:4px 7px}
-.progress-row{display:flex;align-items:center;gap:8px;margin-top:8px} .progress-track{height:7px;flex:1;border-radius:99px;background:#060a0f;border:1px solid #17202b;overflow:hidden} .progress-track i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 65%,#fff));box-shadow:0 0 14px var(--accent-soft)}
-.agent-tier{font-size:9px;color:#8491a3;margin-top:7px} .agent-tier b{color:#dfe5ed;font:1000 10px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif}
+.agent-fallback{position:absolute;inset:0 0 34% 0;display:grid;place-items:center;font-size:66px;font-weight:1000;color:#263446;background:radial-gradient(circle,#172331,#0a1017 72%)}
+.agent-fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 37%,rgba(8,11,16,.985) 76%)}
+.agent-info{position:absolute;z-index:2;left:13px;right:13px;bottom:12px}
+.agent-top{display:flex;align-items:center;justify-content:space-between;gap:8px} .agent-name{font-size:17px;font-weight:1000}
+.progress-count{font-size:14px;font-weight:1000;color:#fff;background:#111a25;border:1px solid #334255;border-radius:8px;padding:5px 8px}
+.progress-track{height:8px;border-radius:99px;background:#060a0f;border:1px solid #17202b;overflow:hidden;margin-top:9px} .progress-track i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 65%,#fff));box-shadow:0 0 14px var(--accent-soft)}
+.agent-tier{font-size:10px;color:#8692a4;margin-top:8px} .agent-tier b{font-size:11px;color:#e2e7ee}
 .big-agent-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 
-/* matches */
-.match-list{display:grid;gap:10px} .match-card{display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center;padding:15px;background:#0d131b;border:1px solid #202a38;border-radius:14px}
-.match-result{border-right:1px solid #222d3a;padding-right:13px} .result-badge{display:inline-block;border-radius:8px;padding:6px 8px;font:1000 10px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif}
-.result-win{background:rgba(97,229,170,.10);border:1px solid rgba(97,229,170,.25);color:#79efb9} .result-loss{background:rgba(255,100,122,.09);border:1px solid rgba(255,100,122,.23);color:#ff8799}
-.match-map{font:1000 17px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin-top:7px} .match-mode{font-size:8px;color:#778498;margin-top:2px}
-.match-main{display:grid;grid-template-columns:repeat(4,1fr);gap:8px} .match-stat{padding:8px 9px;border:1px solid #202a38;border-radius:9px;background:#0a1017} .match-stat span{display:block;font-size:8px;color:#6e7b8e} .match-stat b{display:block;font:1000 12px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin-top:2px}
-.milestones{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end} .milestone{border-radius:999px;padding:6px 8px;background:var(--accent-soft);border:1px solid var(--accent-border);color:color-mix(in srgb,var(--accent) 50%,white);font:900 8px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif}
+/* Matches deluxe */
+.matches-hero{padding:20px;border:1px solid #202a38;border-radius:16px;background:radial-gradient(circle at 88% 18%,var(--accent-soft),transparent 27%),linear-gradient(135deg,#0d131b,#101823);margin-bottom:12px}
+.matches-title{font-size:27px;font-weight:1000} .matches-copy{font-size:11px;color:#8390a2;line-height:1.5;margin-top:4px}
+.match-list{display:grid;gap:11px}
+.match-card{position:relative;overflow:hidden;display:grid;grid-template-columns:145px minmax(0,1fr) auto;gap:15px;align-items:center;padding:17px;background:linear-gradient(135deg,#0d131b,#0b1017);border:1px solid #202a38;border-radius:15px}
+.match-card::after{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--match-color,#61e7ae)}
+.match-result{padding-right:14px;border-right:1px solid #222d3a} .result{display:inline-block;padding:6px 8px;border-radius:8px;font-size:11px;font-weight:1000} .win{color:#7cf0ba;border:1px solid rgba(97,231,174,.25);background:rgba(97,231,174,.09)} .loss{color:#ff8da0;border:1px solid rgba(255,111,130,.24);background:rgba(255,111,130,.08)}
+.match-map{font-size:19px;font-weight:1000;margin-top:8px} .match-mode{font-size:9px;color:#79869a;margin-top:2px}
+.match-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px} .match-stat{padding:10px;border:1px solid #202a38;border-radius:10px;background:#0a1017} .match-stat span{display:block;font-size:9px;color:#728095} .match-stat b{display:block;font-size:14px;margin-top:3px}
+.milestones{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:220px} .milestone{padding:7px 9px;border-radius:999px;border:1px solid var(--accent-border);background:var(--accent-soft);color:color-mix(in srgb,var(--accent) 55%,white);font-size:9px;font-weight:1000}
 
-/* progression */
-.rank-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px} .rank-card{position:relative;overflow:hidden;padding:18px;background:linear-gradient(145deg,#0d131b,#101823);border:1px solid #222d3b;border-radius:15px;min-height:156px}
-.rank-card::after{content:"";position:absolute;right:-25px;top:-30px;width:135px;height:135px;border-radius:50%;background:radial-gradient(circle,var(--rank-glow,rgba(255,48,79,.13)),transparent 68%)}
-.rank-top{display:flex;align-items:center;gap:11px} .rank-emblem{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--rank-color,#ff304f),#111722);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font:1000 19px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;box-shadow:0 0 24px var(--rank-glow,rgba(255,48,79,.12))}
-.rank-name{font:1000 18px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif} .rank-level{font-size:9px;color:#79869a;margin-top:2px}
-.rank-copy{font-size:9px;color:#7c899b;line-height:1.45;margin-top:14px} .rank-requirement{font:900 9px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;color:#cad2dd;margin-top:9px}
+/* Progression */
+.rank-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px} .rank-card{padding:19px;position:relative;overflow:hidden;background:linear-gradient(145deg,#0d131b,#101823);border:1px solid #222d3b;border-radius:15px;min-height:164px}
+.rank-card::after{content:"";position:absolute;right:-24px;top:-28px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--rank-glow),transparent 68%)}
+.rank-head{display:flex;align-items:center;gap:12px} .rank-emblem{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,var(--rank-color),#111722);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-size:20px;font-weight:1000;box-shadow:0 0 24px var(--rank-glow)}
+.rank-name{font-size:20px;font-weight:1000} .rank-level{font-size:9px;color:#7d899b;margin-top:2px} .rank-copy{font-size:10px;color:#7e8a9c;line-height:1.5;margin-top:14px} .rank-req{font-size:10px;color:#d2dae5;font-weight:1000;margin-top:10px}
 
-/* rebirth+ */
-.plus-hero{padding:24px;border:1px solid var(--accent-border);border-radius:17px;background:radial-gradient(circle at 82% 10%,var(--accent-soft),transparent 33%),linear-gradient(135deg,#111722,#0c1118)} .plus-title{font:1000 34px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin:10px 0 0} .benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px} .plus-card{padding:14px;border:1px solid #222d3a;border-radius:12px;background:#0d131b} .plus-card b{font:1000 11px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif} .plus-card p{font-size:9px;color:#778497;line-height:1.45;margin:6px 0 0}
+/* Leaderboard */
+.leader-hero{padding:20px;border:1px solid #202a38;border-radius:16px;background:radial-gradient(circle at 80% 20%,rgba(245,201,101,.10),transparent 28%),linear-gradient(135deg,#0d131b,#101823);margin-bottom:12px}
+.leaderboard{display:grid;grid-template-columns:1fr 340px;gap:12px} .leader-table{overflow:hidden;border:1px solid #202a38;border-radius:14px;background:#0d131b}
+.leader-row{display:grid;grid-template-columns:56px 1fr 120px 120px;gap:10px;align-items:center;padding:13px 15px;border-bottom:1px solid #1f2935} .leader-row:last-child{border-bottom:0} .leader-row.header{font-size:9px;color:#758295;background:#0a1017;font-weight:1000} .place{font-size:15px;font-weight:1000;color:#f0c969} .player{font-size:13px;font-weight:1000} .player span{display:block;font-size:9px;color:#768396;margin-top:2px}
+.leader-stat{font-size:12px;font-weight:1000} .leader-side{padding:16px} .leader-side .rule-card{margin-top:9px}
+.demo-label{display:inline-block;padding:6px 8px;border-radius:999px;border:1px solid rgba(242,201,101,.24);background:rgba(242,201,101,.06);color:#f1cc72;font-size:9px;font-weight:1000}
 
-/* settings */
-.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px} .setting-card{padding:17px;background:#0d131b;border:1px solid #202a38;border-radius:14px} .setting-card h3{margin:0;font:1000 15px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif} .setting-card p{font-size:10px;color:#8793a4;line-height:1.48;margin:6px 0 0}
-.setting-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px} .setting-label{font-size:9px;color:#8b97a8}
-.select{background:#0a1017;color:#eef2f7;border:1px solid #2a3645;border-radius:9px;padding:8px 9px;font-size:9px}
-.toggle{width:43px;height:23px;border:1px solid #334052;background:#121923;border-radius:999px;padding:2px;cursor:pointer} .toggle i{display:block;width:17px;height:17px;border-radius:50%;background:#798697;transition:.18s} .toggle.on{background:var(--accent-soft);border-color:var(--accent-border)} .toggle.on i{transform:translateX(18px);background:var(--accent)}
-.restore-card{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;border-color:#2b3542} .restore-copy h3{font-size:16px} .restore-copy p{font-size:10px;max-width:650px}
-.settings-note{font-size:9px;color:#748195}
+/* Rebirth+ */
+.plus-hero{padding:25px;border:1px solid var(--accent-border);border-radius:17px;background:radial-gradient(circle at 82% 10%,var(--accent-soft),transparent 33%),linear-gradient(135deg,#111722,#0c1118)} .plus-title{font-size:36px;font-weight:1000;margin:10px 0 0} .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px} .plus-card{padding:15px;border:1px solid #222d3a;border-radius:12px;background:#0d131b} .plus-card b{font-size:12px} .plus-card p{font-size:10px;color:#7d899a;line-height:1.5;margin:6px 0 0}
 
-/* updater */
-.update-overlay{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;background:rgba(3,5,8,.78);backdrop-filter:blur(12px)} .update-overlay.show{display:flex}
-.update-card{width:min(470px,calc(100vw - 34px));overflow:hidden;border-radius:20px;border:1px solid var(--accent-border);background:#0b1017;box-shadow:0 35px 120px rgba(0,0,0,.66),0 0 70px var(--accent-soft)}
-.update-banner{position:relative;display:flex;align-items:center;gap:12px;padding:19px;background:radial-gradient(circle at 90% 10%,var(--accent-soft),transparent 36%),linear-gradient(135deg,#151b25,#0d1219)} .update-logo{width:50px;height:50px} .update-title{font:1000 19px "Bahnschrift SemiCondensed","Arial Narrow",sans-serif;margin-top:3px}
-.update-banner .release-chip{position:absolute;right:16px;top:16px} .update-body{padding:16px 19px 18px} .update-track{height:8px;border-radius:99px;background:#060a0f;border:1px solid #17202b;overflow:hidden;margin-top:13px} .update-track div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 65%,#fff));transition:.18s}
-.update-meta{display:flex;justify-content:space-between;font-size:8px;color:#6f7c8f;margin-top:7px} .update-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:16px}
+/* Settings larger */
+.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px} .setting{padding:18px;background:#0d131b;border:1px solid #202a38;border-radius:14px} .setting h3{font-size:17px;margin:0} .setting p{font-size:11px;color:#8995a6;line-height:1.5;margin:7px 0 0}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:11px;margin-top:14px} .setting-label{font-size:10px;color:#8d99a9}
+.select{background:#0a1017;color:#eef2f7;border:1px solid #2a3645;border-radius:9px;padding:9px 10px;font-size:10px}
+.toggle{width:44px;height:24px;border:1px solid #334052;background:#121923;border-radius:999px;padding:2px;cursor:pointer} .toggle i{display:block;width:18px;height:18px;border-radius:50%;background:#7a8798;transition:.18s} .toggle.on{background:var(--accent-soft);border-color:var(--accent-border)} .toggle.on i{transform:translateX(18px);background:var(--accent)}
+.restore-card{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;border-color:#2c3745} .restore-card h3{font-size:18px} .restore-card p{font-size:11px;max-width:700px} .settings-note{font-size:10px;color:#7b8899}
 
-/* responsive */
+/* updater luxury */
+.update-overlay{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;background:rgba(3,5,8,.80);backdrop-filter:blur(14px)} .update-overlay.show{display:flex}
+.update-shell{width:min(500px,calc(100vw - 34px));overflow:hidden;border-radius:22px;border:1px solid var(--accent-border);background:#0b1017;box-shadow:0 40px 130px rgba(0,0,0,.68),0 0 90px var(--accent-soft)}
+.update-luxury-head{position:relative;display:flex;gap:14px;align-items:center;padding:21px;background:radial-gradient(circle at 88% 12%,var(--accent-soft),transparent 35%),linear-gradient(135deg,#161d27,#0d1219)} .update-mark-wrap{width:58px;height:58px;border-radius:16px;border:1px solid var(--accent-border);background:var(--accent-soft);display:grid;place-items:center} .update-mark{width:46px;height:46px} .micro-label{font-size:8px;color:color-mix(in srgb,var(--accent) 60%,white);font-weight:1000;letter-spacing:.13em} .update-title{font-size:21px;font-weight:1000;margin-top:4px} .update-desc{font-size:10px;color:#8692a4;margin-top:4px}
+.version-pill{position:absolute;right:17px;top:17px;border:1px solid var(--accent-border);background:var(--accent-soft);color:color-mix(in srgb,var(--accent) 55%,white);border-radius:999px;padding:6px 8px;font-size:9px;font-weight:1000}
+.update-body{padding:17px 20px 19px} .update-track{height:9px;border-radius:99px;background:#060a0f;border:1px solid #17202b;overflow:hidden} .update-track div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 68%,#fff));box-shadow:0 0 18px var(--accent-soft);transition:.18s} .update-meta{display:flex;justify-content:space-between;font-size:9px;color:#718094;margin-top:8px} .update-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:17px}
+
+/* responsiveness */
 @media(max-width:1280px){.agent-grid{grid-template-columns:repeat(3,1fr)}.big-agent-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:980px){
-  :root{--sidebar-w:76px} body{--sidebar-w:76px} .brand-text,.nav-label,.riot-copy,.sidebar-agent-copy,.release-footer{display:none!important}
-  .brand{padding:0 15px} .nav-btn{justify-content:center;padding:0} .nav-icon{width:auto} .sidebar-agent{height:58px;margin:6px 8px} .sidebar-agent img{width:180%}
-  .home-hero{grid-template-columns:1fr} .home-agent{min-height:270px} .quick-grid{grid-template-columns:1fr 1fr} .home-lower{grid-template-columns:1fr} .steps{grid-template-columns:1fr 1fr}
-  .dashboard-grid{grid-template-columns:1fr} .stats-grid{grid-template-columns:1fr 1fr} .agent-grid{grid-template-columns:1fr 1fr} .big-agent-grid{grid-template-columns:repeat(3,1fr)} .rank-grid{grid-template-columns:1fr 1fr} .benefit-grid{grid-template-columns:1fr 1fr} .settings-grid{grid-template-columns:1fr}
-}
-@media(max-width:650px){
-  html,body{height:auto;min-height:100%;overflow-y:auto} .app{height:auto;min-height:100dvh;display:block;padding-bottom:70px} .sidebar{position:fixed;left:0;right:0;bottom:0;height:64px;width:100%;z-index:100;border-right:0;border-top:1px solid #202a38} .brand,.sidebar-spacer,.sidebar-agent,.riot-card,.release-footer{display:none} .nav{height:64px;grid-template-columns:repeat(7,1fr);padding:6px 4px;gap:2px} .nav-btn{height:50px;padding:0;font-size:0;justify-content:center} .nav-icon{font-size:16px}
-  .main{height:auto;min-height:100dvh;display:block;overflow:visible} .topbar{position:sticky;top:0;z-index:90;min-height:58px;padding:9px 12px} .content{overflow:visible;padding:12px 12px 86px} .home-copy{padding:20px} .home-title{font-size:38px} .quick-grid,.stats-grid,.steps,.agent-grid,.big-agent-grid,.rank-grid,.benefit-grid{grid-template-columns:1fr} .match-card{grid-template-columns:1fr} .match-result{border-right:0;border-bottom:1px solid #222d3a;padding:0 0 10px} .match-main{grid-template-columns:1fr 1fr} .milestones{justify-content:flex-start} .search{min-width:150px;margin-left:0} .splash-rings{width:390px;height:390px}
-}
+@media(max-width:1000px){:root{--sidebar-w:78px}.brand-text,.nav-label,.riot-copy,.release-footer{display:none!important}.nav-btn{justify-content:center;padding:0}.nav-icon{width:auto}.home-hero{grid-template-columns:1fr}.home-agent{min-height:300px}.rule-grid{grid-template-columns:1fr 1fr}.home-info-grid,.dashboard-grid,.leaderboard{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.big-agent-grid{grid-template-columns:repeat(3,1fr)}.rank-grid,.benefits{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}
+@media(max-width:680px){html,body{height:auto;min-height:100%;overflow-y:auto}.app{height:auto;min-height:100dvh;display:block;padding-bottom:70px}.sidebar{position:fixed;bottom:0;left:0;right:0;height:64px;width:100%;z-index:100;border-right:0;border-top:1px solid #202a38}.brand,.sidebar-spacer,.riot-card,.release-footer,.sidebar-rail-toggle{display:none}.nav{grid-template-columns:repeat(6,1fr);height:64px;padding:6px 4px;gap:2px}.nav-btn{height:50px;font-size:0;justify-content:center;padding:0}.nav-icon{font-size:17px}.main{height:auto;min-height:100dvh;display:block;overflow:visible}.topbar{position:sticky;top:0;z-index:90;min-height:58px;padding:9px 12px}.content{overflow:visible;padding:13px 12px 86px}.home-copy{padding:22px}.home-title{font-size:40px}.home-agent{min-height:270px}.rule-grid,.stats,.agent-grid,.big-agent-grid,.rank-grid,.benefits{grid-template-columns:1fr}.match-card{grid-template-columns:1fr}.match-result{border-right:0;border-bottom:1px solid #222d3a;padding:0 0 11px}.match-stats{grid-template-columns:1fr 1fr}.milestones{justify-content:flex-start;max-width:none}.leader-row{grid-template-columns:42px 1fr 90px}.leader-row>*:nth-child(4){display:none}.splash-rings{width:390px;height:390px}}
 </style>
 </head>
 <body>
 <div id="startupSplash" class="startup-splash">
   <div class="splash-grid"></div><div class="splash-rings"></div>
-  <div class="splash-core">
-    <img class="splash-logo" src="assets/rebirth-v.png" alt="">
-    <div class="splash-title">REBIRTH ARENA</div>
-    <div class="splash-sub">POST-MATCH COMPANION</div>
-    <div id="splashStatus" class="splash-status">INITIALIZING SYSTEMS</div>
-    <div class="splash-loader"><i></i></div>
-  </div>
+  <div class="splash-core"><img src="assets/rebirth-v.png" class="splash-logo"><div class="splash-title">REBIRTH ARENA</div><div class="splash-sub">POST-MATCH COMPANION</div><div id="splashStatus" class="splash-status">INITIALIZING SYSTEMS</div><div class="splash-loader"><i></i></div></div>
 </div>
 <script>
 (function(){
-  const sp=document.getElementById("startupSplash"), st=document.getElementById("splashStatus");
-  if(!sp)return;
-  const desktop=!!window.rebirthDesktop;
-  const stages=desktop?[[450,"LOADING AGENT MODULES"],[950,"SYNCING INTERFACE"],[1450,"READY"]]:[[320,"LOADING INTERFACE"],[720,"LOADING AGENT MODULES"],[1200,"READY"]];
-  stages.forEach(([ms,x])=>setTimeout(()=>{if(st)st.textContent=x},ms));
-  const close=()=>{sp.classList.add("hide");setTimeout(()=>sp.remove(),650)};
-  setTimeout(close,desktop?1850:1600);
-  setTimeout(()=>document.getElementById("startupSplash")?.remove(),4000);
+ const sp=document.getElementById("startupSplash"),st=document.getElementById("splashStatus");if(!sp)return;
+ const desktop=!!window.rebirthDesktop;
+ const stages=desktop?[[500,"LOADING AGENT MODULES"],[1050,"SYNCING PROFILE SERVICES"],[1550,"READY"]]:[[320,"LOADING INTERFACE"],[760,"LOADING AGENT MODULES"],[1250,"READY"]];
+ stages.forEach(([ms,x])=>setTimeout(()=>{if(st)st.textContent=x},ms));
+ const close=()=>{sp.classList.add("hide");setTimeout(()=>sp.remove(),700)};
+ setTimeout(close,desktop?1950:1650);
+ setTimeout(()=>document.getElementById("startupSplash")?.remove(),4200);
 })();
 </script>
 
 <div class="app">
+<div class="theme-fx"><div class="fx-ring"></div><div class="fx-orb"></div><div class="fx-streak"></div><div class="fx-shard"></div><div class="fx-flare"></div></div>
+
 <aside class="sidebar">
-  <div class="brand">
-    <img class="brand-logo" src="assets/rebirth-v.png"><div class="brand-text"><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div>
-    <button id="collapseSidebar" class="collapse-btn" title="Collapse sidebar">‹</button>
-  </div>
+  <div class="brand"><img src="assets/rebirth-v.png" class="brand-logo"><div class="brand-text"><div class="brand-name">REBIRTH ARENA</div><div class="brand-sub">POST-MATCH COMPANION</div></div></div>
   <nav class="nav">
-    <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></button>
-    <button class="nav-btn" data-page="dashboard"><span class="nav-icon">▦</span><span class="nav-label">Dashboard</span></button>
+    <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span><span class="nav-label">Dashboard</span></button>
     <button class="nav-btn" data-page="matches"><span class="nav-icon">◫</span><span class="nav-label">Matches</span></button>
     <button class="nav-btn" data-page="agents"><span class="nav-icon">◉</span><span class="nav-label">Agents</span></button>
     <button class="nav-btn" data-page="progression"><span class="nav-icon">◇</span><span class="nav-label">Progression</span></button>
+    <button class="nav-btn" data-page="leaderboard"><span class="nav-icon">♛</span><span class="nav-label">Leaderboard</span></button>
     <button class="nav-btn" data-page="rebirthplus"><span class="nav-icon">✦</span><span class="nav-label">Rebirth+</span></button>
     <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></button>
   </nav>
   <div class="sidebar-spacer"></div>
-  <div class="sidebar-agent"><img id="sidebarAgentImg" alt=""><div class="sidebar-agent-copy"><b id="sidebarAgentName">Omen</b><span>Synced to selected background</span></div></div>
   <div class="riot-card"><div class="riot-avatar">R</div><div class="riot-copy"><b>RIOT ACCOUNT</b><span>Not connected • API pending</span></div></div>
-  <div class="release-footer"><span data-release>Rebirth v2</span> • Desktop/Web Beta</div>
+  <div class="release-footer"><span data-release>Rebirth v2</span> • Beta</div>
 </aside>
+
+<button id="sidebarToggle" class="sidebar-rail-toggle" title="Collapse navigation"><span>‹</span></button>
 
 <section class="main">
 <header class="topbar">
-  <div><div id="pageTitle" class="page-title">Home</div><div id="pageSub" class="page-sub">Your Rebirth Arena command center.</div></div>
-  <div class="top-actions"><span class="beta-chip" data-release>Rebirth v2</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span></div>
+  <div class="top-left"><button id="homeTopBtn" class="home-top-btn" title="Home">⌂</button><div><div id="pageTitle" class="page-title">Home</div><div id="pageSub" class="page-sub">How Rebirth Arena works.</div></div></div>
+  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span></div>
 </header>
 
 <div class="content">
 <section class="page active" id="page-home">
   <div class="home-hero">
     <div class="home-copy">
-      <div class="eyebrow">REBIRTH ARENA // COMMAND CENTER</div>
-      <div class="home-title tactical">TRACK. <em>REBIRTH.</em><br>GO AGAIN.</div>
-      <div class="home-desc">A post-match VALORANT challenge companion built around your exact milestone eliminations. Your #10, #20, #30 kill awards progression to the enemy agent you eliminated — not the agent you played.</div>
-      <div class="home-actions">
-        <button class="primary-btn jump" data-jump="dashboard">OPEN DASHBOARD</button>
-        <button class="secondary-btn jump" data-jump="agents">VIEW AGENTS</button>
-        <button class="ghost-btn jump" data-jump="progression">PROGRESSION</button>
-      </div>
+      <div class="eyebrow">REBIRTH ARENA // COMMUNITY CHALLENGE</div>
+      <div class="home-title">A NEW WAY TO <em>PLAY YOUR MATCHES.</em></div>
+      <div class="home-desc">Rebirth Arena is an optional community challenge layered on top of completed VALORANT matches. It does not change matchmaking, skill rating, rewards or gameplay. It simply turns specific milestone eliminations into a long-term collection and competition system.</div>
     </div>
-    <div class="home-agent"><img id="homeAgentImg" alt=""><div class="home-agent-label"><span>ACTIVE BACKGROUND AGENT</span><b id="homeAgentName">Omen</b></div></div>
+    <div class="home-agent"><img id="homeAgentImg" alt=""><div class="home-agent-label"><span>CURRENT BACKGROUND AGENT</span><b id="homeAgentName">Omen</b></div></div>
   </div>
 
-  <div class="quick-grid">
-    <div class="quick-card jump" data-jump="dashboard"><div class="quick-icon">▦</div><b>Dashboard</b><span>Your progression overview, stats and active agent targets.</span></div>
-    <div class="quick-card jump" data-jump="matches"><div class="quick-icon">◫</div><b>Matches</b><span>Completed-match breakdowns and milestone victims.</span></div>
-    <div class="quick-card jump" data-jump="agents"><div class="quick-icon">◉</div><b>Agents</b><span>See every enemy agent, current points and next-tier progress.</span></div>
-    <div class="quick-card jump" data-jump="rebirthplus"><div class="quick-icon">✦</div><b>Rebirth+</b><span>Temporary preview of premium analytics and customization.</span></div>
+  <div class="rule-grid">
+    <div class="rule-card"><div class="rule-number">1</div><b>Play normally</b><p>Your own selected agent does not receive Rebirth points. You play VALORANT exactly as you normally would.</p></div>
+    <div class="rule-card"><div class="rule-number">10</div><b>Milestone elimination</b><p>Rebirth Arena checks your exact 10th, 20th, 30th elimination and every later multiple of ten.</p></div>
+    <div class="rule-card"><div class="rule-number">+1</div><b>The enemy gets the point</b><p>If your 10th elimination is against Reyna, Reyna receives one Rebirth point in your profile.</p></div>
+    <div class="rule-card"><div class="rule-number">5</div><b>Rank up that agent</b><p>Collect five milestone points against the same enemy agent to advance that agent to the next Rebirth tier.</p></div>
   </div>
 
-  <div class="home-lower">
-    <div class="panel how-card">
-      <div class="section-title">How Rebirth works</div><div class="section-sub">Simple rule. Separate progression for every enemy agent.</div>
-      <div class="steps">
-        <div class="step"><div class="step-n">1</div><b>Finish the match</b><span>Only completed match data is processed.</span></div>
-        <div class="step"><div class="step-n">2</div><b>Order your kills</b><span>Your eliminations are counted chronologically.</span></div>
-        <div class="step"><div class="step-n">3</div><b>Find the victim</b><span>Kill #10 on Reyna means Reyna receives +1.</span></div>
-        <div class="step"><div class="step-n">4</div><b>Tier up</b><span>Five milestone points on one agent advances its tier.</span></div>
+  <div class="home-info-grid">
+    <div class="panel info-card">
+      <div class="section-title">Example</div><div class="section-sub">The rule is based on the enemy you eliminate, not the character you are playing.</div>
+      <div class="example-box">
+        <div class="example-line"><span>You are playing <b>Phoenix</b></span><span>→</span><span class="example-kill">Your #10 kill defeats</span><span class="example-agent">REYNA</span><span>→</span><span class="example-agent">REYNA +1</span></div>
       </div>
+      <div class="disclaimer">There is no cash prize, in-game reward, ranked advantage or gameplay benefit for earning Rebirth points. The goal is simply to create a fun, long-term challenge and a social leaderboard for players who choose to participate.</div>
     </div>
-    <div class="panel connection-card">
-      <div class="eyebrow">RIOT CONNECTION</div><div class="section-title" style="margin-top:6px">Account sync</div>
-      <div class="muted-copy" style="margin-top:7px">Riot authentication and completed-match sync will activate after API approval. No live competitive information is displayed.</div>
-      <button class="secondary-btn" style="width:100%;margin-top:14px" disabled>API APPROVAL PENDING</button>
+    <div class="panel info-card">
+      <div class="section-title">Community competition</div><div class="section-sub">Once Riot account sync is enabled, opted-in players can compare their Rebirth journey on global leaderboards.</div>
+      <div class="example-box">
+        <div class="example-line"><span class="example-agent">TOTAL REBIRTH SCORE</span><span class="example-agent">MOST MILESTONE KILLS</span><span class="example-agent">PLAY TIME</span></div>
+      </div>
+      <div class="disclaimer">Leaderboard categories are designed for entertainment and progression only. They are not an alternative skill rating, MMR or official VALORANT rank.</div>
     </div>
   </div>
 </section>
 
 <section class="page" id="page-dashboard">
-  <div class="section-head"><div><div class="eyebrow">PERFORMANCE OVERVIEW</div><div class="section-title">Dashboard</div><div class="section-sub">Your most useful progression information in one place.</div></div></div>
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-icon">M</div><div class="stat-label">MATCHES PROCESSED</div><div class="stat-value">0</div><div class="stat-sub">Completed matches analyzed</div></div>
-    <div class="stat-card"><div class="stat-icon">#</div><div class="stat-label">MILESTONE KILLS</div><div class="stat-value">0</div><div class="stat-sub">#10, #20, #30 and beyond</div></div>
-    <div class="stat-card"><div class="stat-icon">A</div><div class="stat-label">AGENTS RANKED</div><div class="stat-value">0</div><div class="stat-sub">Enemy agents with progress</div></div>
-    <div class="stat-card"><div class="stat-icon">V</div><div class="stat-label">HIGHEST TIER</div><div class="stat-value">—</div><div class="stat-sub">Your current best agent tier</div></div>
+  <div class="section-head"><div><div class="eyebrow">PLAYER OVERVIEW</div><div class="section-title">Dashboard</div><div class="section-sub">Your personal Rebirth progression at a glance.</div></div></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-icon">M</div><div class="stat-label">MATCHES PROCESSED</div><div class="stat-value">0</div><div class="stat-sub">Completed matches analyzed</div></div>
+    <div class="stat"><div class="stat-icon">#</div><div class="stat-label">MILESTONE KILLS</div><div class="stat-value">0</div><div class="stat-sub">#10, #20, #30 and beyond</div></div>
+    <div class="stat"><div class="stat-icon">A</div><div class="stat-label">AGENTS RANKED</div><div class="stat-value">0</div><div class="stat-sub">Enemy agents with progress</div></div>
+    <div class="stat"><div class="stat-icon">V</div><div class="stat-label">HIGHEST TIER</div><div class="stat-value">—</div><div class="stat-sub">Your best Rebirth tier</div></div>
   </div>
   <div class="dashboard-grid">
     <div class="panel panel-pad">
-      <div class="section-head"><div><div class="section-title">Agent progression</div><div class="section-sub">Search the entire roster or filter by progression state.</div></div><span class="badge">DEMO DATA</span></div>
-      <div class="tools">
-        <button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="progress">IN PROGRESS</button><button class="filter" data-filter="near">NEAR RANK UP</button><button class="filter" data-filter="ranked">RANKED</button><button class="filter" data-filter="reborn">REBORN</button>
-        <input id="dashSearch" class="search" placeholder="Search all agents..."><button id="viewAll" class="filter">VIEW ALL</button>
-      </div>
+      <div class="section-head"><div><div class="section-title">Agent progression</div><div class="section-sub">Search the full roster or filter by progression state.</div></div><span class="badge">DEMO DATA</span></div>
+      <div class="tools"><button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="progress">IN PROGRESS</button><button class="filter" data-filter="near">NEAR RANK UP</button><button class="filter" data-filter="ranked">RANKED</button><button class="filter" data-filter="reborn">REBORN</button><input id="dashSearch" class="search" placeholder="Search all agents..."><button id="viewAll" class="filter">VIEW ALL</button></div>
       <div id="dashAgents" class="agent-grid"></div>
     </div>
     <div class="panel panel-pad">
-      <div class="section-title">Recent progression</div><div class="section-sub">Example milestone activity.</div>
-      <div class="steps" style="grid-template-columns:1fr;margin-top:12px">
-        <div class="step"><div class="step-n">10</div><b>Reyna +1</b><span>Your exact #10 elimination.</span></div>
-        <div class="step"><div class="step-n">20</div><b>Omen +1</b><span>Your exact #20 elimination.</span></div>
-        <div class="step"><div class="step-n">30</div><b>Jett +1</b><span>Your exact #30 elimination.</span></div>
+      <div class="section-title">Latest milestones</div><div class="section-sub">Example activity until Riot sync is connected.</div>
+      <div class="rule-grid" style="grid-template-columns:1fr;margin-top:12px">
+        <div class="rule-card"><b>#10 • Reyna +1</b><p>Your exact 10th elimination.</p></div>
+        <div class="rule-card"><b>#20 • Omen +1</b><p>Your exact 20th elimination.</p></div>
+        <div class="rule-card"><b>#30 • Jett +1</b><p>Your exact 30th elimination.</p></div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="page" id="page-matches">
-  <div class="section-head"><div><div class="eyebrow">POST-MATCH HISTORY</div><div class="section-title">Matches</div><div class="section-sub">Cleaner match summaries with milestone victims highlighted.</div></div><span class="badge">DEMO PREVIEW</span></div>
+  <div class="matches-hero"><div class="eyebrow">POST-MATCH ARCHIVE</div><div class="matches-title">Match Intelligence</div><div class="matches-copy">A deluxe completed-match view focused on the milestones that actually matter to Rebirth Arena.</div></div>
   <div class="match-list">
-    <div class="match-card">
-      <div class="match-result"><span class="result-badge result-win">VICTORY</span><div class="match-map">Ascent</div><div class="match-mode">Competitive • Demo</div></div>
-      <div class="match-main"><div class="match-stat"><span>Score</span><b>13–9</b></div><div class="match-stat"><span>Kills</span><b>32</b></div><div class="match-stat"><span>Milestones</span><b>3</b></div><div class="match-stat"><span>Processed</span><b style="color:var(--green)">Ready</b></div></div>
+    <div class="match-card" style="--match-color:#61e7ae">
+      <div class="match-result"><span class="result win">VICTORY</span><div class="match-map">Ascent</div><div class="match-mode">Competitive • Demo</div></div>
+      <div class="match-stats"><div class="match-stat"><span>Score</span><b>13–9</b></div><div class="match-stat"><span>Kills</span><b>32</b></div><div class="match-stat"><span>Milestones</span><b>3</b></div><div class="match-stat"><span>Status</span><b style="color:var(--green)">Processed</b></div></div>
       <div class="milestones"><span class="milestone">#10 REYNA +1</span><span class="milestone">#20 OMEN +1</span><span class="milestone">#30 JETT +1</span></div>
     </div>
-    <div class="match-card">
-      <div class="match-result"><span class="result-badge result-loss">DEFEAT</span><div class="match-map">Lotus</div><div class="match-mode">Competitive • Demo</div></div>
-      <div class="match-main"><div class="match-stat"><span>Score</span><b>10–13</b></div><div class="match-stat"><span>Kills</span><b>24</b></div><div class="match-stat"><span>Milestones</span><b>2</b></div><div class="match-stat"><span>Processed</span><b style="color:var(--green)">Ready</b></div></div>
+    <div class="match-card" style="--match-color:#ff6f82">
+      <div class="match-result"><span class="result loss">DEFEAT</span><div class="match-map">Lotus</div><div class="match-mode">Competitive • Demo</div></div>
+      <div class="match-stats"><div class="match-stat"><span>Score</span><b>10–13</b></div><div class="match-stat"><span>Kills</span><b>24</b></div><div class="match-stat"><span>Milestones</span><b>2</b></div><div class="match-stat"><span>Status</span><b style="color:var(--green)">Processed</b></div></div>
       <div class="milestones"><span class="milestone">#10 SAGE +1</span><span class="milestone">#20 VIPER +1</span></div>
     </div>
   </div>
 </section>
 
 <section class="page" id="page-agents">
-  <div class="section-head"><div><div class="eyebrow">FULL ROSTER</div><div class="section-title">Agents</div><div class="section-sub">Every enemy agent has its own 0/5 milestone bar and Rebirth tier.</div></div><input id="agentSearch" class="search" placeholder="Search agent..."></div>
+  <div class="section-head"><div><div class="eyebrow">FULL ROSTER</div><div class="section-title">Agents</div><div class="section-sub">Every enemy agent has a separate 0/5 milestone bar and Rebirth tier.</div></div><input id="agentSearch" class="search" placeholder="Search agent..."></div>
   <div id="allAgents" class="big-agent-grid"></div>
 </section>
 
 <section class="page" id="page-progression">
-  <div class="section-head"><div><div class="eyebrow">REBIRTH LADDER</div><div class="section-title">Progression</div><div class="section-sub">A clearer tier ladder with stronger typography, emblems and tier colors. Names remain temporary for now.</div></div></div>
+  <div class="section-head"><div><div class="eyebrow">REBIRTH LADDER</div><div class="section-title">Progression</div><div class="section-sub">Bigger tier cards, stronger hierarchy and individual visual identity. Tier names remain temporary for now.</div></div></div>
   <div id="rankGrid" class="rank-grid"></div>
 </section>
 
+<section class="page" id="page-leaderboard">
+  <div class="leader-hero"><span class="demo-label">DEMO / API PENDING</span><div class="section-title" style="font-size:28px;margin-top:10px">Global Rebirth Leaderboard</div><div class="section-sub">A future opt-in competition layer for logged-in players. This is not MMR, skill rating or an official VALORANT ranking system.</div></div>
+  <div class="leaderboard">
+    <div class="leader-table">
+      <div class="leader-row header"><span>PLACE</span><span>PLAYER</span><span>REBIRTH SCORE</span><span>MILESTONE KILLS</span></div>
+      <div class="leader-row"><span class="place">#1</span><span class="player">DemoPlayer#EUW<span>Most progress: Reyna</span></span><span class="leader-stat">184</span><span class="leader-stat">923</span></div>
+      <div class="leader-row"><span class="place">#2</span><span class="player">GhostStep#001<span>Most progress: Omen</span></span><span class="leader-stat">171</span><span class="leader-stat">864</span></div>
+      <div class="leader-row"><span class="place">#3</span><span class="player">NeonRun#FAST<span>Most progress: Neon</span></span><span class="leader-stat">159</span><span class="leader-stat">811</span></div>
+      <div class="leader-row"><span class="place">#4</span><span class="player">ClutchMode#GG<span>Most progress: Jett</span></span><span class="leader-stat">148</span><span class="leader-stat">790</span></div>
+    </div>
+    <div class="panel leader-side">
+      <div class="section-title">Future categories</div><div class="section-sub">Examples of statistics we can expose once Riot account and match sync are active.</div>
+      <div class="rule-card"><b>Highest Rebirth Score</b><p>Total progression earned across all enemy agents.</p></div>
+      <div class="rule-card"><b>Most Milestone Kills</b><p>Total #10 / #20 / #30 / ... qualifying eliminations.</p></div>
+      <div class="rule-card"><b>Agent Specialist</b><p>Highest progression against a specific enemy agent.</p></div>
+      <div class="rule-card"><b>Play Time</b><p>Opt-in completed-match time tracked for community comparison.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="page" id="page-rebirthplus">
-  <div class="plus-hero">
-    <div class="eyebrow">REBIRTH+ // TEMPORARY PREVIEW</div><div class="plus-title">MORE CONTROL. MORE HISTORY.</div><div class="section-sub">Concept-only preview while monetization remains disabled during beta.</div>
-    <div class="benefit-grid">
-      <div class="plus-card"><b>ADVANCED ANALYTICS</b><p>Detailed milestone patterns, agent trends and personal performance insights.</p></div>
+  <div class="plus-hero"><div class="eyebrow">REBIRTH+ // TEMPORARY PREVIEW</div><div class="plus-title">A MORE PERSONAL REBIRTH.</div><div class="section-sub">Premium customization and deeper analytics are planned concepts only. Payments remain disabled during beta.</div>
+    <div class="benefits">
+      <div class="plus-card"><b>PREMIUM THEMES</b><p>Expanded Arena backgrounds, accent colors and profile customization.</p></div>
+      <div class="plus-card"><b>ADVANCED ANALYTICS</b><p>Detailed milestone patterns, agent trends and progression insights.</p></div>
       <div class="plus-card"><b>FULL HISTORY</b><p>Extended match and progression history beyond the standard recent view.</p></div>
-      <div class="plus-card"><b>PROFILE THEMES</b><p>Premium profile frames, interface cosmetics and visual identity options.</p></div>
-      <div class="plus-card"><b>CINEMATIC RECAPS</b><p>Enhanced post-match visuals for milestone kills and tier-ups.</p></div>
-      <div class="plus-card"><b>SHARE CARDS</b><p>Exportable progression cards and personal Rebirth summaries.</p></div>
-      <div class="plus-card"><b>EARLY FEATURES</b><p>Preview selected Rebirth Arena features before public rollout.</p></div>
+      <div class="plus-card"><b>CINEMATIC RECAPS</b><p>Enhanced visual recaps for milestone kills and tier-ups.</p></div>
+      <div class="plus-card"><b>SHARE CARDS</b><p>Exportable Rebirth summaries and progression cards.</p></div>
+      <div class="plus-card"><b>EARLY FEATURES</b><p>Preview selected Rebirth Arena features before general release.</p></div>
     </div>
   </div>
 </section>
 
 <section class="page" id="page-settings">
-  <div class="section-head"><div><div class="eyebrow">PERSONALIZATION</div><div class="section-title">Settings</div><div class="section-sub">Larger, clearer controls. Every option below is functional and saved on this device.</div></div></div>
+  <div class="section-head"><div><div class="eyebrow">PERSONALIZATION</div><div class="section-title">Settings</div><div class="section-sub">Every preference is saved automatically to the active Rebirth profile.</div></div></div>
   <div class="settings-grid">
-    <div class="setting-card"><h3>Arena background</h3><p>Changes only the large application backdrop and featured agent. Text and cards stay unchanged.</p><div class="setting-row"><span class="setting-label">Background</span><select id="backgroundSelect" class="select">
-      <option value="black">Black // Omen</option><option value="white">White // Sage</option><option value="red">Red // Phoenix</option><option value="blue">Blue // Yoru</option><option value="cyan">Cyan // Neon</option><option value="violet">Violet // Reyna</option><option value="darkpurple">Dark Purple // Omen</option><option value="purple">Purple // Clove</option>
-    </select></div></div>
-    <div class="setting-card"><h3>Accent color</h3><p>Changes active buttons, progress bars and highlights. More premium color options can later move to Rebirth+.</p><div class="setting-row"><span class="setting-label">Accent</span><select id="accentSelect" class="select">
-      <option value="crimson">Crimson Pulse</option><option value="ice">Ice Core</option><option value="gold">Radiant Gold</option><option value="neon">Neon Lime</option><option value="violet">Void Violet</option><option value="magenta">Reyna Magenta</option><option value="ember">Ember Orange</option><option value="teal">Harbor Teal</option>
-    </select></div></div>
-    <div class="setting-card"><h3>Compact layout</h3><p>Reduces card height and spacing so more information fits on screen.</p><div class="setting-row"><span class="setting-label">Compact cards</span><button id="compactToggle" class="toggle"><i></i></button></div></div>
-    <div class="setting-card"><h3>Interface animations</h3><p>Enable hover movement, page transitions and micro-interactions.</p><div class="setting-row"><span class="setting-label">Animations</span><button id="animToggle" class="toggle on"><i></i></button></div></div>
-    <div class="setting-card"><h3>Startup cinematic</h3><p>Show the Rebirth Arena initialization screen when the app opens.</p><div class="setting-row"><span class="setting-label">Startup screen</span><button id="splashToggle" class="toggle on"><i></i></button></div></div>
-    <div class="setting-card"><h3>Notifications</h3><p>Allow match-processing, tier-up and update notifications.</p><div class="setting-row"><span class="setting-label">Notifications</span><button id="notifToggle" class="toggle on"><i></i></button></div></div>
-    <div class="setting-card"><h3>Cinematic tier-up effects</h3><p>Enable enhanced visuals when an enemy agent advances a Rebirth tier.</p><div class="setting-row"><span class="setting-label">Effects</span><button id="fxToggle" class="toggle on"><i></i></button></div></div>
-    <div class="setting-card"><h3>Remember last page</h3><p>Open Rebirth Arena where you left it instead of always starting on Home.</p><div class="setting-row"><span class="setting-label">Remember page</span><button id="rememberPageToggle" class="toggle"><i></i></button></div></div>
-    <div class="setting-card"><h3>Sidebar</h3><p>Remember whether the navigation sidebar is expanded or collapsed.</p><div class="setting-row"><span class="setting-label">Remember sidebar</span><button id="rememberSidebarToggle" class="toggle on"><i></i></button></div></div>
-    <div class="setting-card"><h3>Updates</h3><p>Check GitHub Releases for a newer Windows build.</p><div class="setting-row"><button id="checkUpdatesBtn" class="secondary-btn">CHECK FOR UPDATES</button></div></div>
-    <div class="setting-card restore-card"><div class="restore-copy"><h3>Restore Rebirth defaults</h3><p>Want a clean start? This only resets your interface preferences — it does not touch match history or progression data.</p></div><button id="resetPrefsBtn" class="secondary-btn">RESTORE DEFAULTS</button></div>
+    <div class="setting"><h3>Arena background</h3><p>Changes only the large application background. Text, cards and controls remain unchanged.</p><div class="setting-row"><span class="setting-label">Background</span><select id="backgroundSelect" class="select"><option value="black">Black // Omen</option><option value="white">White // Sage</option><option value="red">Red // Phoenix</option><option value="blue">Blue // Yoru</option><option value="cyan">Cyan // Neon</option><option value="violet">Violet // Reyna</option><option value="darkpurple">Dark Purple // Omen</option><option value="purple">Purple // Clove</option></select></div></div>
+    <div class="setting"><h3>Accent color</h3><p>Changes active buttons, progress bars and highlights. Premium theme collections can later become part of Rebirth+.</p><div class="setting-row"><span class="setting-label">Accent</span><select id="accentSelect" class="select"><option value="crimson">Crimson Pulse</option><option value="ice">Ice Core</option><option value="gold">Radiant Gold</option><option value="neon">Neon Lime</option><option value="violet">Void Violet</option><option value="magenta">Reyna Magenta</option><option value="ember">Ember Orange</option><option value="teal">Harbor Teal</option><option value="rose">Rose Circuit</option><option value="electric">Electric Blue</option><option value="mint">Mint Protocol</option><option value="sunset">Sunset Coral</option></select></div></div>
+    <div class="setting"><h3>Compact layout</h3><p>Reduces card height and spacing so more information fits on screen.</p><div class="setting-row"><span class="setting-label">Compact cards</span><button id="compactToggle" class="toggle"><i></i></button></div></div>
+    <div class="setting"><h3>Interface animations</h3><p>Enable motion, hover effects and page transitions.</p><div class="setting-row"><span class="setting-label">Animations</span><button id="animToggle" class="toggle on"><i></i></button></div></div>
+    <div class="setting"><h3>Startup cinematic</h3><p>Show the Rebirth Arena initialization sequence when the app opens.</p><div class="setting-row"><span class="setting-label">Startup screen</span><button id="splashToggle" class="toggle on"><i></i></button></div></div>
+    <div class="setting"><h3>Notifications</h3><p>Allow match-processing, tier-up and update notifications.</p><div class="setting-row"><span class="setting-label">Notifications</span><button id="notifToggle" class="toggle on"><i></i></button></div></div>
+    <div class="setting"><h3>Cinematic tier-up effects</h3><p>Enable enhanced visuals when an enemy agent advances a Rebirth tier.</p><div class="setting-row"><span class="setting-label">Effects</span><button id="fxToggle" class="toggle on"><i></i></button></div></div>
+    <div class="setting"><h3>Remember last page</h3><p>Open Rebirth Arena where you left it instead of always opening Home.</p><div class="setting-row"><span class="setting-label">Remember page</span><button id="rememberPageToggle" class="toggle"><i></i></button></div></div>
+    <div class="setting"><h3>Remember navigation</h3><p>Keep the sidebar expanded or collapsed exactly as you left it.</p><div class="setting-row"><span class="setting-label">Remember state</span><button id="rememberSidebarToggle" class="toggle on"><i></i></button></div></div>
+    <div class="setting"><h3>Updates</h3><p>Check the Rebirth release channel for a newer Windows build.</p><div class="setting-row"><button id="checkUpdatesBtn" class="btn btn-secondary">CHECK FOR UPDATES</button></div></div>
+    <div class="setting restore-card"><div><h3>Restore Rebirth defaults</h3><p>Want a clean start? This resets only your interface preferences. It will never delete match history, progression or account data.</p></div><button id="resetPrefsBtn" class="btn btn-secondary">RESTORE DEFAULTS</button></div>
   </div>
 </section>
 </div>
 </section>
 </div>
 
-<div id="toast" style="position:fixed;right:20px;bottom:20px;z-index:100001;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:10px 13px;font-size:9px;opacity:0;transform:translateY(7px);pointer-events:none;transition:.2s">Saved</div>
+<div id="toast" style="position:fixed;right:20px;bottom:20px;z-index:100001;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:11px 14px;font-size:10px;opacity:0;transform:translateY(7px);pointer-events:none;transition:.2s">Saved</div>
 
 <div id="updateOverlay" class="update-overlay">
-  <div class="update-card">
-    <div class="update-banner">
-      <img src="assets/rebirth-v.png" alt="" class="update-logo">
+  <div class="update-shell">
+    <div class="update-luxury-head">
+      <div class="update-mark-wrap"><img src="assets/rebirth-v.png" class="update-mark"></div>
       <div>
-        <div class="eyebrow">REBIRTH ARENA // SYSTEM UPDATE</div>
+        <div class="micro-label">REBIRTH ARENA // UPDATE SERVICE</div>
         <div id="updateTitle" class="update-title">Checking for updates</div>
+        <div id="updateDesc" class="update-desc">Connecting to the release channel.</div>
       </div>
-      <span id="updateVersion" class="release-chip">Rebirth v2</span>
+      <div id="updateVersion" class="version-pill">Rebirth v2</div>
     </div>
     <div class="update-body">
-      <div id="updateDesc" class="muted-copy">Looking for the newest Rebirth Arena build.</div>
       <div class="update-track"><div id="updateProgressBar"></div></div>
-      <div class="update-meta"><span id="updatePercent">0%</span><span id="updateState">SECURE DOWNLOAD</span></div>
+      <div class="update-meta"><span id="updatePercent">0%</span><span id="updateState">SECURE CHANNEL</span></div>
       <div class="update-actions">
-        <button id="updateLater" class="ghost-btn">LATER</button>
-        <button id="updateInstall" class="primary-btn" style="display:none">RESTART & UPDATE</button>
+        <button id="updateLater" class="btn btn-ghost">LATER</button>
+        <button id="updateInstall" class="btn btn-primary" style="display:none">RESTART & UPDATE</button>
       </div>
     </div>
   </div>
@@ -434,134 +424,109 @@ body.no-animations *{animation-duration:.001ms!important;transition-duration:.00
 const RELEASE_LABEL="Rebirth v2";
 document.querySelectorAll("[data-release]").forEach(x=>x.textContent=RELEASE_LABEL);
 
-const PAGES={
-  home:["Home","Your Rebirth Arena command center."],
-  dashboard:["Dashboard","Progression overview and active agent targets."],
-  matches:["Matches","Completed-match analysis and milestone victims."],
-  agents:["Agents","Full enemy-agent progression roster."],
-  progression:["Progression","Your current Rebirth tier ladder."],
-  rebirthplus:["Rebirth+","Temporary premium experience preview."],
-  settings:["Settings","Personalize Rebirth Arena."]
-};
+const PAGES={home:["Home","How Rebirth Arena works."],dashboard:["Dashboard","Your personal Rebirth progression."],matches:["Matches","Completed-match Rebirth intelligence."],agents:["Agents","Full enemy-agent progression roster."],progression:["Progression","Your Rebirth tier ladder."],leaderboard:["Leaderboard","Community competition preview."],rebirthplus:["Rebirth+","Premium experience preview."],settings:["Settings","Personalize Rebirth Arena."]};
 const AGENTS=["Astra","Breach","Brimstone","Chamber","Clove","Cypher","Deadlock","Fade","Gekko","Harbor","Iso","Jett","KAY/O","Killjoy","Neon","Omen","Phoenix","Raze","Reyna","Sage","Skye","Sova","Tejo","Viper","Vyse","Waylay","Yoru"];
 const DEMO={Astra:[0,1],Reyna:[4,4],Omen:[2,2],Jett:[1,5],Sage:[3,1],Killjoy:[2,4],Phoenix:[0,9],Clove:[4,0],Viper:[1,3]};
 const TIERS=["Unranked","Initiate","Hunter","Vanguard","Phantom","Elite","Mythic","Ascended","Immortalized","Reborn"];
 const RANK_COLORS=["#69788e","#96765c","#aab4c3","#e9c86d","#69d9cc","#62a7ff","#a86ef3","#79d5ff","#ff6680","#ffd86d"];
-const BG_THEMES={
-  black:{agent:"Omen",glow:"#74839a"},white:{agent:"Sage",glow:"#ffffff"},red:{agent:"Phoenix",glow:"#ff304f"},blue:{agent:"Yoru",glow:"#3c7cff"},
-  cyan:{agent:"Neon",glow:"#4de7f7"},violet:{agent:"Reyna",glow:"#bd6cff"},darkpurple:{agent:"Omen",glow:"#6f3acb"},purple:{agent:"Clove",glow:"#a94dff"}
-};
+const BG={black:{agent:"Omen"},white:{agent:"Sage"},red:{agent:"Phoenix"},blue:{agent:"Yoru"},cyan:{agent:"Neon"},violet:{agent:"Reyna"},darkpurple:{agent:"Omen"},purple:{agent:"Clove"}};
 const ACCENTS={
-  crimson:["#ff304f","rgba(255,48,79,.14)","rgba(255,48,79,.30)"],
-  ice:["#65c9ff","rgba(101,201,255,.13)","rgba(101,201,255,.29)"],
-  gold:["#f5c95f","rgba(245,201,95,.13)","rgba(245,201,95,.30)"],
-  neon:["#8df05b","rgba(141,240,91,.12)","rgba(141,240,91,.28)"],
-  violet:["#a878ff","rgba(168,120,255,.13)","rgba(168,120,255,.29)"],
-  magenta:["#f05fd5","rgba(240,95,213,.13)","rgba(240,95,213,.29)"],
-  ember:["#ff8a4c","rgba(255,138,76,.13)","rgba(255,138,76,.29)"],
-  teal:["#49d2c7","rgba(73,210,199,.13)","rgba(73,210,199,.29)"]
+ crimson:["#ff2f68","rgba(255,47,104,.14)","rgba(255,47,104,.30)"],ice:["#66caff","rgba(102,202,255,.13)","rgba(102,202,255,.29)"],gold:["#f5ca60","rgba(245,202,96,.13)","rgba(245,202,96,.30)"],neon:["#8df05b","rgba(141,240,91,.12)","rgba(141,240,91,.28)"],violet:["#a878ff","rgba(168,120,255,.13)","rgba(168,120,255,.29)"],magenta:["#f05fd5","rgba(240,95,213,.13)","rgba(240,95,213,.29)"],ember:["#ff8a4c","rgba(255,138,76,.13)","rgba(255,138,76,.29)"],teal:["#49d2c7","rgba(73,210,199,.13)","rgba(73,210,199,.29)"],rose:["#ff6f9b","rgba(255,111,155,.13)","rgba(255,111,155,.29)"],electric:["#3f8cff","rgba(63,140,255,.13)","rgba(63,140,255,.29)"],mint:["#71e6b1","rgba(113,230,177,.13)","rgba(113,230,177,.29)"],sunset:["#ff7966","rgba(255,121,102,.13)","rgba(255,121,102,.29)"]
 };
-let art={},dashFilter="all",dashQuery="",dashExpanded=false;
+let art={},filter="all",query="",expanded=false;
 
-const pref=(k,d)=>localStorage.getItem("ra_"+k)??d;
-const save=(k,v)=>localStorage.setItem("ra_"+k,v);
-function toastMsg(msg){const e=document.getElementById("toast");if(!e)return;e.textContent=msg;e.style.opacity="1";e.style.transform="none";clearTimeout(window.__toast);window.__toast=setTimeout(()=>{e.style.opacity="0";e.style.transform="translateY(7px)"},1400)}
-function tierName(n){return TIERS[Math.max(0,Math.min(9,n))]}
+/* Account-scoped preferences.
+   Until Riot auth exists this uses guest. When a real Riot PUUID is exposed,
+   the exact same code automatically isolates preferences per account. */
+function activeProfileId(){
+  return (window.rebirthAccount && window.rebirthAccount.puuid) ||
+         localStorage.getItem("rebirth_active_profile") ||
+         "guest";
+}
+function prefKey(k){return `ra_${activeProfileId()}_${k}`}
+const pref=(k,d)=>localStorage.getItem(prefKey(k))??d;
+const save=(k,v)=>localStorage.setItem(prefKey(k),v);
 
+function toast(msg){const e=document.getElementById("toast");e.textContent=msg;e.style.opacity="1";e.style.transform="none";clearTimeout(window._toast);window._toast=setTimeout(()=>{e.style.opacity="0";e.style.transform="translateY(7px)"},1500)}
+function tier(n){return TIERS[Math.max(0,Math.min(9,n))]}
 function switchPage(page){
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
-  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
-  pageTitle.textContent=PAGES[page][0];pageSub.textContent=PAGES[page][1];
-  document.querySelector(".content")?.scrollTo({top:0,behavior:"auto"});
-  if(pref("rememberPage","0")==="1")save("lastPage",page);
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
+ homeTopBtn.classList.toggle("active",page==="home");
+ pageTitle.textContent=PAGES[page][0];pageSub.textContent=PAGES[page][1];
+ document.querySelector(".content")?.scrollTo({top:0,behavior:"auto"});
+ if(pref("rememberPage","0")==="1")save("lastPage",page);
 }
 document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));
-document.querySelectorAll(".jump").forEach(b=>b.onclick=()=>switchPage(b.dataset.jump));
+homeTopBtn.onclick=()=>switchPage("home");
 
 function applyAccent(){
-  const v=pref("accent","crimson"),x=ACCENTS[v]||ACCENTS.crimson;
-  document.documentElement.style.setProperty("--accent",x[0]);document.documentElement.style.setProperty("--accent-soft",x[1]);document.documentElement.style.setProperty("--accent-border",x[2]);
-  if(accentSelect)accentSelect.value=v;
+ const v=pref("accent","crimson"),a=ACCENTS[v]||ACCENTS.crimson;
+ document.documentElement.style.setProperty("--accent",a[0]);document.documentElement.style.setProperty("--accent-soft",a[1]);document.documentElement.style.setProperty("--accent-border",a[2]);
+ accentSelect.value=v;
 }
 function applyBackground(){
-  const key=pref("background","black"),cfg=BG_THEMES[key]||BG_THEMES.black;
-  ["black","white","red","blue","cyan","violet","darkpurple","purple"].forEach(x=>document.body.classList.remove("bg-"+x));
-  document.body.classList.add("bg-"+key);
-  if(art[cfg.agent])document.documentElement.style.setProperty("--agent-bg",`url("${art[cfg.agent]}")`);
-  backgroundSelect.value=key;
-  [homeAgentImg,sidebarAgentImg].forEach(el=>{if(el&&art[cfg.agent])el.src=art[cfg.agent]});
-  homeAgentName.textContent=cfg.agent;sidebarAgentName.textContent=cfg.agent;
+ const k=pref("background","black"),cfg=BG[k]||BG.black;
+ ["black","white","red","blue","cyan","violet","darkpurple","purple"].forEach(x=>document.body.classList.remove("bg-"+x));document.body.classList.add("bg-"+k);backgroundSelect.value=k;
+ if(art[cfg.agent]){document.documentElement.style.setProperty("--agent-bg",`url("${art[cfg.agent]}")`);homeAgentImg.src=art[cfg.agent]}
+ homeAgentName.textContent=cfg.agent;
 }
-function applyLayoutPrefs(){
-  document.body.classList.toggle("compact",pref("compact","0")==="1");
-  document.body.classList.toggle("no-animations",pref("animations","1")!=="1");
-  const remember=pref("rememberSidebar","1")==="1";
-  document.body.classList.toggle("sidebar-collapsed",remember && pref("sidebarCollapsed","0")==="1");
-  collapseSidebar.textContent=document.body.classList.contains("sidebar-collapsed")?"›":"‹";
+function applyPrefs(){
+ document.body.classList.toggle("no-animations",pref("animations","1")!=="1");
+ const remember=pref("rememberSidebar","1")==="1";document.body.classList.toggle("sidebar-collapsed",remember&&pref("sidebarCollapsed","0")==="1");
 }
-function setToggle(id,key,def="0"){
-  const e=document.getElementById(id);if(!e)return;
-  e.classList.toggle("on",pref(key,def)==="1");
-  e.onclick=()=>{const on=!e.classList.contains("on");e.classList.toggle("on",on);save(key,on?"1":"0");applyLayoutPrefs();toastMsg("Preference saved")};
+function setToggle(id,key,def){
+ const e=document.getElementById(id);e.classList.toggle("on",pref(key,def)==="1");
+ e.onclick=()=>{e.classList.toggle("on");save(key,e.classList.contains("on")?"1":"0");applyPrefs();toast("Preference saved")};
 }
-backgroundSelect.onchange=()=>{save("background",backgroundSelect.value);applyBackground();toastMsg("Background saved")};
-accentSelect.onchange=()=>{save("accent",accentSelect.value);applyAccent();toastMsg("Accent saved")};
-collapseSidebar.onclick=()=>{document.body.classList.toggle("sidebar-collapsed");collapseSidebar.textContent=document.body.classList.contains("sidebar-collapsed")?"›":"‹";if(pref("rememberSidebar","1")==="1")save("sidebarCollapsed",document.body.classList.contains("sidebar-collapsed")?"1":"0")};
+backgroundSelect.onchange=()=>{save("background",backgroundSelect.value);applyBackground();toast("Background saved")};
+accentSelect.onchange=()=>{save("accent",accentSelect.value);applyAccent();toast("Accent saved")};
+sidebarToggle.onclick=()=>{document.body.classList.toggle("sidebar-collapsed");if(pref("rememberSidebar","1")==="1")save("sidebarCollapsed",document.body.classList.contains("sidebar-collapsed")?"1":"0")};
 
 setToggle("compactToggle","compact","0");setToggle("animToggle","animations","1");setToggle("splashToggle","splash","1");setToggle("notifToggle","notif","1");setToggle("fxToggle","fx","1");setToggle("rememberPageToggle","rememberPage","0");setToggle("rememberSidebarToggle","rememberSidebar","1");
 resetPrefsBtn.onclick=()=>{
-  ["background","accent","compact","animations","splash","notif","fx","rememberPage","rememberSidebar","lastPage","sidebarCollapsed"].forEach(k=>localStorage.removeItem("ra_"+k));
-  applyAccent();applyBackground();applyLayoutPrefs();
-  ["compactToggle","rememberPageToggle"].forEach(id=>document.getElementById(id)?.classList.remove("on"));
-  ["animToggle","splashToggle","notifToggle","fxToggle","rememberSidebarToggle"].forEach(id=>document.getElementById(id)?.classList.add("on"));
-  toastMsg("Rebirth defaults restored");
+ ["background","accent","compact","animations","splash","notif","fx","rememberPage","rememberSidebar","lastPage","sidebarCollapsed"].forEach(k=>localStorage.removeItem(prefKey(k)));
+ applyAccent();applyBackground();applyPrefs();toast("Rebirth defaults restored");
 };
 
-function agentCard(a){
-  const [p,r]=DEMO[a]||[0,0],img=art[a],pct=p*20;
-  return `<div class="agent-card">${img?`<img src="${img}" alt="${a}" onerror="this.style.display='none'">`:`<div class="agent-fallback">${a[0]}</div>`}<div class="agent-fade"></div><div class="agent-info"><div class="agent-heading"><div class="agent-name">${a}</div><div class="progress-count">${p}/5</div></div><div class="progress-row"><div class="progress-track"><i style="width:${pct}%"></i></div></div><div class="agent-tier"><b>${tierName(r)}</b> • Rebirth ${r} • ${5-p} to next tier</div></div></div>`;
+function card(a){
+ const[p,r]=DEMO[a]||[0,0],img=art[a];
+ return `<div class="agent-card">${img?`<img src="${img}" alt="${a}" onerror="this.style.display='none'">`:`<div class="agent-fallback">${a[0]}</div>`}<div class="agent-fade"></div><div class="agent-info"><div class="agent-top"><div class="agent-name">${a}</div><div class="progress-count">${p}/5</div></div><div class="progress-track"><i style="width:${p*20}%"></i></div><div class="agent-tier"><b>${tier(r)}</b> • Rebirth ${r} • ${5-p} to next tier</div></div></div>`;
 }
-function matchFilter(a){const[p,r]=DEMO[a]||[0,0];if(dashQuery&&!a.toLowerCase().includes(dashQuery.toLowerCase()))return false;if(dashFilter==="progress"&&p<=0)return false;if(dashFilter==="near"&&p!==4)return false;if(dashFilter==="ranked"&&r<=0)return false;if(dashFilter==="reborn"&&r<9)return false;return true}
-function renderDashboard(){
-  let list=AGENTS.filter(matchFilter);if(!dashExpanded&&!dashQuery&&dashFilter==="all")list=list.slice(0,8);
-  dashAgents.innerHTML=list.map(agentCard).join("")||`<div style="grid-column:1/-1;padding:28px;text-align:center;color:#778497">No agents found.</div>`;
-}
-function renderAgents(list=AGENTS){allAgents.innerHTML=list.map(agentCard).join("")}
-document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");dashFilter=b.dataset.filter;renderDashboard()});
-dashSearch.oninput=()=>{dashQuery=dashSearch.value.trim();renderDashboard()};
-viewAll.onclick=()=>{dashExpanded=!dashExpanded;viewAll.textContent=dashExpanded?"SHOW LESS":"VIEW ALL";renderDashboard()};
-agentSearch.oninput=()=>{const q=agentSearch.value.toLowerCase();renderAgents(AGENTS.filter(a=>a.toLowerCase().includes(q)))};
+function matches(a){const[p,r]=DEMO[a]||[0,0];if(query&&!a.toLowerCase().includes(query.toLowerCase()))return false;if(filter==="progress"&&p<=0)return false;if(filter==="near"&&p!==4)return false;if(filter==="ranked"&&r<=0)return false;if(filter==="reborn"&&r<9)return false;return true}
+function renderDash(){let list=AGENTS.filter(matches);if(!expanded&&!query&&filter==="all")list=list.slice(0,8);dashAgents.innerHTML=list.map(card).join("")||`<div style="grid-column:1/-1;padding:28px;text-align:center;color:#778497">No agents found.</div>`}
+function renderAll(list=AGENTS){allAgents.innerHTML=list.map(card).join("")}
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter;renderDash()});
+dashSearch.oninput=()=>{query=dashSearch.value.trim();renderDash()};viewAll.onclick=()=>{expanded=!expanded;viewAll.textContent=expanded?"SHOW LESS":"VIEW ALL";renderDash()};agentSearch.oninput=()=>{const q=agentSearch.value.toLowerCase();renderAll(AGENTS.filter(a=>a.toLowerCase().includes(q)))};
 
-rankGrid.innerHTML=TIERS.slice(1).map((name,i)=>`<div class="rank-card" style="--rank-color:${RANK_COLORS[i+1]};--rank-glow:${RANK_COLORS[i+1]}22"><div class="rank-top"><div class="rank-emblem">${i+1}</div><div><div class="rank-name">${name}</div><div class="rank-level">REBIRTH TIER ${i+1}</div></div></div><div class="rank-copy">Agent-specific progression tier. Rank naming can be redesigned later without changing the underlying progression system.</div><div class="rank-requirement">5 milestone points per tier</div></div>`).join("");
+rankGrid.innerHTML=TIERS.slice(1).map((n,i)=>`<div class="rank-card" style="--rank-color:${RANK_COLORS[i+1]};--rank-glow:${RANK_COLORS[i+1]}22"><div class="rank-head"><div class="rank-emblem">${i+1}</div><div><div class="rank-name">${n}</div><div class="rank-level">REBIRTH TIER ${i+1}</div></div></div><div class="rank-copy">Agent-specific progression tier. Tier names can be redesigned later without changing how Rebirth points work.</div><div class="rank-req">5 milestone points per tier</div></div>`).join("");
 
 async function loadArt(){
-  try{
-    if(window.rebirthDesktop?.getAgentArt)art=await window.rebirthDesktop.getAgentArt();
-    else{const r=await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true");const j=await r.json();(j.data||[]).forEach(a=>art[a.displayName]=a.fullPortraitV2||a.fullPortrait||a.displayIcon)}
-  }catch(e){console.warn("Agent art unavailable",e)}
-  renderDashboard();renderAgents();applyBackground();
+ try{
+   if(window.rebirthDesktop?.getAgentArt)art=await window.rebirthDesktop.getAgentArt();
+   else{const r=await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true");const j=await r.json();(j.data||[]).forEach(a=>art[a.displayName]=a.fullPortraitV2||a.fullPortrait||a.displayIcon)}
+ }catch(e){console.warn("Agent art unavailable",e)}
+ renderDash();renderAll();applyBackground();
 }
-applyAccent();applyLayoutPrefs();
+applyAccent();applyPrefs();
 if(pref("splash","1")!=="1")document.getElementById("startupSplash")?.remove();
 switchPage(pref("rememberPage","0")==="1"?pref("lastPage","home"):"home");
 loadArt();
 
 
 function setupUpdater(){
-  if(!window.rebirthDesktop)return;
-  const overlay=document.getElementById("updateOverlay"),title=document.getElementById("updateTitle"),desc=document.getElementById("updateDesc"),bar=document.getElementById("updateProgressBar"),pct=document.getElementById("updatePercent"),ver=document.getElementById("updateVersion"),state=document.getElementById("updateState"),install=document.getElementById("updateInstall"),later=document.getElementById("updateLater");
-  const show=()=>overlay.classList.add("show"),hide=()=>overlay.classList.remove("show");
-  later.onclick=hide;install.onclick=()=>window.rebirthDesktop.installUpdate();
-  checkUpdatesBtn.onclick=()=>window.rebirthDesktop.checkForUpdates();
-  window.rebirthDesktop.onUpdateStatus(d=>{
-    if(d.status==="checking"){show();title.textContent="Checking for updates";desc.textContent="Looking for the newest Rebirth Arena build.";bar.style.width="8%";pct.textContent="Checking";state.textContent="GITHUB RELEASES";install.style.display="none"}
-    if(d.status==="available"){show();title.textContent=`Update ${d.version} found`;desc.textContent="A new build is available. Downloading automatically.";ver.textContent=`v${d.version}`;bar.style.width="12%";pct.textContent="Preparing";state.textContent="STARTING DOWNLOAD"}
-    if(d.status==="downloading"){show();title.textContent="Downloading update";desc.textContent="Keep Rebirth Arena open while the update downloads.";bar.style.width=`${d.percent}%`;pct.textContent=`${d.percent}%`;state.textContent="SECURE DOWNLOAD"}
-    if(d.status==="ready"){show();title.textContent=`Rebirth Arena ${d.version} is ready`;desc.textContent="Download complete. Restart Rebirth Arena to install the update.";ver.textContent=`v${d.version}`;bar.style.width="100%";pct.textContent="100%";state.textContent="READY";install.style.display="inline-block"}
-    if(d.status==="current"){show();title.textContent="You're up to date";desc.textContent="You already have the latest Rebirth Arena version.";bar.style.width="100%";pct.textContent="Current";state.textContent="NO UPDATE";install.style.display="none";setTimeout(hide,1800)}
-    if(d.status==="error"){show();title.textContent="Update check failed";desc.textContent="Rebirth Arena couldn't reach the update service right now.";bar.style.width="0";pct.textContent="Error";state.textContent="TRY AGAIN LATER";install.style.display="none"}
-    if(d.status==="dev"){show();title.textContent="Development mode";desc.textContent="Automatic updates work only in the installed Windows build.";bar.style.width="0";pct.textContent="DEV";state.textContent="LOCAL BUILD";install.style.display="none"}
-  });
+ if(!window.rebirthDesktop)return;
+ const overlay=updateOverlay,show=()=>overlay.classList.add("show"),hide=()=>overlay.classList.remove("show");
+ updateLater.onclick=hide;updateInstall.onclick=()=>window.rebirthDesktop.installUpdate();checkUpdatesBtn.onclick=()=>window.rebirthDesktop.checkForUpdates();
+ window.rebirthDesktop.onUpdateStatus(d=>{
+   if(d.status==="checking"){show();updateTitle.textContent="Checking for updates";updateDesc.textContent="Connecting to the Rebirth release channel.";updateProgressBar.style.width="8%";updatePercent.textContent="Checking";updateState.textContent="GITHUB RELEASES";updateInstall.style.display="none"}
+   if(d.status==="available"){show();updateTitle.textContent=`Update ${d.version} found`;updateDesc.textContent="A new Rebirth build is available. Downloading automatically.";updateVersion.textContent=`v${d.version}`;updateProgressBar.style.width="12%";updatePercent.textContent="Preparing";updateState.textContent="STARTING DOWNLOAD"}
+   if(d.status==="downloading"){show();updateTitle.textContent="Downloading update";updateDesc.textContent="Keep Rebirth Arena open while the update downloads.";updateProgressBar.style.width=`${d.percent}%`;updatePercent.textContent=`${d.percent}%`;updateState.textContent="SECURE DOWNLOAD"}
+   if(d.status==="ready"){show();updateTitle.textContent=`Rebirth Arena ${d.version} is ready`;updateDesc.textContent="Download complete. Restart to install the new build.";updateVersion.textContent=`v${d.version}`;updateProgressBar.style.width="100%";updatePercent.textContent="100%";updateState.textContent="READY";updateInstall.style.display="inline-block"}
+   if(d.status==="current"){show();updateTitle.textContent="You're up to date";updateDesc.textContent="You already have the latest Rebirth Arena build.";updateProgressBar.style.width="100%";updatePercent.textContent="Current";updateState.textContent="NO UPDATE";updateInstall.style.display="none";setTimeout(hide,1800)}
+   if(d.status==="error"){show();updateTitle.textContent="Update check failed";updateDesc.textContent="Rebirth Arena couldn't reach the update service right now.";updateProgressBar.style.width="0";updatePercent.textContent="Error";updateState.textContent="TRY AGAIN LATER";updateInstall.style.display="none"}
+   if(d.status==="dev"){show();updateTitle.textContent="Development mode";updateDesc.textContent="Automatic updates are available only in the installed Windows build.";updateProgressBar.style.width="0";updatePercent.textContent="DEV";updateState.textContent="LOCAL BUILD";updateInstall.style.display="none"}
+ });
 }
 setupUpdater();
 
