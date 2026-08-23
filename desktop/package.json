@@ -1,0 +1,40 @@
+{
+  "name": "rebirth-arena",
+  "version": "1.0.2",
+  "description": "Rebirth Arena desktop post-match tracker",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win nsis",
+    "build:portable": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.rebirtharena.desktop",
+    "productName": "Rebirth Arena",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "Rebirth-Arena-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.12"
+  }
+}
