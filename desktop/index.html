@@ -902,6 +902,28 @@ body.no-animations .premium-canvas *{animation:none!important}
 /* Hard-disable legacy foreground FX from older builds */
 .pfx-electric,.pfx-tracer,.pfx-muzzle,.pfx-wind1,.pfx-wind2{display:none!important;opacity:0!important;animation:none!important}
 
+
+/* ===== Official desktop download CTA ===== */
+.download-rebirth-wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.download-rebirth-btn{
+  display:inline-flex;align-items:center;gap:11px;min-height:50px;padding:0 19px;
+  border:1px solid var(--accent-border);border-radius:13px;text-decoration:none;
+  background:linear-gradient(135deg,var(--accent-soft),rgba(11,17,25,.96));
+  color:#f4f7fb;font-weight:1000;font-size:12px;letter-spacing:.055em;text-transform:uppercase;
+  box-shadow:0 0 26px var(--accent-soft),0 12px 28px rgba(0,0,0,.22);
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease
+}
+.download-rebirth-btn:hover{transform:translateY(-2px);filter:brightness(1.13);box-shadow:0 0 34px var(--accent-soft),0 15px 34px rgba(0,0,0,.28)}
+.download-rebirth-btn .dl-icon{font-size:20px;color:var(--accent)}
+.download-rebirth-meta{font-size:10px;color:#8190a3;line-height:1.5}
+.download-rebirth-meta b{display:block;color:#c8d1dc;font-size:10px}
+.mobile-download-note{display:none;font-size:10px;color:#8c99aa;line-height:1.5}
+@media(max-width:760px){
+ .download-rebirth-btn{width:100%;justify-content:center}
+ .download-rebirth-meta{display:none}
+ .mobile-download-note{display:block;width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -959,6 +981,12 @@ body.no-animations .premium-canvas *{animation:none!important}
 
 <div class="content">
 <section class="page active" id="page-home">
+<div class="download-rebirth-wrap" id="desktopDownloadCta">
+<a class="download-rebirth-btn" id="downloadWindowsBtn" href="https://github.com/andreifz03/rebirth-arena/releases/latest/download/Rebirth-Arena-Setup.exe" target="_blank" rel="noopener">
+<span class="dl-icon">⊞</span><span>Download Rebirth for Windows</span></a>
+<div class="download-rebirth-meta"><b>WINDOWS 10 / 11 · x64</b>Latest stable desktop release</div>
+<div class="mobile-download-note">Rebirth desktop is available for Windows. Open this page on your PC to download the latest release.</div>
+</div>
   <div class="home-hero">
     <div class="home-copy">
       <div class="eyebrow">REBIRTH ARENA // COMMUNITY CHALLENGE</div>
