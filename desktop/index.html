@@ -737,335 +737,6 @@ body.no-animations .premium-canvas *{animation:none!important}
 }
 
 
-/* ===== Rebirth+ CINEMATIC AGENT MOTION =====
-   Static Riot portraits are animated as cinematic UI cutouts.
-   No gameplay animation assets are copied. */
-.agent-motion-stage{
-  position:fixed;
-  inset:0;
-  z-index:18;
-  pointer-events:none;
-  overflow:hidden;
-}
-.agent-motion-stage img{
-  position:absolute;
-  display:none;
-  width:min(34vw,540px);
-  max-height:84vh;
-  object-fit:contain;
-  object-position:center;
-  opacity:0;
-  filter:
-    drop-shadow(0 0 22px var(--accent-soft))
-    drop-shadow(0 22px 34px rgba(0,0,0,.40));
-  will-change:transform,opacity,filter;
-  transform-origin:50% 70%;
-}
-body[data-premium-bg="1"] .agent-motion-stage img{display:block}
-
-/* clone roles */
-.agent-runner{left:-38vw;bottom:-4vh}
-.agent-ghost{right:-28vw;top:7vh;width:min(28vw,430px)!important}
-.agent-leaper{left:33vw;bottom:-54vh;width:min(30vw,470px)!important}
-
-/* Phoenix / red: hard dash + recoil + full-screen tracer */
-body.bg-red .agent-runner{
-  animation:redDash 6.4s cubic-bezier(.2,.72,.15,1) infinite;
-}
-body.bg-red .agent-ghost{
-  animation:redRecoil 6.4s ease-in-out infinite;
-}
-body.bg-red .agent-leaper{
-  animation:redLeap 8.5s ease-in-out infinite;
-}
-
-/* Yoru / blue: teleport from left -> center -> right */
-body.bg-blue .agent-runner{
-  animation:yoruTeleport 7s steps(1,end) infinite;
-  filter:drop-shadow(0 0 35px rgba(60,124,255,.55));
-}
-body.bg-blue .agent-ghost{
-  animation:yoruGhost 7s ease-in-out infinite;
-}
-body.bg-blue .agent-leaper{
-  animation:yoruFlip 9s ease-in-out infinite;
-}
-
-/* Neon / cyan: rapid sprint across screen */
-body.bg-cyan .agent-runner{
-  animation:neonSprint 4.4s cubic-bezier(.12,.7,.1,1) infinite;
-  filter:drop-shadow(0 0 30px rgba(77,231,247,.65));
-}
-body.bg-cyan .agent-ghost{
-  animation:neonAfterimage 4.4s linear infinite;
-}
-body.bg-cyan .agent-leaper{
-  animation:neonVault 7.4s ease-in-out infinite;
-}
-
-/* Reyna / violet: jump + full flip + soul vanish */
-body.bg-violet .agent-runner{
-  animation:reynaSoulDash 7.8s ease-in-out infinite;
-}
-body.bg-violet .agent-leaper{
-  animation:reynaFlip 7.8s cubic-bezier(.25,.8,.25,1) infinite;
-}
-body.bg-violet .agent-ghost{
-  animation:reynaDismiss 7.8s ease-in-out infinite;
-}
-
-/* Omen / dark purple: smoke teleport all over viewport */
-body.bg-darkpurple .agent-runner{
-  animation:omenBlink 8.4s steps(1,end) infinite;
-  filter:blur(.4px) drop-shadow(0 0 38px rgba(111,58,203,.58));
-}
-body.bg-darkpurple .agent-ghost{
-  animation:omenPhase 8.4s ease-in-out infinite;
-}
-body.bg-darkpurple .agent-leaper{
-  animation:omenDrop 9.8s ease-in-out infinite;
-}
-
-/* Clove / purple: float, spin, dive */
-body.bg-purple .agent-runner{animation:cloveSweep 8.2s ease-in-out infinite}
-body.bg-purple .agent-ghost{animation:cloveFloat 7.2s ease-in-out infinite alternate}
-body.bg-purple .agent-leaper{animation:cloveFlip 9.2s ease-in-out infinite}
-
-/* Viper */
-body.bg-jade .agent-runner{animation:viperStalk 8.8s ease-in-out infinite}
-body.bg-jade .agent-ghost{animation:viperMist 8.8s ease-in-out infinite}
-body.bg-jade .agent-leaper{animation:viperStrike 10s ease-in-out infinite}
-
-/* Chamber */
-body.bg-golden .agent-runner{animation:chamberSlide 8s ease-in-out infinite}
-body.bg-golden .agent-ghost{animation:chamberScope 8s ease-in-out infinite}
-body.bg-golden .agent-leaper{animation:chamberStep 10.2s ease-in-out infinite}
-
-/* Jett */
-body.bg-storm .agent-runner{animation:jettDash 5.2s cubic-bezier(.14,.72,.1,1) infinite}
-body.bg-storm .agent-leaper{animation:jettUpdraft 6.8s ease-in-out infinite}
-body.bg-storm .agent-ghost{animation:jettAirGhost 6.8s linear infinite}
-
-/* Astra */
-body.bg-solar .agent-runner{animation:astraOrbit 10s ease-in-out infinite}
-body.bg-solar .agent-ghost{animation:astraAstral 8s ease-in-out infinite alternate}
-body.bg-solar .agent-leaper{animation:astraRise 11s ease-in-out infinite}
-
-/* core animation choreography */
-@keyframes redDash{
-  0%,8%{opacity:0;transform:translate(-10vw,0) scale(.78) rotate(-5deg)}
-  12%{opacity:.85}
-  32%{opacity:.92;transform:translate(72vw,-5vh) scale(1.05) rotate(2deg)}
-  36%{opacity:0;transform:translate(105vw,-5vh) scale(1.08)}
-  100%{opacity:0}
-}
-@keyframes redRecoil{
-  0%,42%,100%{opacity:0}
-  46%{opacity:.45;transform:translate(-7vw,10vh) scale(.88)}
-  49%{transform:translate(-8vw,10vh) scale(.93) rotate(-4deg);filter:brightness(1.45) drop-shadow(0 0 28px #ff553e)}
-  55%{opacity:0;transform:translate(-7vw,10vh) scale(.88)}
-}
-@keyframes redLeap{
-  0%,62%,100%{opacity:0;transform:translateY(70vh) scale(.65)}
-  68%{opacity:.50}
-  78%{opacity:.55;transform:translate(10vw,-52vh) scale(.92) rotate(18deg)}
-  84%{opacity:0;transform:translate(25vw,-80vh) scale(.78) rotate(30deg)}
-}
-
-@keyframes yoruTeleport{
-  0%,10%{opacity:0;transform:translate(0,0) scale(.65)}
-  11%{opacity:.75;transform:translate(26vw,-4vh) scale(.9)}
-  24%{opacity:.0}
-  25%{opacity:.82;transform:translate(58vw,-9vh) scale(1.03)}
-  40%{opacity:0}
-  100%{opacity:0}
-}
-@keyframes yoruGhost{
-  0%,20%,100%{opacity:0}
-  25%{opacity:.36;transform:translate(-28vw,2vh) scale(.8)}
-  45%{opacity:.52;transform:translate(-61vw,11vh) scale(.95)}
-  55%{opacity:0;filter:blur(9px)}
-}
-@keyframes yoruFlip{
-  0%,58%,100%{opacity:0;transform:translateY(60vh) rotate(0deg) scale(.6)}
-  64%{opacity:.56}
-  79%{opacity:.62;transform:translate(10vw,-45vh) rotate(360deg) scale(.92)}
-  86%{opacity:0;transform:translate(25vw,-70vh) rotate(460deg) scale(.72)}
-}
-
-@keyframes neonSprint{
-  0%,7%{opacity:0;transform:translateX(-8vw) translateY(4vh) scale(.7) skewX(-8deg)}
-  10%{opacity:.88}
-  42%{opacity:.92;transform:translateX(118vw) translateY(-2vh) scale(.94) skewX(-4deg)}
-  44%,100%{opacity:0}
-}
-@keyframes neonAfterimage{
-  0%,9%{opacity:0;transform:translateX(-95vw) scale(.75)}
-  14%{opacity:.28}
-  42%{opacity:.15;transform:translateX(-5vw) scale(.85)}
-  45%,100%{opacity:0}
-}
-@keyframes neonVault{
-  0%,55%,100%{opacity:0;transform:translateY(70vh) scale(.55)}
-  61%{opacity:.48}
-  74%{opacity:.57;transform:translate(22vw,-46vh) scale(.88) rotate(-18deg)}
-  82%{opacity:0;transform:translate(38vw,-65vh) scale(.7)}
-}
-
-@keyframes reynaSoulDash{
-  0%,10%,100%{opacity:0;transform:translate(-10vw,6vh) scale(.7)}
-  16%{opacity:.68}
-  38%{opacity:.78;transform:translate(65vw,-6vh) scale(1)}
-  45%{opacity:0;filter:blur(13px) brightness(1.5)}
-}
-@keyframes reynaFlip{
-  0%,40%,100%{opacity:0;transform:translateY(70vh) rotate(0) scale(.58)}
-  47%{opacity:.65}
-  65%{opacity:.75;transform:translate(7vw,-55vh) rotate(360deg) scale(1)}
-  72%{opacity:0;transform:translate(20vw,-75vh) rotate(540deg) scale(.75)}
-}
-@keyframes reynaDismiss{
-  0%,55%,100%{opacity:0}
-  60%{opacity:.48;transform:translate(-38vw,4vh) scale(.86)}
-  72%{opacity:.60;transform:translate(-60vw,-5vh) scale(1.03);filter:blur(4px) brightness(1.6)}
-  80%{opacity:0;filter:blur(18px)}
-}
-
-@keyframes omenBlink{
-  0%,8%,100%{opacity:0;transform:translate(0,0) scale(.6)}
-  10%{opacity:.70;transform:translate(22vw,-4vh) scale(.85)}
-  20%{opacity:0}
-  21%{opacity:.76;transform:translate(62vw,-10vh) scale(1.02)}
-  31%{opacity:0}
-  32%{opacity:.66;transform:translate(92vw,6vh) scale(.82)}
-  43%{opacity:0}
-}
-@keyframes omenPhase{
-  0%,35%,100%{opacity:0}
-  40%{opacity:.25;transform:translate(-30vw,0) scale(.75)}
-  57%{opacity:.52;transform:translate(-62vw,13vh) scale(1.05)}
-  68%{opacity:0;filter:blur(18px)}
-}
-@keyframes omenDrop{
-  0%,58%,100%{opacity:0;transform:translateY(-75vh) scale(.7)}
-  64%{opacity:.52}
-  77%{opacity:.68;transform:translate(12vw,35vh) scale(.96)}
-  84%{opacity:0;transform:translate(12vw,55vh) scale(.88)}
-}
-
-@keyframes cloveSweep{
-  0%,8%,100%{opacity:0;transform:translate(-12vw,20vh) scale(.72) rotate(-7deg)}
-  14%{opacity:.58}
-  45%{opacity:.66;transform:translate(74vw,-13vh) scale(.98) rotate(6deg)}
-  52%{opacity:0}
-}
-@keyframes cloveFloat{
-  0%{opacity:.28;transform:translate(-25vw,8vh) scale(.78) rotate(-4deg)}
-  100%{opacity:.52;transform:translate(-55vw,-5vh) scale(.98) rotate(5deg)}
-}
-@keyframes cloveFlip{
-  0%,50%,100%{opacity:0;transform:translateY(65vh) rotate(0) scale(.6)}
-  58%{opacity:.5}
-  73%{opacity:.62;transform:translate(-5vw,-50vh) rotate(-360deg) scale(.92)}
-  82%{opacity:0}
-}
-
-@keyframes viperStalk{
-  0%,8%,100%{opacity:0;transform:translate(-8vw,16vh) scale(.74)}
-  18%{opacity:.55}
-  54%{opacity:.64;transform:translate(78vw,10vh) scale(.96)}
-  62%{opacity:0}
-}
-@keyframes viperMist{
-  0%,22%,100%{opacity:0}
-  30%{opacity:.35;transform:translate(-22vw,18vh) scale(.8)}
-  55%{opacity:.48;transform:translate(-58vw,8vh) scale(1)}
-  65%{opacity:0;filter:blur(16px)}
-}
-@keyframes viperStrike{
-  0%,65%,100%{opacity:0;transform:translateY(58vh) scale(.6)}
-  72%{opacity:.5}
-  82%{opacity:.58;transform:translate(18vw,-35vh) scale(.9) rotate(-14deg)}
-  90%{opacity:0}
-}
-
-@keyframes chamberSlide{
-  0%,10%,100%{opacity:0;transform:translate(-8vw,9vh) scale(.72)}
-  18%{opacity:.55}
-  38%{opacity:.62;transform:translate(48vw,2vh) scale(.92)}
-  43%{transform:translate(48vw,2vh) scale(.94) rotate(-3deg);filter:brightness(1.55) drop-shadow(0 0 32px #ffd66c)}
-  48%{opacity:0}
-}
-@keyframes chamberScope{
-  0%,42%,100%{opacity:0}
-  48%{opacity:.34;transform:translate(-34vw,0) scale(.82)}
-  65%{opacity:.48;transform:translate(-55vw,0) scale(.96)}
-  74%{opacity:0}
-}
-@keyframes chamberStep{
-  0%,60%,100%{opacity:0;transform:translateY(62vh) scale(.58)}
-  67%{opacity:.45}
-  80%{opacity:.54;transform:translate(3vw,-44vh) scale(.9) rotate(12deg)}
-  88%{opacity:0}
-}
-
-@keyframes jettDash{
-  0%,8%,100%{opacity:0;transform:translate(-8vw,4vh) scale(.7) rotate(-5deg)}
-  11%{opacity:.88}
-  34%{opacity:.95;transform:translate(118vw,-8vh) scale(.98) rotate(5deg)}
-  37%{opacity:0}
-}
-@keyframes jettUpdraft{
-  0%,35%,100%{opacity:0;transform:translateY(75vh) scale(.58)}
-  42%{opacity:.62}
-  60%{opacity:.72;transform:translate(8vw,-62vh) scale(.96) rotate(390deg)}
-  68%{opacity:0;transform:translate(18vw,-80vh) scale(.78) rotate(520deg)}
-}
-@keyframes jettAirGhost{
-  0%,45%,100%{opacity:0}
-  52%{opacity:.25;transform:translate(-26vw,16vh) scale(.75)}
-  68%{opacity:.40;transform:translate(-62vw,-6vh) scale(.96)}
-  78%{opacity:0}
-}
-
-@keyframes astraOrbit{
-  0%,8%,100%{opacity:0;transform:translate(-5vw,18vh) scale(.65) rotate(-8deg)}
-  18%{opacity:.42}
-  50%{opacity:.58;transform:translate(60vw,-8vh) scale(.98) rotate(18deg)}
-  62%{opacity:0}
-}
-@keyframes astraAstral{
-  0%{opacity:.22;transform:translate(-20vw,10vh) scale(.74) rotate(-8deg)}
-  100%{opacity:.48;transform:translate(-55vw,-7vh) scale(1.04) rotate(8deg)}
-}
-@keyframes astraRise{
-  0%,55%,100%{opacity:0;transform:translateY(65vh) scale(.55)}
-  63%{opacity:.48}
-  78%{opacity:.62;transform:translate(5vw,-52vh) scale(.94) rotate(300deg)}
-  88%{opacity:0}
-}
-
-/* intensity */
-body.fx-low .agent-motion-stage{opacity:.42}
-body.fx-medium .agent-motion-stage{opacity:.72}
-body.fx-high .agent-motion-stage{opacity:1}
-body.no-animations .agent-motion-stage img{animation:none!important;opacity:0!important}
-
-/* mobile - keep motion, lower cost */
-@media(max-width:760px){
-  .agent-motion-stage img{
-    width:min(62vw,360px);
-    max-height:68vh;
-    filter:drop-shadow(0 0 14px var(--accent-soft));
-  }
-  .agent-ghost{width:min(48vw,300px)!important}
-  .agent-leaper{width:min(52vw,320px)!important}
-  body.fx-high .agent-motion-stage{opacity:.76}
-  body.fx-medium .agent-motion-stage{opacity:.60}
-  body.fx-low .agent-motion-stage{opacity:.35}
-}
-
-
 /* ===== Nickname premium styles + Settings polish ===== */
 .profile-top-nickname[data-style="rainbow"]{
   background:linear-gradient(90deg,#ff4d6d,#ffb84d,#ffe94d,#61e294,#4dd7ff,#8b6cff,#ff5fd2,#ff4d6d);
@@ -1149,6 +820,88 @@ body.sidebar-collapsed .settings-subnav .nav-btn{
   }
 }
 
+
+/* ===== Rebirth+ CLEAN BACKGROUND EFFECTS ===== */
+.premium-canvas{
+  position:fixed!important; inset:0!important; z-index:0!important;
+  pointer-events:none!important; overflow:hidden!important; mix-blend-mode:normal!important;
+}
+.app,.sidebar,.topbar,.main,.page,.content,.panel,.card,.agent-card,.activity,.match-card{
+  position:relative; z-index:2;
+}
+.premium-canvas span{opacity:0}
+
+.pfx-smoke{
+  width:46vw!important;height:46vw!important;right:-8vw!important;top:12vh!important;border-radius:50%!important;
+  background:radial-gradient(circle,rgba(103,77,185,.16),rgba(45,26,76,.08) 46%,transparent 72%)!important;
+  filter:blur(38px)!important;animation:cleanFloatA 12s ease-in-out infinite alternate!important;
+}
+.pfx-orb{
+  width:210px!important;height:210px!important;right:8vw!important;top:28vh!important;border-radius:50%!important;
+  background:radial-gradient(circle,rgba(255,255,255,.10),var(--accent-soft) 24%,transparent 72%)!important;
+  box-shadow:0 0 70px var(--accent-soft)!important;animation:cleanPulse 6s ease-in-out infinite!important;
+}
+.pfx-wave{
+  width:58vw!important;height:180px!important;left:14vw!important;bottom:4vh!important;top:auto!important;
+  background:radial-gradient(ellipse,var(--accent-soft),transparent 68%)!important;
+  filter:blur(42px)!important;transform:none!important;animation:cleanFloatB 14s ease-in-out infinite alternate!important;
+}
+.pfx-heat{
+  width:42vw!important;height:240px!important;right:2vw!important;bottom:5vh!important;top:auto!important;
+  background:radial-gradient(ellipse,rgba(255,105,55,.10),transparent 70%)!important;
+  filter:blur(35px)!important;animation:cleanFloatC 11s ease-in-out infinite alternate!important;
+}
+.pfx-toxic{
+  width:55vw!important;height:260px!important;left:-6vw!important;bottom:2vh!important;
+  background:radial-gradient(ellipse,rgba(95,255,145,.11),transparent 70%)!important;
+  filter:blur(42px)!important;animation:cleanFloatA 13s ease-in-out infinite alternate-reverse!important;
+}
+.pfx-gold{
+  width:360px!important;height:360px!important;right:7vw!important;top:18vh!important;border-radius:50%!important;
+  background:radial-gradient(circle,rgba(255,214,108,.12),transparent 70%)!important;
+  animation:cleanPulse 7s ease-in-out infinite!important;
+}
+.pfx-cosmic{
+  width:54vw!important;height:54vw!important;right:-4vw!important;top:8vh!important;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(190,120,255,.28) 0 2px,transparent 3px),
+    radial-gradient(circle at 60% 24%,rgba(120,190,255,.26) 0 2px,transparent 3px),
+    radial-gradient(circle at 48% 70%,rgba(255,130,220,.24) 0 2px,transparent 3px),
+    radial-gradient(circle at 76% 58%,rgba(255,255,255,.22) 0 1px,transparent 2px)!important;
+  animation:cleanDrift 18s linear infinite!important;
+}
+
+body.bg-red .pfx-heat,body.bg-red .pfx-wave{opacity:.55!important}
+body.bg-blue .pfx-smoke,body.bg-blue .pfx-wave{opacity:.48!important}
+body.bg-cyan .pfx-orb,body.bg-cyan .pfx-wave{opacity:.52!important}
+body.bg-violet .pfx-orb,body.bg-violet .pfx-smoke{opacity:.56!important}
+body.bg-darkpurple .pfx-smoke,body.bg-darkpurple .pfx-orb{opacity:.58!important}
+body.bg-purple .pfx-cosmic,body.bg-purple .pfx-orb{opacity:.52!important}
+body.bg-jade .pfx-toxic,body.bg-jade .pfx-wave{opacity:.54!important}
+body.bg-golden .pfx-gold,body.bg-golden .pfx-wave{opacity:.50!important}
+body.bg-storm .pfx-wave,body.bg-storm .pfx-smoke{opacity:.45!important}
+body.bg-solar .pfx-cosmic,body.bg-solar .pfx-orb{opacity:.55!important}
+
+@keyframes cleanFloatA{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-6vw,3vh,0) scale(1.08)}}
+@keyframes cleanFloatB{from{transform:translate3d(-2vw,0,0) scale(1)}to{transform:translate3d(4vw,-2vh,0) scale(1.06)}}
+@keyframes cleanFloatC{from{transform:translate3d(0,2vh,0) scale(.98)}to{transform:translate3d(-3vw,-2vh,0) scale(1.05)}}
+@keyframes cleanPulse{0%,100%{transform:scale(.92);opacity:.38}50%{transform:scale(1.08);opacity:.62}}
+@keyframes cleanDrift{to{transform:rotate(360deg)}}
+
+body.fx-low .premium-canvas{opacity:.40!important}
+body.fx-medium .premium-canvas{opacity:.62!important}
+body.fx-high .premium-canvas{opacity:.82!important}
+body.no-animations .premium-canvas *{animation:none!important}
+
+@media(max-width:760px){
+  .premium-canvas{opacity:.44!important}
+  .pfx-smoke,.pfx-cosmic,.pfx-wave,.pfx-toxic{transform:scale(.78);transform-origin:center}
+}
+
+
+/* Hard-disable legacy foreground FX from older builds */
+.pfx-electric,.pfx-tracer,.pfx-muzzle,.pfx-wind1,.pfx-wind2{display:none!important;opacity:0!important;animation:none!important}
+
 </style>
 </head>
 <body>
@@ -1170,14 +923,9 @@ body.sidebar-collapsed .settings-subnav .nav-btn{
 
 <div class="premium-canvas">
 <span class="pfx-smoke"></span><span class="pfx-orb"></span><span class="pfx-wave"></span>
-<span class="pfx-wind1"></span><span class="pfx-wind2"></span><span class="pfx-heat"></span>
-<span class="pfx-electric"></span><span class="pfx-toxic"></span><span class="pfx-gold"></span>
-<span class="pfx-cosmic"></span><span class="pfx-tracer"></span><span class="pfx-muzzle"></span>
-</div>
-<div class="agent-motion-stage">
-  <img id="motionAgentRunner" class="agent-runner" alt="">
-  <img id="motionAgentGhost" class="agent-ghost" alt="">
-  <img id="motionAgentLeaper" class="agent-leaper" alt="">
+<span class="pfx-heat"></span>
+<span class="pfx-toxic"></span><span class="pfx-gold"></span>
+<span class="pfx-cosmic"></span>
 </div>
 <div class="app">
 <div class="theme-cinematic-layer"><span class="fx-smoke"></span><span class="fx-heat"></span><span class="fx-wind"></span><span class="fx-energy"></span><span class="fx-toxic"></span><span class="fx-gold"></span><span class="fx-cosmic"></span><span class="fx-tracer"></span></div>
@@ -1427,16 +1175,6 @@ function persistCustomProfileFile(file){
 
 
 
-function syncCinematicAgentMotion(){
-  const key=pref("background","black");
-  const cfg=(typeof BG!=="undefined" ? BG[key] : null);
-  const src=(cfg&&cfg.agent&&art[cfg.agent])?art[cfg.agent]:"";
-  [window.motionAgentRunner,window.motionAgentGhost,window.motionAgentLeaper].forEach(el=>{
-    if(!el)return;
-    if(src){el.src=src;el.style.display=""}
-    else{el.removeAttribute("src");el.style.display="none"}
-  });
-}
 
 function toast(msg){const e=document.getElementById("toast");e.textContent=msg;e.style.opacity="1";e.style.transform="none";clearTimeout(window._toast);window._toast=setTimeout(()=>{e.style.opacity="0";e.style.transform="translateY(7px)"},1500)}
 function tier(n){return TIERS[Math.max(0,Math.min(9,n))]}
@@ -1477,7 +1215,7 @@ function applyBackground(){
  Object.keys(BG).forEach(x=>document.body.classList.remove("bg-"+x));document.body.classList.add("bg-"+k);backgroundSelect.value=k;document.body.dataset.premiumBg=cfg.premium?"1":"0";
  if(cfg.agent&&art[cfg.agent]){document.documentElement.style.setProperty("--agent-bg",`url("${art[cfg.agent]}")`);homeAgentImg.src=art[cfg.agent];homeAgentImg.style.display="";homeAgentName.textContent=cfg.agent;homeAgentName.style.display=""}
  else{document.documentElement.style.setProperty("--agent-bg","none");homeAgentImg.removeAttribute("src");homeAgentImg.style.display="none";homeAgentName.style.display="none"}
- syncCinematicAgentMotion();
+
 }
 function applyPrefs(){
  document.body.classList.toggle("no-animations",pref("animations","1")!=="1");
@@ -1514,7 +1252,7 @@ async function loadArt(){
    if(window.rebirthDesktop?.getAgentArt)art=await window.rebirthDesktop.getAgentArt();
    else{const r=await fetch("https://valorant-api.com/v1/agents?isPlayableCharacter=true");const j=await r.json();(j.data||[]).forEach(a=>art[a.displayName]=a.fullPortraitV2||a.fullPortrait||a.displayIcon)}
  }catch(e){console.warn("Agent art unavailable",e)}
- renderDash();renderAll();applyBackground();syncCinematicAgentMotion();populateProfile();
+ renderDash();renderAll();applyBackground();populateProfile();
 }
 applyAccent();applyPrefs();
 
