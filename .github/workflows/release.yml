@@ -1,9 +1,8 @@
 name: Build and Release Rebirth Arena
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -11,13 +10,12 @@ permissions:
 jobs:
   release-windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: desktop
 
     steps:
-      - name: Checkout repository
+      - name: Checkout release tag
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -25,29 +23,46 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
+        working-directory: desktop
         run: npm install
 
       - name: Sync app version with release tag
+        working-directory: desktop
         shell: pwsh
         run: |
-          $version = "${{ github.ref_name }}".TrimStart("v")
+          $version = "${{ github.event.release.tag_name }}".TrimStart("v")
           node -e "const fs=require('fs');const p=require('./package.json');p.version=process.argv[1];fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n')" $version
           Write-Host "Building Rebirth Arena $version"
 
       - name: Build Windows installer
+        working-directory: desktop
         run: npm run build:win -- --publish never
-      - name: Create or update GitHub Release
+
+      - name: Verify release files
         shell: pwsh
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $tag = "${{ github.ref_name }}"
-          gh release view $tag *> $null
-          if ($LASTEXITCODE -ne 0) {
-            gh release create $tag --title $tag --notes "Rebirth Arena $tag"
+          $files = @(
+            "desktop/dist/Rebirth-Arena-Setup.exe",
+            "desktop/dist/Rebirth-Arena-Setup.exe.blockmap",
+            "desktop/dist/latest.yml"
+          )
+          foreach ($file in $files) {
+            if (-not (Test-Path $file)) {
+              throw "Required release file missing: $file"
+            }
+            Write-Host "OK: $file"
           }
-          gh release upload $tag `
-            "dist/Rebirth-Arena-Setup.exe" `
-            "dist/Rebirth-Arena-Setup.exe.blockmap" `
-            "dist/latest.yml" `
-            --clobber
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          name: ${{ github.event.release.tag_name }}
+          files: |
+            desktop/dist/Rebirth-Arena-Setup.exe
+            desktop/dist/Rebirth-Arena-Setup.exe.blockmap
+            desktop/dist/latest.yml
+          fail_on_unmatched_files: true
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
