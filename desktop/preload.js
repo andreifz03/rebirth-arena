@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('rebirthDesktop', {
-  version: '2.0.3',
+  version: '2.0.4',
   platform: process.platform,
   getAppVersion: () => ipcRenderer.invoke('get-app-version'),
   getAgentArt: () => ipcRenderer.invoke('get-agent-art'),

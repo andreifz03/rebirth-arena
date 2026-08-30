@@ -210,7 +210,7 @@ body.no-animations *{animation-duration:.001ms!important;transition-duration:.00
 @media(max-width:1000px){:root{--sidebar-w:78px}.brand-text,.nav-label,.riot-copy,.release-footer{display:none!important}.nav-btn{justify-content:center;padding:0}.nav-icon{width:auto}.home-hero{grid-template-columns:1fr}.home-agent{min-height:300px}.rule-grid{grid-template-columns:1fr 1fr}.home-info-grid,.dashboard-grid,.leaderboard{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.big-agent-grid{grid-template-columns:repeat(3,1fr)}.rank-grid,.benefits{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}
 @media(max-width:680px){html,body{height:auto;min-height:100%;overflow-y:auto}.app{height:auto;min-height:100dvh;display:block;padding-bottom:70px}.sidebar{position:fixed;bottom:0;left:0;right:0;height:64px;width:100%;z-index:100;border-right:0;border-top:1px solid #202a38}.brand,.sidebar-spacer,.riot-card,.release-footer,.sidebar-rail-toggle{display:none}.nav{grid-template-columns:repeat(6,1fr);height:64px;padding:6px 4px;gap:2px}.nav-btn{height:50px;font-size:0;justify-content:center;padding:0}.nav-icon{font-size:17px}.main{height:auto;min-height:100dvh;display:block;overflow:visible}.topbar{position:sticky;top:0;z-index:90;min-height:58px;padding:9px 12px}.content{overflow:visible;padding:13px 12px 86px}.home-copy{padding:22px}.home-title{font-size:40px}.home-agent{min-height:270px}.rule-grid,.stats,.agent-grid,.big-agent-grid,.rank-grid,.benefits{grid-template-columns:1fr}.match-card{grid-template-columns:1fr}.match-result{border-right:0;border-bottom:1px solid #222d3a;padding:0 0 11px}.match-stats{grid-template-columns:1fr 1fr}.milestones{justify-content:flex-start;max-width:none}.leader-row{grid-template-columns:42px 1fr 90px}.leader-row>*:nth-child(4){display:none}.splash-rings{width:390px;height:390px}}
 
-/* ===== Rebirth v2.0.3 Luxury In-App Updater ===== */
+/* ===== Rebirth v2.0.4 Luxury In-App Updater ===== */
 .update-luxbar{
   position:fixed;
   z-index:100000;
@@ -547,7 +547,7 @@ body.fx-medium .theme-cinematic-layer{opacity:.82}
 body.fx-high .theme-cinematic-layer{opacity:1;filter:saturate(1.15) brightness(1.06)}
 
 
-/* ===== Rebirth v2.0.3 FINAL POLISH ===== */
+/* ===== Rebirth v2.0.4 FINAL POLISH ===== */
 body{font-size:16px}
 .page-title{font-size:21px!important}
 .page-sub{font-size:11px!important}
@@ -1015,7 +1015,7 @@ body.fx-high .theme-cinematic-layer{filter:saturate(1.04) brightness(1.01)!impor
 @media(max-width:900px){.profile-form-pro{grid-template-columns:1fr}.profile-form-pro .profile-bio-field,.profile-save-btn{grid-column:auto}.plus-pricing{grid-template-columns:1fr}.download-rebirth-wrap{align-items:flex-start;flex-direction:column}}
 
 
-/* ===== v2.0.3 DESKTOP PROFESSIONAL SHELL ===== */
+/* ===== v2.0.4 DESKTOP PROFESSIONAL SHELL ===== */
 :root{--sidebar-w:264px;--surface-0:#06090e;--surface-1:#0a0f16;--surface-2:#0e151f;--line:rgba(255,255,255,.075);--muted:#7f8b9b}
 body.sidebar-collapsed{--sidebar-w:76px}
 .app{grid-template-columns:var(--sidebar-w) minmax(0,1fr);background:radial-gradient(circle at 78% 0%,color-mix(in srgb,var(--accent) 8%,transparent),transparent 30%),linear-gradient(145deg,#070a0f,#090e15 58%,#06090e)}
@@ -1096,7 +1096,7 @@ body.bg-white .panel,body.bg-white .stat,body.bg-white .rule-card,body.bg-white 
 <section class="main">
 <header class="topbar">
   <div class="top-left"><button id="homeTopBtn" class="home-top-btn" title="Home">⌂</button><div><div id="pageTitle" class="page-title">Home</div><div id="pageSub" class="page-sub">How Rebirth Arena works.</div></div></div>
-  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2.0.3</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span><div class="profile-top-wrap"><div id="profileTopNickname" class="profile-top-nickname">Player</div><div id="profileHex" class="profile-hex" title="Profile"><div class="profile-hex-inner" id="profileHexInner">R</div></div></div><div class="window-controls"><button id="winMin" class="window-btn">—</button><button id="winMax" class="window-btn">□</button><button id="winClose" class="window-btn close">×</button></div></div>
+  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2.0.4</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span><div class="profile-top-wrap"><div id="profileTopNickname" class="profile-top-nickname">Player</div><div id="profileHex" class="profile-hex" title="Profile"><div class="profile-hex-inner" id="profileHexInner">R</div></div></div><div class="window-controls"><button id="winMin" class="window-btn">—</button><button id="winMax" class="window-btn">□</button><button id="winClose" class="window-btn close">×</button></div></div>
 </header>
 
 <div class="content">
@@ -1283,7 +1283,7 @@ body.bg-white .panel,body.bg-white .stat,body.bg-white .rule-card,body.bg-white 
 <div id="toast" style="position:fixed;right:20px;bottom:20px;z-index:100001;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:11px 14px;font-size:10px;opacity:0;transform:translateY(7px);pointer-events:none;transition:.2s">Saved</div>
 
 <script>
-const RELEASE_LABEL="Rebirth v2.0.3";
+const RELEASE_LABEL="Rebirth v2.0.4";
 document.querySelectorAll("[data-release]").forEach(x=>x.textContent=RELEASE_LABEL);
 
 const PAGES={home:["Home","How Rebirth Arena works."],dashboard:["Dashboard","Your personal Rebirth progression."],matches:["Matches","Completed-match Rebirth intelligence."],agents:["Agents","Full enemy-agent progression roster."],progression:["Progression","Your Rebirth tier ladder."],leaderboard:["Leaderboard","Community competition preview."],rebirthplus:["Rebirth+","Premium experience preview."],profile:["Profile","Your Rebirth identity."],settings:["Settings","Personalize Rebirth Arena."]};
