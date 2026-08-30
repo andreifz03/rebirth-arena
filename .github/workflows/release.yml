@@ -23,13 +23,32 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: desktop/package-lock.json
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build and publish Windows release
+      - name: Sync app version with release tag
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          node -e "const fs=require('fs');const p=require('./package.json');p.version=process.argv[1];fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n')" $version
+          Write-Host "Building Rebirth Arena $version"
+
+      - name: Build Windows installer
+        run: npm run build:win
+
+      - name: Create or update GitHub Release
+        shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run release:win
+        run: |
+          $tag = "${{ github.ref_name }}"
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --title $tag --notes "Rebirth Arena $tag"
+          }
+          gh release upload $tag `
+            "dist/Rebirth-Arena-Setup.exe" `
+            "dist/Rebirth-Arena-Setup.exe.blockmap" `
+            "dist/latest.yml" `
+            --clobber

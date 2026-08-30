@@ -30,6 +30,7 @@ function getJson(url) {
 ipcMain.on('window-minimize', () => mainWindow?.minimize());
 ipcMain.on('window-maximize', () => { if (!mainWindow) return; mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize(); });
 ipcMain.on('window-close', () => mainWindow?.close());
+ipcMain.handle('get-app-version', () => app.getVersion());
 
 ipcMain.handle('get-agent-art', async () => {
   try {
@@ -51,20 +52,29 @@ function emitUpdate(status, extra = {}) {
   }
 }
 
-ipcMain.handle('check-for-updates', async () => {
+async function checkForUpdatesResilient({ manual = false } = {}) {
   if (!app.isPackaged) {
-    emitUpdate('dev');
+    if (manual) emitUpdate('dev');
     return { ok: false, reason: 'dev' };
   }
-  try {
-    emitUpdate('checking');
-    await autoUpdater.checkForUpdates();
-    return { ok: true };
-  } catch (e) {
-    emitUpdate('error', { message: e.message });
-    return { ok: false, reason: e.message };
+  const delays = manual ? [0, 2500] : [0, 5000, 12000];
+  let lastError = null;
+  for (let i = 0; i < delays.length; i++) {
+    if (delays[i]) await new Promise(resolve => setTimeout(resolve, delays[i]));
+    try {
+      if (manual || i === 0) emitUpdate('checking');
+      await autoUpdater.checkForUpdates();
+      return { ok: true };
+    } catch (e) {
+      lastError = e;
+      console.error(`Updater check attempt ${i + 1} failed:`, e.message);
+    }
   }
-});
+  emitUpdate('error', { message: lastError?.message || 'Release channel unavailable' });
+  return { ok: false, reason: lastError?.message || 'release-channel-unavailable' };
+}
+
+ipcMain.handle('check-for-updates', async () => checkForUpdatesResilient({ manual: true }));
 
 ipcMain.handle('install-update', () => {
   autoUpdater.quitAndInstall(true, true);
@@ -74,6 +84,12 @@ ipcMain.handle('install-update', () => {
 function configureUpdater() {
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
+  autoUpdater.allowDowngrade = false;
+  autoUpdater.allowPrerelease = false;
+  autoUpdater.requestHeaders = {
+    'User-Agent': `RebirthArena/${app.getVersion()}`,
+    'Accept': 'application/vnd.github+json'
+  };
 
   autoUpdater.on('checking-for-update', () => emitUpdate('checking'));
   autoUpdater.on('update-available', info => {
@@ -125,7 +141,7 @@ function createWindow() {
     mainWindow.show();
 
     if (app.isPackaged) {
-      setTimeout(() => autoUpdater.checkForUpdates().catch(() => {}), 2200);
+      setTimeout(() => checkForUpdatesResilient({ manual: false }), 3200);
     }
   });
 

@@ -210,7 +210,7 @@ body.no-animations *{animation-duration:.001ms!important;transition-duration:.00
 @media(max-width:1000px){:root{--sidebar-w:78px}.brand-text,.nav-label,.riot-copy,.release-footer{display:none!important}.nav-btn{justify-content:center;padding:0}.nav-icon{width:auto}.home-hero{grid-template-columns:1fr}.home-agent{min-height:300px}.rule-grid{grid-template-columns:1fr 1fr}.home-info-grid,.dashboard-grid,.leaderboard{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.big-agent-grid{grid-template-columns:repeat(3,1fr)}.rank-grid,.benefits{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}
 @media(max-width:680px){html,body{height:auto;min-height:100%;overflow-y:auto}.app{height:auto;min-height:100dvh;display:block;padding-bottom:70px}.sidebar{position:fixed;bottom:0;left:0;right:0;height:64px;width:100%;z-index:100;border-right:0;border-top:1px solid #202a38}.brand,.sidebar-spacer,.riot-card,.release-footer,.sidebar-rail-toggle{display:none}.nav{grid-template-columns:repeat(6,1fr);height:64px;padding:6px 4px;gap:2px}.nav-btn{height:50px;font-size:0;justify-content:center;padding:0}.nav-icon{font-size:17px}.main{height:auto;min-height:100dvh;display:block;overflow:visible}.topbar{position:sticky;top:0;z-index:90;min-height:58px;padding:9px 12px}.content{overflow:visible;padding:13px 12px 86px}.home-copy{padding:22px}.home-title{font-size:40px}.home-agent{min-height:270px}.rule-grid,.stats,.agent-grid,.big-agent-grid,.rank-grid,.benefits{grid-template-columns:1fr}.match-card{grid-template-columns:1fr}.match-result{border-right:0;border-bottom:1px solid #222d3a;padding:0 0 11px}.match-stats{grid-template-columns:1fr 1fr}.milestones{justify-content:flex-start;max-width:none}.leader-row{grid-template-columns:42px 1fr 90px}.leader-row>*:nth-child(4){display:none}.splash-rings{width:390px;height:390px}}
 
-/* ===== Rebirth v2.0.2 Luxury In-App Updater ===== */
+/* ===== Rebirth v2.0.3 Luxury In-App Updater ===== */
 .update-luxbar{
   position:fixed;
   z-index:100000;
@@ -547,7 +547,7 @@ body.fx-medium .theme-cinematic-layer{opacity:.82}
 body.fx-high .theme-cinematic-layer{opacity:1;filter:saturate(1.15) brightness(1.06)}
 
 
-/* ===== Rebirth v2.0.2 FINAL POLISH ===== */
+/* ===== Rebirth v2.0.3 FINAL POLISH ===== */
 body{font-size:16px}
 .page-title{font-size:21px!important}
 .page-sub{font-size:11px!important}
@@ -1014,6 +1014,36 @@ body.fx-high .theme-cinematic-layer{filter:saturate(1.04) brightness(1.01)!impor
 .fx-tracer{display:none!important}
 @media(max-width:900px){.profile-form-pro{grid-template-columns:1fr}.profile-form-pro .profile-bio-field,.profile-save-btn{grid-column:auto}.plus-pricing{grid-template-columns:1fr}.download-rebirth-wrap{align-items:flex-start;flex-direction:column}}
 
+
+/* ===== v2.0.3 DESKTOP PROFESSIONAL SHELL ===== */
+:root{--sidebar-w:264px;--surface-0:#06090e;--surface-1:#0a0f16;--surface-2:#0e151f;--line:rgba(255,255,255,.075);--muted:#7f8b9b}
+body.sidebar-collapsed{--sidebar-w:76px}
+.app{grid-template-columns:var(--sidebar-w) minmax(0,1fr);background:radial-gradient(circle at 78% 0%,color-mix(in srgb,var(--accent) 8%,transparent),transparent 30%),linear-gradient(145deg,#070a0f,#090e15 58%,#06090e)}
+.sidebar{position:relative;width:var(--sidebar-w);min-width:var(--sidebar-w);background:linear-gradient(180deg,rgba(12,17,25,.985),rgba(6,10,15,.995));border-right:1px solid var(--line);box-shadow:16px 0 48px rgba(0,0,0,.22);transition:width .38s cubic-bezier(.22,.8,.22,1),min-width .38s cubic-bezier(.22,.8,.22,1);overflow:hidden}
+.brand{height:78px;padding:0 18px;gap:12px}.brand-logo{width:38px;height:38px;flex:0 0 38px}
+.brand-text,.nav-label,.riot-copy,.release-footer,.plus-mini>span:last-child{display:block!important;opacity:1;transform:translateX(0);max-width:190px;white-space:nowrap;overflow:hidden;transition:opacity .2s ease,transform .34s cubic-bezier(.22,.8,.22,1),max-width .34s cubic-bezier(.22,.8,.22,1)}
+body.sidebar-collapsed .brand-text,body.sidebar-collapsed .nav-label,body.sidebar-collapsed .riot-copy,body.sidebar-collapsed .release-footer,body.sidebar-collapsed .plus-mini>span:last-child{opacity:0;transform:translateX(-14px);max-width:0;pointer-events:none}
+.nav{padding:16px 10px 8px;gap:5px}
+.nav-btn{height:46px;padding:0 12px;border-radius:10px;gap:12px;color:#8490a0;border:1px solid transparent;transition:background .16s,border-color .16s,color .16s,transform .16s,padding .34s}
+.nav-btn:hover{background:rgba(255,255,255,.04);color:#c8d1dc;transform:translateX(2px)}
+.nav-btn.active{background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 14%,transparent),rgba(255,255,255,.018));border-color:color-mix(in srgb,var(--accent) 22%,transparent);color:#f2f5f8;box-shadow:inset 2px 0 0 var(--accent),0 7px 22px rgba(0,0,0,.12)}
+.nav-icon{width:28px;min-width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:#101721;border:1px solid rgba(255,255,255,.055);font-size:14px;transition:.2s}
+.nav-btn.active .nav-icon{background:var(--accent-soft);border-color:var(--accent-border);color:var(--accent)}
+body.sidebar-collapsed .nav-btn{justify-content:flex-start!important;padding:0 13px!important}
+body.sidebar-collapsed .nav-icon{width:28px!important;min-width:28px}.riot-card,.plus-mini{margin-left:10px;margin-right:10px;border-radius:11px}
+.sidebar-rail-toggle{left:calc(var(--sidebar-w) - 1px)!important;top:92px!important;transform:translateX(-50%)!important;width:26px!important;height:42px!important;border-radius:9px!important;border:1px solid rgba(255,255,255,.09)!important;background:#0c121a!important;color:#8e99a8!important;box-shadow:0 10px 28px rgba(0,0,0,.32)!important;transition:left .38s cubic-bezier(.22,.8,.22,1),background .16s,color .16s!important}
+.sidebar-rail-toggle:hover{background:#111925!important;color:#fff!important}.sidebar-rail-toggle span{font-size:17px!important;transition:transform .34s cubic-bezier(.22,.8,.22,1)!important}body.sidebar-collapsed .sidebar-rail-toggle span{transform:rotate(180deg)!important}
+.main{background:transparent}.topbar{height:62px;background:rgba(7,11,17,.94);border-bottom:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.12)}.content{padding:24px 26px 84px}
+.panel,.stat,.rule-card,.setting,.match-card,.leader-table,.leader-metric,.plus-card,.profile-pro-shell{background:linear-gradient(180deg,rgba(14,20,29,.96),rgba(9,14,21,.98))!important;border:1px solid var(--line)!important;box-shadow:0 14px 38px rgba(0,0,0,.15)!important}
+.home-hero{border-radius:18px!important;border:1px solid var(--line)!important;background:radial-gradient(circle at 80% 25%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 28%),linear-gradient(135deg,#101721,#080d14 72%)!important;box-shadow:0 22px 60px rgba(0,0,0,.22)!important}.home-title{letter-spacing:-.045em!important}
+.profile-top-wrap{background:#0b1119!important;border:1px solid rgba(255,255,255,.085)!important;box-shadow:none!important}.profile-hex,.profile-bighex{clip-path:none!important;border-radius:10px!important}.profile-hex-inner,.profile-bighex img{clip-path:none!important;border-radius:9px!important}
+body.bg-white{--canvas1:#d8dee7;--canvas2:#9aa5b3}body.bg-white .app{background:radial-gradient(circle at 78% 4%,rgba(255,255,255,.76),transparent 28%),linear-gradient(145deg,#dce3eb,#9ba6b4)}
+body.bg-white .sidebar,body.bg-white .topbar{background:rgba(7,11,17,.97)!important}
+body.bg-white .panel,body.bg-white .stat,body.bg-white .rule-card,body.bg-white .setting,body.bg-white .match-card,body.bg-white .leader-table,body.bg-white .leader-metric,body.bg-white .plus-card,body.bg-white .profile-pro-shell{color:var(--text)!important;background:linear-gradient(180deg,rgba(14,20,29,.97),rgba(9,14,21,.985))!important}
+.theme-cinematic-layer,.theme-fx,.premium-canvas{pointer-events:none!important;contain:layout paint style}.fx-tracer,.fx-streak{display:none!important}body.fx-high .theme-cinematic-layer{filter:saturate(1.02) brightness(1.01)!important}body.fx-high .theme-fx{opacity:.58!important}body.fx-medium .theme-fx{opacity:.36!important}body.fx-low .theme-fx{opacity:.20!important}
+.price-stack{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}.price-stack>span{width:100%}.price-stack em{width:100%;font-style:normal;font-size:9px;color:#8793a3;margin-top:4px}
+.update-luxbar{background:linear-gradient(100deg,rgba(10,15,22,.985),rgba(13,18,27,.985))!important;border-color:rgba(255,255,255,.09)!important;box-shadow:0 18px 50px rgba(0,0,0,.35)!important}
+
 </style>
 </head>
 <body>
@@ -1066,17 +1096,12 @@ body.fx-high .theme-cinematic-layer{filter:saturate(1.04) brightness(1.01)!impor
 <section class="main">
 <header class="topbar">
   <div class="top-left"><button id="homeTopBtn" class="home-top-btn" title="Home">⌂</button><div><div id="pageTitle" class="page-title">Home</div><div id="pageSub" class="page-sub">How Rebirth Arena works.</div></div></div>
-  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2.0.2</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span><div class="profile-top-wrap"><div id="profileTopNickname" class="profile-top-nickname">Player</div><div id="profileHex" class="profile-hex" title="Profile"><div class="profile-hex-inner" id="profileHexInner">R</div></div></div><div class="window-controls"><button id="winMin" class="window-btn">—</button><button id="winMax" class="window-btn">□</button><button id="winClose" class="window-btn close">×</button></div></div>
+  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2.0.3</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span><div class="profile-top-wrap"><div id="profileTopNickname" class="profile-top-nickname">Player</div><div id="profileHex" class="profile-hex" title="Profile"><div class="profile-hex-inner" id="profileHexInner">R</div></div></div><div class="window-controls"><button id="winMin" class="window-btn">—</button><button id="winMax" class="window-btn">□</button><button id="winClose" class="window-btn close">×</button></div></div>
 </header>
 
 <div class="content">
 <section class="page active" id="page-home">
-<div class="download-rebirth-wrap" id="desktopDownloadCta">
-<a class="download-rebirth-btn" id="downloadWindowsBtn" href="https://github.com/andreifz03/rebirth-arena/releases/latest/download/Rebirth-Arena-Setup.exe" target="_blank" rel="noopener">
-<span class="dl-icon">⊞</span><span>Download Rebirth for Windows</span></a>
-<div class="download-rebirth-meta"><b>WINDOWS 10 / 11 · x64</b>Latest stable desktop release</div>
-<div class="mobile-download-note">Rebirth desktop is available for Windows. Open this page on your PC to download the latest release.</div>
-</div>
+
   <div class="home-hero">
     <div class="home-copy">
       <div class="eyebrow">REBIRTH ARENA // COMMUNITY CHALLENGE</div>
@@ -1170,7 +1195,7 @@ body.fx-high .theme-cinematic-layer{filter:saturate(1.04) brightness(1.01)!impor
 <section class="page" id="page-rebirthplus">
   <div class="plus-hero"><div class="eyebrow">REBIRTH+ // TEMPORARY PREVIEW</div><div class="plus-title">A MORE PERSONAL REBIRTH.</div><div class="section-sub">Premium customization and deeper analytics are planned concepts only. Payments remain disabled during beta.</div>
     <div class="plus-pricing">
-      <div><span>REBIRTH+</span><strong>$5.99</strong><small>/ month</small></div>
+      <div class="price-stack"><span>REBIRTH+</span><strong>£5.99</strong><small>/ month</small><em>or £59.99 / year</em></div>
       <p>Premium Arena themes, profile customization, deeper analytics and expanded history. Pricing is a preview and may change before launch.</p>
       <button class="btn btn-primary" type="button" disabled>COMING AFTER BETA</button>
     </div>
@@ -1258,7 +1283,7 @@ body.fx-high .theme-cinematic-layer{filter:saturate(1.04) brightness(1.01)!impor
 <div id="toast" style="position:fixed;right:20px;bottom:20px;z-index:100001;background:#111822;border:1px solid #2a3544;border-radius:10px;padding:11px 14px;font-size:10px;opacity:0;transform:translateY(7px);pointer-events:none;transition:.2s">Saved</div>
 
 <script>
-const RELEASE_LABEL="Rebirth v2.0.2";
+const RELEASE_LABEL="Rebirth v2.0.3";
 document.querySelectorAll("[data-release]").forEach(x=>x.textContent=RELEASE_LABEL);
 
 const PAGES={home:["Home","How Rebirth Arena works."],dashboard:["Dashboard","Your personal Rebirth progression."],matches:["Matches","Completed-match Rebirth intelligence."],agents:["Agents","Full enemy-agent progression roster."],progression:["Progression","Your Rebirth tier ladder."],leaderboard:["Leaderboard","Community competition preview."],rebirthplus:["Rebirth+","Premium experience preview."],profile:["Profile","Your Rebirth identity."],settings:["Settings","Personalize Rebirth Arena."]};
