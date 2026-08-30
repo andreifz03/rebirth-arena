@@ -472,7 +472,7 @@ body.fx-medium .theme-cinematic-layer{opacity:.82}
 body.fx-high .theme-cinematic-layer{opacity:1;filter:saturate(1.15) brightness(1.06)}
 
 
-/* ===== Rebirth v2.0.1 FINAL POLISH ===== */
+/* ===== Rebirth v2.0.2 FINAL POLISH ===== */
 body{font-size:16px}
 .page-title{font-size:21px!important}
 .page-sub{font-size:11px!important}
@@ -849,6 +849,39 @@ body.no-animations .premium-canvas *{animation:none!important}
  .mobile-download-note{display:block;width:100%}
 }
 
+
+/* ===== v2.0.2 DISTINCT WEB EXPERIENCE ===== */
+html,body{overflow:auto;background:#05070b}
+body{font-family:"Segoe UI Variable","Segoe UI",sans-serif}
+.startup-splash,.sidebar,.sidebar-rail-toggle,.settings-mobile-fab,.window-controls,.online{display:none!important}
+.app{display:block;min-height:100vh;height:auto;background:radial-gradient(circle at 74% 4%,rgba(110,65,255,.16),transparent 25%),radial-gradient(circle at 18% 22%,rgba(255,47,104,.10),transparent 28%),#05070b}
+.main{height:auto;min-height:100vh;display:block;padding-top:72px}
+.topbar{display:none!important}
+.content{height:auto;overflow:visible;padding:0 5vw 90px;max-width:1480px;margin:0 auto}
+.page{padding-top:54px}
+.page.active{display:block}
+.web-sitebar{position:fixed;z-index:1000;left:0;right:0;top:0;height:72px;padding:0 4.5vw;display:flex;align-items:center;gap:34px;background:rgba(5,7,11,.86);backdrop-filter:blur(22px);border-bottom:1px solid rgba(255,255,255,.07)}
+.web-brand{display:flex;align-items:center;gap:10px;margin-right:auto}.web-brand img{width:34px;height:34px}.web-brand b{display:block;font-size:11px;letter-spacing:.16em}.web-brand span{display:block;font-size:7px;color:#657184;letter-spacing:.14em;margin-top:2px}
+.web-sitebar nav{display:flex;gap:4px}.web-sitebar nav button{border:0;background:transparent;color:#8f9aac;padding:10px 12px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer}.web-sitebar nav button:hover{background:rgba(255,255,255,.05);color:#fff}
+.web-download{padding:11px 14px;border-radius:9px;text-decoration:none;color:white;background:linear-gradient(100deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#6f4cff));font-size:9px;font-weight:800;letter-spacing:.05em;box-shadow:0 10px 28px var(--accent-soft)}
+.download-rebirth-wrap{margin:0 0 24px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:14px!important}
+.download-rebirth-btn{min-width:360px!important;min-height:58px!important;justify-content:flex-start!important;border-radius:12px!important;font-size:12px!important;padding:0 20px!important}
+.download-rebirth-meta{text-align:left!important}
+.home-hero{min-height:500px;border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:54px!important;background:radial-gradient(circle at 76% 28%,var(--accent-soft),transparent 25%),linear-gradient(135deg,#0d131d,#070a10 72%);box-shadow:0 35px 100px rgba(0,0,0,.35);overflow:hidden}
+.home-title{font-size:clamp(42px,5vw,76px)!important;line-height:.94!important;max-width:800px;letter-spacing:-.045em!important}
+.home-desc{font-size:13px!important;line-height:1.75!important;max-width:720px!important;color:#a7b1bf!important}
+.rule-grid{margin-top:20px;gap:12px}.rule-card{border-radius:16px!important;background:linear-gradient(180deg,#0e141e,#090d14)!important;padding:20px!important}
+.home-info-grid{gap:14px}.panel{border-radius:18px!important}
+.section-title{letter-spacing:-.02em}
+.profile-pro-shell{max-width:980px;margin:0 auto;border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;background:#090d14}
+.profile-cover{height:220px;position:relative;background:radial-gradient(circle at 80% 10%,var(--accent-soft),transparent 30%),linear-gradient(120deg,#131a26,#080c12)}
+.profile-cover-grid{position:absolute;inset:0;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:46px 46px}
+.profile-identity{position:absolute;left:28px;bottom:24px;display:flex;align-items:center;gap:18px}.profile-bighex{clip-path:none;border-radius:22px}.profile-bighex img{clip-path:none;border-radius:20px}.profile-identity-copy .profile-riot{font-size:25px}.profile-status-row{display:flex;gap:7px;margin-top:9px}.profile-status{font-size:8px;padding:5px 7px;border:1px solid var(--accent-border);border-radius:6px;background:var(--accent-soft)}.profile-status.muted{border-color:#27313d;background:#10151d;color:#758194}
+.profile-editor{padding:24px}.profile-editor-head{display:flex;justify-content:space-between;align-items:center}.profile-save-state{font-size:8px;color:#687587}.profile-form-pro{grid-template-columns:1fr 1fr}.profile-form-pro .profile-bio-field,.profile-save-btn{grid-column:1/-1}
+.plus-pricing{margin:22px 0;padding:20px;border:1px solid var(--accent-border);border-radius:16px;background:linear-gradient(100deg,var(--accent-soft),#0a0f16);display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}.plus-pricing strong{font-size:32px}.plus-pricing span{display:block;font-size:8px}.plus-pricing p{font-size:10px;color:#919cac}.plus-pricing button{opacity:.6}
+body.bg-white{--canvas1:#d7dee7;--canvas2:#8c98a8}body.bg-white .app{background:linear-gradient(145deg,#dbe2ea,#8e9aaa)}body.bg-white .content{color:var(--text)}
+@media(max-width:800px){.web-sitebar nav{display:none}.web-download{font-size:8px}.content{padding-left:16px;padding-right:16px}.home-hero{padding:28px!important;min-height:430px}.download-rebirth-wrap{align-items:flex-start!important;flex-direction:column}.download-rebirth-btn{min-width:0!important;width:100%}.profile-form-pro{grid-template-columns:1fr}.profile-form-pro .profile-bio-field,.profile-save-btn{grid-column:auto}.plus-pricing{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -898,10 +931,15 @@ body.no-animations .premium-canvas *{animation:none!important}
 <button id="sidebarToggle" class="sidebar-rail-toggle" title="Collapse navigation"><span>‹</span></button>
 
 <button id="mobileSettingsFab" class="settings-mobile-fab" style="display:none" title="Settings">⚙</button>
+<div class="web-sitebar">
+  <div class="web-brand"><img src="assets/rebirth-v.png" alt=""><div><b>REBIRTH ARENA</b><span>POST-MATCH CHALLENGE</span></div></div>
+  <nav><button data-page="home">Overview</button><button data-page="dashboard">Preview</button><button data-page="rebirthplus">Rebirth+</button><button data-page="leaderboard">Leaderboard</button></nav>
+  <a class="web-download" href="https://github.com/andreifz03/rebirth-arena/releases/latest/download/Rebirth-Arena-Setup.exe">DOWNLOAD FOR WINDOWS</a>
+</div>
 <section class="main">
 <header class="topbar">
   <div class="top-left"><button id="homeTopBtn" class="home-top-btn" title="Home">⌂</button><div><div id="pageTitle" class="page-title">Home</div><div id="pageSub" class="page-sub">How Rebirth Arena works.</div></div></div>
-  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2.0.1</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span><div class="profile-top-wrap"><div id="profileTopNickname" class="profile-top-nickname">Player</div><div id="profileHex" class="profile-hex" title="Profile"><div class="profile-hex-inner" id="profileHexInner">R</div></div></div><div class="window-controls"><button id="winMin" class="window-btn">—</button><button id="winMax" class="window-btn">□</button><button id="winClose" class="window-btn close">×</button></div></div>
+  <div class="top-actions"><span class="version-chip" data-release>Rebirth v2.0.2</span><span class="online"><i class="online-dot"></i>AUTO-SAVE ON</span><div class="profile-top-wrap"><div id="profileTopNickname" class="profile-top-nickname">Player</div><div id="profileHex" class="profile-hex" title="Profile"><div class="profile-hex-inner" id="profileHexInner">R</div></div></div><div class="window-controls"><button id="winMin" class="window-btn">—</button><button id="winMax" class="window-btn">□</button><button id="winClose" class="window-btn close">×</button></div></div>
 </header>
 
 <div class="content">
@@ -1004,6 +1042,11 @@ body.no-animations .premium-canvas *{animation:none!important}
 </section>
 <section class="page" id="page-rebirthplus">
   <div class="plus-hero"><div class="eyebrow">REBIRTH+ // TEMPORARY PREVIEW</div><div class="plus-title">A MORE PERSONAL REBIRTH.</div><div class="section-sub">Premium customization and deeper analytics are planned concepts only. Payments remain disabled during beta.</div>
+    <div class="plus-pricing">
+      <div><span>REBIRTH+</span><strong>$5.99</strong><small>/ month</small></div>
+      <p>Premium Arena themes, profile customization, deeper analytics and expanded history. Pricing is a preview and may change before launch.</p>
+      <button class="btn btn-primary" type="button" disabled>COMING AFTER BETA</button>
+    </div>
     <div class="benefits">
       <div class="plus-card"><b>PREMIUM THEMES</b><p>Expanded Arena backgrounds, accent colors and profile customization.</p></div>
       <div class="plus-card"><b>ADVANCED ANALYTICS</b><p>Detailed milestone patterns, agent trends and progression insights.</p></div>
@@ -1015,16 +1058,36 @@ body.no-animations .premium-canvas *{animation:none!important}
   </div>
 </section>
 
-<section class="page" id="page-profile"><div class="section-head"><div><div class="eyebrow">PLAYER IDENTITY</div><div class="section-title">Your Profile</div><div class="section-sub">Riot ID will come from the connected VALORANT account.</div></div></div><div class="profile-panel"><div class="profile-card"><div class="profile-head"><div class="profile-bighex"><img id="profileBigImg" alt=""></div><div><div id="profileRiotId" class="profile-riot">Riot ID pending</div><div class="profile-muted">Official name is locked to your future Riot/VALORANT connection.</div></div></div><div class="profile-form"><label>PROFILE PICTURE<select id="profilePicSelect"><option value="">Rebirth V</option></select><div class="custom-upload"><input id="profileCustomFile" type="file" accept="image/png,image/jpeg,image/webp"><button id="clearCustomPicBtn" type="button" class="btn btn-ghost">REMOVE CUSTOM</button></div><div class="custom-upload-note">Upload a JPG, PNG or WebP directly from your device. The image is saved locally to this Rebirth profile.</div></label><label>NICKNAME<input id="profileNickname" maxlength="24" placeholder="Optional display nickname"></label><label>BIO<textarea id="profileBio" maxlength="180" placeholder="Tell the Rebirth community about your playstyle..."></textarea></label><label>NICKNAME STYLE <span class="premium-tag"><span class="plus-gem">+</span> REBIRTH+</span><select id="nicknameStyle"><option value="default">Default — FREE</option>
-<option value="magenta">Soul Magenta — REBIRTH+</option>
-<option value="gold">Radiant Gold — REBIRTH+</option>
-<option value="cyan">Neon Cyan — REBIRTH+</option>
-<option value="rainbow">Rainbow Flux — REBIRTH+</option>
-<option value="aurora">Aurora Shift — REBIRTH+</option>
-<option value="inferno">Inferno Blaze — REBIRTH+</option>
-<option value="void">Void Prism — REBIRTH+</option>
-<option value="toxic">Toxic Pulse — REBIRTH+</option>
-<option value="ice">Ice Spectrum — REBIRTH+</option></select></label><button id="saveProfileBtn" class="btn btn-primary">SAVE PROFILE</button></div></div></div></section>
+<section class="page" id="page-profile">
+  <div class="profile-pro-shell">
+    <div class="profile-cover">
+      <div class="profile-cover-grid"></div>
+      <div class="profile-identity">
+        <div class="profile-bighex"><img id="profileBigImg" alt=""></div>
+        <div class="profile-identity-copy">
+          <div class="eyebrow">PLAYER IDENTITY</div>
+          <div id="profileRiotId" class="profile-riot">Riot ID pending</div>
+          <div class="profile-muted">Your verified Riot identity will appear here after account connection.</div>
+          <div class="profile-status-row"><span class="profile-status">LOCAL PROFILE</span><span class="profile-status muted">RIOT SYNC PENDING</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-editor">
+      <div class="profile-editor-head"><div><div class="section-title">Profile presentation</div><div class="section-sub">Control how your Rebirth identity appears across the app.</div></div><span class="profile-save-state">AUTO-SAVED LOCALLY</span></div>
+      <div class="profile-form profile-form-pro">
+        <label><span>PROFILE PICTURE</span><select id="profilePicSelect"><option value="">Rebirth V</option></select>
+          <div class="custom-upload"><input id="profileCustomFile" type="file" accept="image/png,image/jpeg,image/webp"><button id="clearCustomPicBtn" type="button" class="btn btn-ghost">REMOVE CUSTOM</button></div>
+          <div class="custom-upload-note">JPG, PNG or WebP · stored locally on this device.</div>
+        </label>
+        <label><span>NICKNAME</span><input id="profileNickname" maxlength="24" placeholder="Optional display nickname"></label>
+        <label class="profile-bio-field"><span>BIO</span><textarea id="profileBio" maxlength="180" placeholder="Tell the Rebirth community about your playstyle..."></textarea></label>
+        <label><span>NICKNAME STYLE <span class="premium-tag"><span class="plus-gem">+</span> REBIRTH+</span></span><select id="nicknameStyle"><option value="default">Default — FREE</option>
+<option value="magenta">Soul Magenta — REBIRTH+</option><option value="gold">Radiant Gold — REBIRTH+</option><option value="cyan">Neon Cyan — REBIRTH+</option><option value="rainbow">Rainbow Flux — REBIRTH+</option><option value="aurora">Aurora Shift — REBIRTH+</option><option value="inferno">Inferno Blaze — REBIRTH+</option><option value="void">Void Prism — REBIRTH+</option><option value="toxic">Toxic Pulse — REBIRTH+</option><option value="ice">Ice Spectrum — REBIRTH+</option></select></label>
+        <button id="saveProfileBtn" class="btn btn-primary profile-save-btn">SAVE PROFILE</button>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="page" id="page-settings">
   <div class="section-head"><div><div class="eyebrow">PERSONALIZATION</div><div class="section-title">Settings</div><div class="section-sub">Every preference is saved automatically to the active Rebirth profile.</div></div></div>
   <div class="settings-grid">
@@ -1050,7 +1113,7 @@ body.no-animations .premium-canvas *{animation:none!important}
 
 
 <script>
-const RELEASE_LABEL="Rebirth v2.0.1";
+const RELEASE_LABEL="Rebirth v2.0.2";
 document.querySelectorAll("[data-release]").forEach(x=>x.textContent=RELEASE_LABEL);
 
 const PAGES={home:["Home","How Rebirth Arena works."],dashboard:["Dashboard","Your personal Rebirth progression."],matches:["Matches","Completed-match Rebirth intelligence."],agents:["Agents","Full enemy-agent progression roster."],progression:["Progression","Your Rebirth tier ladder."],leaderboard:["Leaderboard","Community competition preview."],rebirthplus:["Rebirth+","Premium experience preview."],profile:["Profile","Your Rebirth identity."],settings:["Settings","Personalize Rebirth Arena."]};
@@ -1206,6 +1269,9 @@ switchPage(pref("rememberPage","0")==="1"?pref("lastPage","home"):"home");
 loadArt();
 
 
+</script>
+<script>
+document.querySelectorAll('.web-sitebar [data-page]').forEach(btn=>btn.addEventListener('click',()=>switchPage(btn.dataset.page)));
 </script>
 </body>
 </html>
